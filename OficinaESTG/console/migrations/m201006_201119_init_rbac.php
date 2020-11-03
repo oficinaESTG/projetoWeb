@@ -45,9 +45,10 @@ class m201006_201119_init_rbac extends Migration
         $auth->addChild($secretaria, $mecanico);
         $auth->addChild($secretaria, $cliente);
 
-        $auth->assign($cliente, 1);
+
+        /*$auth->assign($cliente, 1);
         $auth->assign($mecanico, 2);
-        $auth->assign($secretaria, 3);
+        $auth->assign($secretaria, 3); */
     }
 
     /**
