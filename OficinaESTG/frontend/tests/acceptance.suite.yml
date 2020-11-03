@@ -1,0 +1,7 @@
+suite_namespace: frontend\tests\acceptance
+actor: AcceptanceTester
+modules:
+    enabled:
+        - PhpBrowser:
+              url: http://frontoffice.test:8080/
+        - \Helper\Acceptance
