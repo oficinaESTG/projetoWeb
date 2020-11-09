@@ -38,6 +38,7 @@ class Carro extends \yii\db\ActiveRecord
             [['ano', 'fk_idPessoa'], 'integer'],
             [['tipoCarro'], 'string'],
             [['modeloCarro', 'marcaCarro', 'matricula'], 'string', 'max' => 45],
+            //[['ano'], 'number', 'max'=>4], perguntar ao stor
             [['fk_idPessoa'], 'exist', 'skipOnError' => true, 'targetClass' => Pessoa::className(), 'targetAttribute' => ['fk_idPessoa' => 'idPessoa']],
         ];
     }
