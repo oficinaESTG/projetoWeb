@@ -22,11 +22,4 @@ class UnitTester extends \Codeception\Actor
    /**
     * Define custom actions here
     */
-    public function cantSeeRecord($class, array $array)
-    {
-    }
-
-    public function seeRecord($class, array $array)
-    {
-    }
 }
