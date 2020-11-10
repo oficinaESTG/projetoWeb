@@ -2,8 +2,9 @@
 
 use common\models\Carro;
 use common\models\Pessoa;
+use common\models\Venda;
 
-class CarroTest extends \Codeception\Test\Unit
+class VendaTest extends \Codeception\Test\Unit
 {
     /**
      * @var \backend\tests\UnitTester
@@ -25,19 +26,7 @@ class CarroTest extends \Codeception\Test\Unit
         return $pessoa;
     }
 
-    protected function _before()
-    {
-       $pessoa = $this->getPessoa();
-       $pessoa->save();
-
-    }
-
-    protected function _after()
-    {
-    }
-
-
-    private function getCarroValido(){
+    private function getCarro(){
 
         $c = new Carro();
 
@@ -49,64 +38,60 @@ class CarroTest extends \Codeception\Test\Unit
         $pessoa = $this->getPessoa();
         $c->fk_idPessoa = $pessoa->idPessoa;
 
+        $c->save();
+
 
         return $c;
     }
 
+    protected function _before()
+    {
+        $pessoa = $this->getPessoa();
+        $pessoa->save();
+        $c = $this->getCarro();
+        $c->save();
+    }
+
+    protected function _after()
+    {
+    }
+
+    private function getVenda(){
+
+        $v = new Venda();
+
+        $v->quantiaVenda = 124;
+        $v->dataVenda = "2020/11/17";
+        $v->descricaoVenda = "Venda de um passat 1.9 tdi de 1999";
+        $c = $this->getCarro();
+        $v->fk_idCarro = $c->idCarro;
+
+        return $v;
+
+    }
     // tests
-    public function testCarroValido()
+    public function testVendaValido()
     {
-        $c = $this->getCarroValido();
-        $this->assertTrue($c->validate());
+        $v = $this->getVenda();
+        $this->assertTrue($v->validate());
 
-        $c->modeloCarro = "Passat";
-        $this->assertTrue($c->validate());
     }
 
-    public function testModeloCarroVazio()
+    public function testQuantiaVendaVazio()
     {
-        $c = $this->getCarroValido();
-        $c->modeloCarro = "";
-        $this->assertFalse($c->validate());
+        $v = $this->getVenda();
+        $v->quantiaVenda = "";
+        $this->assertFalse($v->validate());
     }
 
-    public function testMarcaCarroVazio()
+    public function testDataVendaVazio()
     {
-        $c = $this->getCarroValido();
-        $c->marcaCarro = "";
-        $this->assertFalse($c->validate());
+        $v = $this->getVenda();
+        $v->dataVenda = "";
+        $this->assertFalse($v->validate());
     }
 
-    public function testAnoCarroVazio()
-    {
-        $c = $this->getCarroValido();
-        $c->ano = "";
-        $this->assertFalse($c->validate());
-    }
-
-    //Verificar com o stor os erros
-    public function testAnoCarroInvalido()
-    {
-        $c = $this->getCarroValido();
-        $c->ano = 2350;
-        $this->assertFalse($c->validate());
-    }
-
-    public function testTipoCarroVazio()
-    {
-        $c = $this->getCarroValido();
-        $c->tipoCarro = "";
-        $this->assertFalse($c->validate());
-    }
-
-    public function testFkIdPessoaVazio()
-    {
-        $c = $this->getCarroValido();
-        $c->fk_idPessoa = "";
-        $this->assertFalse($c->validate());
-    }
-
-    public function testAdicionarCarro()
+   /* public function testAdicionarCarro()
     {
         $this->tester->cantSeeRecord(Carro::class, ['modeloCarro' => 'Passat']);
 
@@ -132,7 +117,7 @@ class CarroTest extends \Codeception\Test\Unit
         $this->tester->cantSeeRecord(Carro::class, ['modeloCarro' => 'Passat']);
     }
 
-   public function testApagarRegisto()
+    public function testApagarRegisto()
     {
         // pré-condicoes
         $c = $this->getCarroValido();
@@ -145,5 +130,5 @@ class CarroTest extends \Codeception\Test\Unit
         // confirmar mudanças...
         $this->tester->cantSeeRecord(Carro::class, ['modeloCarro' => 'Passat']);
     }
-
+   */
 }
