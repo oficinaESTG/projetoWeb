@@ -11,6 +11,7 @@ class PessoaTest extends \Codeception\Test\Unit
     
     protected function _before()
     {
+        Pessoa::deleteAll();
     }
 
     protected function _after()
@@ -21,34 +22,36 @@ class PessoaTest extends \Codeception\Test\Unit
     {
         $pessoa = new Pessoa();
 
-        $pessoa->nome = "José";
-        $pessoa->dataNascimento = "2017-06-15";
+        $pessoa->nome = "Jose";
+        $pessoa->dataNascimento = "2017/06/15";
         $pessoa->morada = "Fátima";
-        $pessoa->nif = 12345678988;
+        $pessoa->nif = 123456789;
         $pessoa->tipoPessoa = "Mecanico";
+        $pessoa->email = "asd@asd.com";
 
         return $pessoa;
     }
 
-    //Testar a adicionar pessoa
+    //Validar campos pessoa
     public function testGetPessoa()
     {
         $p = $this->getPessoa();
         $this->assertTrue($p->validate());
     }
 
-    //Testar a adicionar pessoa
+    //Adicionar pessoa
     public function testAdicionarPessoa()
     {
-        $this->tester->cantSeeRecord(Pessoa::class, ['nome' => 'José']);
+        $this->tester->cantSeeRecord(Pessoa::class, ['nome' => "Jose"]);
 
-        $p = $this->getPessoa();
-        $p->save();
+        $tester = $this->getPessoa();
+        $tester->save();
 
-        $this->tester->seeRecord(Pessoa::class, ['nome' => 'José']);
+        $this->tester->seeRecord(Pessoa::class, ['nome' => "Jose"]);
     }
 
     //VAZIO(s) -------------------------------------------------------------------------------------------
+
     //->Nome
     public function testNomeVazia()
     {
@@ -89,7 +92,82 @@ class PessoaTest extends \Codeception\Test\Unit
         $this->assertFalse($p->validate());
     }
 
-    //Introdução(s) -------------------------------------------------------------------------------------------
+    //->Email
+    public function testEmailVazia()
+    {
+        $p = $this->getPessoa();
+        $p->email = "";
+        $this->assertFalse($p->validate());
+    }
 
+    //Grande(s) -------------------------------------------------------------------------------------------
 
+    //->Nome
+    public function testNomeGrande()
+    {
+        $p = $this->getPessoa();
+        $p->nome = "asdsadasdsadasdsadasdsadsadsadsadsadsadsadsadsasdsadasdsadasdsadasdsadsadsadsadsadsadsadsadsadasdsadsadasdasdasdasdasdasdasdasdsadsadsadsadasdsadasdsadasdsadasdsadasdsadsadsadsadsadsadsadsadsadasdsadsadasdasdasdasdasdasdasdasdsadsadsadsadasdsadasdsadasdsadasdsadasdsadsadsadsadsadsadsadsadsadasdsadsadasdasdasdasdasdasdasdasdsadsadsadsadasdsadadasdsadsadasdasdasdasdasdasdasdasdsadsadsadsadasdsad";
+        $this->assertFalse($p->validate());
+    }
+
+    //->Morada
+    public function testMoradaGrande()
+    {
+        $p = $this->getPessoa();
+        $p->morada = "asdsadasdsadasdsadasdsadsadsadsadsadsadsadsadsasdsadasdsadasdsadasdsadsadsadsadsadsadsadsadsadasdsadsadasdasdasdasdasdasdasdasdsadsadsadsadasdsadasdsadasdsadasdsadasdsadsadsadsadsadsadsadsadsadasdsadsadasdasdasdasdasdasdasdasdsadsadsadsadasdsadasdsadasdsadasdsadasdsadsadsadsadsadsadsadsadsadasdsadsadasdasdasdasdasdasdasdasdsadsadsadsadasdsadadasdsadsadasdasdasdasdasdasdasdasdsadsadsadsadasdsad";
+        $this->assertFalse($p->validate());
+    }
+
+    //Introdução errada(s) -------------------------------------------------------------------------------------------
+
+    //->Data Nascimento
+    public function testDataNascimentoErrada()
+    {
+        $p = $this->getPessoa();
+
+        $p->dataNascimento = "2017-12-12";
+        $this->assertFalse($p->validate());
+
+        $p->dataNascimento = "12-12-2000";
+        $this->assertFalse($p->validate());
+
+        $p->dataNascimento = "12/12/2000";
+        $this->assertFalse($p->validate());
+
+        $p->dataNascimento = "1234";
+        $this->assertFalse($p->validate());
+    }
+
+    //->Nif
+    public function testNifErrado()
+    {
+        $p = $this->getPessoa();
+
+        $p->nif = "asd";
+        $this->assertFalse($p->validate());
+
+        $p->nif = 123456789012312312312312312;
+        $this->assertFalse($p->validate());
+
+        $p->nif = 12345678;
+        $this->assertFalse($p->validate());
+    }
+
+    //->Email
+    public function testEmailErrado()
+    {
+        $p = $this->getPessoa();
+
+        $p->email = "asd";
+        $this->assertFalse($p->validate());
+
+        $p->email = "asd@";
+        $this->assertFalse($p->validate());
+
+        $p->email = "asd@asd";
+        $this->assertFalse($p->validate());
+
+        $p->email = "asd@asd.";
+        $this->assertFalse($p->validate());
+    }
 }

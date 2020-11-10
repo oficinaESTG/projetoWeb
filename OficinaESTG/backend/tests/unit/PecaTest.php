@@ -23,9 +23,8 @@ class PecaTest extends \Codeception\Test\Unit
         $p = new Peca();
 
         $p->nomePeca = "peca1";
-        $p->quantidadePeca = 2;
-        $p->precoPeca = 3;
-
+        $p->quantidadePeca = "3";
+        $p->precoPeca = "3";
 
         return $p;
     }

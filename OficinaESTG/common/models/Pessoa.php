@@ -35,10 +35,11 @@ class Pessoa extends \yii\db\ActiveRecord
     {
         return [
             [['nome', 'dataNascimento', 'morada', 'nif', 'tipoPessoa', 'email'], 'required'],
-            [['dataNascimento'], 'safe'],
-            [['nif'], 'integer'],
+            [['nif'], 'integer','max'=>999999999 ,'min'=>99999990],
             [['tipoPessoa'], 'string'],
-            [['nome', 'morada', 'email'], 'string', 'max' => 255],
+            [['nome', 'morada'], 'string', 'max' => 255],
+            ['email', 'email'],
+            ['dataNascimento', 'datetime', 'format' => 'yyyy/MM/dd'],
         ];
     }
 

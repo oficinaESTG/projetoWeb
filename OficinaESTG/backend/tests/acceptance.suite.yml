@@ -3,4 +3,4 @@ actor: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-              url: http://frontend.test/
+              url: http://backend.test/
