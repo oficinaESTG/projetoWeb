@@ -14,9 +14,11 @@ use Yii;
  * @property int $nif
  * @property string $tipoPessoa
  * @property string $email
+ * @property int $fk_IdUser
  *
  * @property Carro[] $carros
  * @property Marcacao[] $marcacaos
+ * @property User $fkIdUser
  */
 class Pessoa extends \yii\db\ActiveRecord
 {
@@ -34,12 +36,12 @@ class Pessoa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'dataNascimento', 'morada', 'nif', 'tipoPessoa', 'email'], 'required'],
-            [['nif'], 'integer','max'=>999999999 ,'min'=>99999990],
+            [['nome', 'dataNascimento', 'morada', 'nif', 'tipoPessoa', 'email', 'fk_IdUser'], 'required'],
+            [['dataNascimento'], 'safe'],
+            [['nif', 'fk_IdUser'], 'integer'],
             [['tipoPessoa'], 'string'],
-            [['nome', 'morada'], 'string', 'max' => 255],
-            ['email', 'email'],
-            ['dataNascimento', 'datetime', 'format' => 'yyyy/MM/dd'],
+            [['nome', 'morada', 'email'], 'string', 'max' => 255],
+            [['fk_IdUser'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['fk_IdUser' => 'id']],
         ];
     }
 
@@ -56,6 +58,7 @@ class Pessoa extends \yii\db\ActiveRecord
             'nif' => 'Nif',
             'tipoPessoa' => 'Tipo Pessoa',
             'email' => 'Email',
+            'fk_IdUser' => 'Fk Id User',
         ];
     }
 
@@ -77,5 +80,15 @@ class Pessoa extends \yii\db\ActiveRecord
     public function getMarcacaos()
     {
         return $this->hasMany(Marcacao::className(), ['fk_idPessoa' => 'idPessoa']);
+    }
+
+    /**
+     * Gets query for [[FkIdUser]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFkIdUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'fk_IdUser']);
     }
 }
