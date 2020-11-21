@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">OficinaESTG</string>
+    <string name="title_activity_menu_main">MenuMainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="insira_o_email">Insira o email</string>
+    <string name="insira_a_password">Insira a password</string>
+    <string name="login">Login</string>
+    <string name="email_invalido">Email Inválido</string>
+    <string name="password_invalida">Password Inválida</string>
+    <string name="sem_email">Sem email</string>
+    <string name="abrir">Abrir</string>
+    <string name="fechar">fechar</string>
 </resources>

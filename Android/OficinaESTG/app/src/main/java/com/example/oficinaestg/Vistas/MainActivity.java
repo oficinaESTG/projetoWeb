@@ -1,8 +1,10 @@
-package com.example.oficinaestg;
+package com.example.oficinaestg.Vistas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.oficinaestg.R;
 
 public class MainActivity extends AppCompatActivity {
 
