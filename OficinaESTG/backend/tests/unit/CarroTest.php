@@ -46,6 +46,8 @@ class CarroTest extends \Codeception\Test\Unit
         $c->ano = 1999;
         $c->matricula = "AA-11-CC";
         $c->tipoCarro = "Reparacao";
+        $c->combustivel = "Diesel";
+        $c->quilometros = "100000";
         $pessoa = $this->getPessoa();
         $c->fk_idPessoa = $pessoa->idPessoa;
 
@@ -99,10 +101,31 @@ class CarroTest extends \Codeception\Test\Unit
         $this->assertFalse($c->validate());
     }
 
+    public function testCombustivelVazio()
+    {
+        $c = $this->getCarroValido();
+        $c->combustivel = "";
+        $this->assertFalse($c->validate());
+    }
+
+    public function testQuilometroVazio()
+    {
+        $c = $this->getCarroValido();
+        $c->quilometros = "";
+        $this->assertFalse($c->validate());
+    }
+
     public function testFkIdPessoaVazio()
     {
         $c = $this->getCarroValido();
         $c->fk_idPessoa = "";
+        $this->assertFalse($c->validate());
+    }
+
+    public function testQuilometrosInvalido()
+    {
+        $c = $this->getCarroValido();
+        $c->ano = 1000000;
         $this->assertFalse($c->validate());
     }
 

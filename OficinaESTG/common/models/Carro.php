@@ -13,6 +13,8 @@ use Yii;
  * @property int $ano
  * @property string|null $matricula
  * @property string $tipoCarro
+ * @property int $quilometros
+ * @property string $combustivel
  * @property int $fk_idPessoa
  *
  * @property Pessoa $fkIdPessoa
@@ -34,11 +36,12 @@ class Carro extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['modeloCarro', 'marcaCarro', 'ano', 'tipoCarro', 'fk_idPessoa'], 'required'],
-            [['ano', 'fk_idPessoa'], 'integer'],
-            [['tipoCarro'], 'string'],
+            [['modeloCarro', 'marcaCarro', 'ano', 'tipoCarro', 'quilometros', 'combustivel', 'fk_idPessoa'], 'required'],
+            [['ano', 'quilometros', 'fk_idPessoa'], 'integer'],
+            [['tipoCarro', 'combustivel'], 'string'],
             [['modeloCarro', 'marcaCarro', 'matricula'], 'string', 'max' => 45],
             [['ano'], 'integer', 'max'=>2020, 'min'=>1900],
+            [['quilometros'], 'integer', 'max'=>1000000, 'min'=>0],
             [['fk_idPessoa'], 'exist', 'skipOnError' => true, 'targetClass' => Pessoa::className(), 'targetAttribute' => ['fk_idPessoa' => 'idPessoa']],
         ];
     }
@@ -55,6 +58,8 @@ class Carro extends \yii\db\ActiveRecord
             'ano' => 'Ano',
             'matricula' => 'Matricula',
             'tipoCarro' => 'Tipo Carro',
+            'quilometros' => 'Quilometros',
+            'combustivel' => 'Combustivel',
             'fk_idPessoa' => 'Fk Id Pessoa',
         ];
     }
