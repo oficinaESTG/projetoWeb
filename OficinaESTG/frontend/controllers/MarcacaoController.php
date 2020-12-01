@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Carro;
 use common\models\Pessoa;
 use Yii;
 use common\models\Marcacao;
@@ -40,13 +41,8 @@ class MarcacaoController extends Controller
             'query' => Marcacao::find()->where(['fk_idPessoa'=>Yii::$app->user->identity->id]),
         ]);
 
-        $marcacao = Marcacao::find()->all();
-        $pessoa = Pessoa::find()->where(['idPessoa' =>Yii::$app->user->identity->id]);
-
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'pessoa' => $pessoa,
         ]);
     }
 
@@ -72,12 +68,14 @@ class MarcacaoController extends Controller
     {
         $model = new Marcacao();
 
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idMarcacoes]);
         }
 
         return $this->render('create', [
             'model' => $model,
+
         ]);
     }
 

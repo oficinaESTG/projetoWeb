@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Carro;
 use Yii;
 use common\models\Marcacao;
 use yii\data\ActiveDataProvider;
@@ -65,6 +66,7 @@ class MarcacaoController extends Controller
     public function actionCreate()
     {
         $model = new Marcacao();
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idMarcacoes]);
