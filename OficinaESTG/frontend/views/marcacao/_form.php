@@ -29,7 +29,7 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'fk_idPessoa')->hiddenInput(['value'=>Yii::$app->user->id])->label(false) ?>
 
-    <?= $form->field($model, 'fk_idCarro')->dropDownList(ArrayHelper::map(Carro::find()->all(), 'idCarro', 'modeloCarro'), ['prompt' => ''] )->label('Carro') ?>
+    <?= $form->field($model, 'fk_idCarro')->dropDownList(ArrayHelper::map(Carro::find()->where(['fk_idPessoa'=>Yii::$app->user->identity->id])->all(), 'idCarro', 'modeloCarro'), ['prompt' => ''])->label('Carro') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
