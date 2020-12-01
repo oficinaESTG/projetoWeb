@@ -13,29 +13,25 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="marcacao-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'tipoMarcacao',
+            'dataMarcacao',
+            'descricaoMarcacao',
+            'estadoMarcacao'
+        ],
+    ]) ?>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idMarcacoes], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idMarcacoes], [
+        <?= Html::a('Atualizar', ['update', 'id' => $model->idMarcacoes], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->idMarcacoes], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Pretende eliminar a marcação? Não será possível reverter a ação',
                 'method' => 'post',
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'idMarcacoes',
-            'tipoMarcacao',
-            'dataMarcacao',
-            'descricaoMarcacao',
-            'estadoMarcacao',
-            'fk_idPessoa',
-        ],
-    ]) ?>
 
 </div>

@@ -15,7 +15,9 @@ $this->title = 'Oficina ESTG';
             ?>
             <table class="table table-bordered">
                 <tr>
-                    <th rowspan="6" width="200"><b>(Imagem)</b></th>
+                    <th rowspan="6" width="200">
+                        <img src="<?= Yii::$app->request->baseUrl . '/images/car.jpg' ?>" class="img-responsive" >
+                    </th>
                     <td><b>Dados</b></td>
                 </tr>
                 <tr>
@@ -31,9 +33,12 @@ $this->title = 'Oficina ESTG';
                     <td>Combustível: <?= $carro->combustivel; ?> </td>
                 </tr>
                 <tr>
-                    <td>
-                        <?= Html::a('Ver mais', ['carro/view_guest', 'id' => $carro->idCarro], ['class' => 'btn btn-success']) ?>
-                    </td>
+                    <?php
+                    if (!Yii::$app->user->isGuest) { ?>
+                        <td>
+                            <?= Html::a('Ver mais', ['carro/view_guest', 'id' => $carro->idCarro], ['class' => 'btn btn-success']) ?>
+                        </td>
+                    <?php   } ?>
                 </tr>
             </table>
         <?php }

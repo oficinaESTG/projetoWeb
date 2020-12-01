@@ -10,13 +10,17 @@ $this->title = $model->idCarro;
 $this->params['breadcrumbs'][] = ['label' => 'Carros', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+
 ?>
+
 <div class="carro-view">
 
 
     <table class="table table-bordered">
         <tr>
-            <th rowspan="9" width="200"><b>(Imagem)</b></th>
+            <th rowspan="9" width="200">
+                <img src="<?= Yii::$app->request->baseUrl . '/images/car.jpg' ?>" class="img-responsive" >
+            </th>
             <td><b>Dados</b></td>
         </tr>
         <tr>
@@ -39,6 +43,9 @@ $this->params['breadcrumbs'][] = $this->title;
         </tr>
         <tr>
             <td>Status: <?= $model->tipoCarro; ?> </td>
+        </tr>
+        <tr>
+            <td><?= Html::a('Marcar vistoria', ['marcacao/create_venda', 'id' => $model->idCarro], ['class' => 'btn btn-primary']) ?></td>
         </tr>
 
     </table>

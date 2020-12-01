@@ -21,7 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
         <table class="table table-bordered">
             <tr>
-                <th rowspan="6" width="200"><b>(Imagem)</b></th>
+                <th rowspan="6" width="200">
+                    <img src="<?= Yii::$app->request->baseUrl . '/images/car.jpg' ?>" class="img-responsive" >
+                </th>
                 <td><b>Dados:</b></td>
             </tr>
             <tr>

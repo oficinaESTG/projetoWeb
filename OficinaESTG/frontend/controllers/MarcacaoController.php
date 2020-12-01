@@ -59,6 +59,28 @@ class MarcacaoController extends Controller
         ]);
     }
 
+    public function actionCreate_venda($id)
+    {
+        $model = new Marcacao();
+
+        if ($model->load(Yii::$app->request->post()) ) {
+
+            $model->tipoMarcacao = 'Venda';
+            $model->estadoMarcacao = 'Espera';
+            $model->fk_idPessoa = Yii::$app->user->identity->getId();
+            $model->fk_idCarro = $id;
+
+            if ($model->save()){
+                return $this->redirect(['view', 'id' => $model->idMarcacoes]);
+            }
+        }
+
+        return $this->render('create_venda', [
+            'model' => $model,
+
+        ]);
+    }
+
     /**
      * Creates a new Marcacao model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -68,9 +90,15 @@ class MarcacaoController extends Controller
     {
         $model = new Marcacao();
 
+        if ($model->load(Yii::$app->request->post()) ) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idMarcacoes]);
+            $model->tipoMarcacao = 'Reparacao';
+            $model->estadoMarcacao = 'Espera';
+            $model->fk_idPessoa = Yii::$app->user->identity->getId();
+
+            if ($model->save()){
+                return $this->redirect(['view', 'id' => $model->idMarcacoes]);
+            }
         }
 
         return $this->render('create', [

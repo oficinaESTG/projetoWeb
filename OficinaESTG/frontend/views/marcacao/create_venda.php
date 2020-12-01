@@ -11,9 +11,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="marcacao-create">
 
-    <h3><b>Marcar reparação:</b></h3>
+    <h3><b>Marcar vistoria:</b></h3>
 
-    <?= $this->render('_form', [
+    <?= $this->render('_form_venda', [
         'model' => $model,
     ]) ?>
 

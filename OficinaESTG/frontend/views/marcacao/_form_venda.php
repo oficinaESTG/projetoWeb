@@ -21,12 +21,10 @@ use yii\jui\DatePicker;
         'dateFormat' => 'yyyy-MM-dd',
     ])->label('Data') ?>
 
-    <?= $form->field($model, 'descricaoMarcacao')->textInput(['maxlength' => true])->label('Descrição') ?>
-
-    <?= $form->field($model, 'fk_idCarro')->dropDownList(ArrayHelper::map(Carro::find()->where(['fk_idPessoa'=>Yii::$app->user->identity->id])->all(), 'idCarro', 'modeloCarro'), ['prompt' => ''])->label('Carro') ?>
+    <?= $form->field($model, 'descricaoMarcacao')->textInput(['maxlength' => true])->label('Notas') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

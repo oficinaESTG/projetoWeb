@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Marcacao', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Criar Marcação', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
@@ -23,17 +23,35 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            //'idMarcacoes',
-            'tipoMarcacao',
-            'dataMarcacao',
-            'descricaoMarcacao',
-            'estadoMarcacao',
-            //'fk_idPessoa',
-
+            ['label' => 'Tipo',
+                'attribute' => 'tipoMarcacao',
+            ],
+            ['label' => 'Data',
+                'attribute' => 'dataMarcacao',
+            ],
+            ['label' => 'Descrição',
+                'attribute' => 'descricaoMarcacao',
+            ],
+            ['label' => 'Estado',
+                'attribute' => 'estadoMarcacao',
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
+        'rowOptions' => function($model, $key, $index, $column){
+            if($model->estadoMarcacao === 'Espera'){
+                return ['class' => 'info'];
+            }
+            if($model->estadoMarcacao === 'Aceite'){
+                return ['class' => 'success'];
+            }
+            if($model->estadoMarcacao === 'Rejeitada'){
+                return ['class' => 'danger'];
+            }
+            if($model->estadoMarcacao === 'Concluida'){
+                return ['class' => 'warning'];
+            }
+        },
     ]); ?>
 
 
