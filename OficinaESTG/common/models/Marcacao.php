@@ -40,7 +40,7 @@ class Marcacao extends \yii\db\ActiveRecord
             [['dataMarcacao'], 'safe'],
             [['fk_idPessoa', 'fk_idCarro'], 'integer'],
             [['descricaoMarcacao'], 'string', 'max' => 255],
-            [['fk_idCarro'], 'exist', 'skipOnError' => true, 'targetClass' => Carro::className(), 'targetAttribute' => ['fk_idCarro' => 'fk_idPessoa']],
+            [['fk_idCarro'], 'exist', 'skipOnError' => true, 'targetClass' => Carro::className(), 'targetAttribute' => ['fk_idCarro' => 'idCarro']],
             [['fk_idPessoa'], 'exist', 'skipOnError' => true, 'targetClass' => Pessoa::className(), 'targetAttribute' => ['fk_idPessoa' => 'idPessoa']],
         ];
     }
@@ -68,7 +68,7 @@ class Marcacao extends \yii\db\ActiveRecord
      */
     public function getFkIdCarro()
     {
-        return $this->hasOne(Carro::className(), ['fk_idPessoa' => 'fk_idCarro']);
+        return $this->hasOne(Carro::className(), ['idCarro' => 'fk_idCarro']);
     }
 
     /**
