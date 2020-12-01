@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Pessoa;
 use Yii;
 use common\models\Marcacao;
 use yii\data\ActiveDataProvider;
@@ -36,11 +37,16 @@ class MarcacaoController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Marcacao::find(),
+            'query' => Marcacao::find()->where(['fk_idPessoa'=>Yii::$app->user->identity->id]),
         ]);
+
+        $marcacao = Marcacao::find()->all();
+        $pessoa = Pessoa::find()->where(['idPessoa' =>Yii::$app->user->identity->id]);
+
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'pessoa' => $pessoa,
         ]);
     }
 

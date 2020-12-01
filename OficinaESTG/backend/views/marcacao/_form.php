@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Marcacao */
@@ -13,10 +12,7 @@ use yii\jui\DatePicker;
 
     <?php $form = ActiveForm::begin(); ?>
 
-
-
-
-    <?= $form->field($model, 'tipoMarcacao')->dropDownList([ 'Reparacao' => 'Reparacao', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'tipoMarcacao')->dropDownList([ 'Reparacao' => 'Reparacao', 'Venda', ], ['prompt' => '']) ?>
 
     <?= $form->field($model, 'dataMarcacao')->widget(\yii\jui\DatePicker::classname(), [
         'options' => ['class' => 'form-control'],
@@ -26,9 +22,10 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'descricaoMarcacao')->textInput(['maxlength' => true]) ?>
 
-   <?=  $form->field($model, 'estadoMarcacao')->hiddenInput(['value'=> 'Espera'])->label(false)  ?>
+     <?= $form->field($model, 'estadoMarcacao')->dropDownList([ 'Aceite' => 'Aceite', 'Rejeitada' => 'Rejeitada', 'Concluida' => 'Concluida', 'Espera' => 'Espera', ], ['prompt' => '']) ?>
 
     <?= $form->field($model, 'fk_idPessoa')->hiddenInput(['value'=>Yii::$app->user->id])->label(false) ?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

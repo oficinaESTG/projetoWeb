@@ -13,7 +13,9 @@ use Yii;
  * @property string $descricaoMarcacao
  * @property string $estadoMarcacao
  * @property int $fk_idPessoa
+ * @property int $fk_idCarro
  *
+ * @property Carro $fkIdCarro
  * @property Pessoa $fkIdPessoa
  * @property MarcacaoHaspecas[] $marcacaoHaspecas
  */
@@ -33,11 +35,12 @@ class Marcacao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tipoMarcacao', 'dataMarcacao', 'descricaoMarcacao', 'estadoMarcacao', 'fk_idPessoa'], 'required'],
+            [['tipoMarcacao', 'dataMarcacao', 'descricaoMarcacao', 'estadoMarcacao', 'fk_idPessoa', 'fk_idCarro'], 'required'],
             [['tipoMarcacao', 'estadoMarcacao'], 'string'],
             [['dataMarcacao'], 'safe'],
-            [['fk_idPessoa'], 'integer'],
+            [['fk_idPessoa', 'fk_idCarro'], 'integer'],
             [['descricaoMarcacao'], 'string', 'max' => 255],
+            [['fk_idCarro'], 'exist', 'skipOnError' => true, 'targetClass' => Carro::className(), 'targetAttribute' => ['fk_idCarro' => 'fk_idPessoa']],
             [['fk_idPessoa'], 'exist', 'skipOnError' => true, 'targetClass' => Pessoa::className(), 'targetAttribute' => ['fk_idPessoa' => 'idPessoa']],
         ];
     }
@@ -54,7 +57,18 @@ class Marcacao extends \yii\db\ActiveRecord
             'descricaoMarcacao' => 'Descricao Marcacao',
             'estadoMarcacao' => 'Estado Marcacao',
             'fk_idPessoa' => 'Fk Id Pessoa',
+            'fk_idCarro' => 'Fk Id Carro',
         ];
+    }
+
+    /**
+     * Gets query for [[FkIdCarro]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFkIdCarro()
+    {
+        return $this->hasOne(Carro::className(), ['fk_idPessoa' => 'fk_idCarro']);
     }
 
     /**
