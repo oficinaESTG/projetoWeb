@@ -68,7 +68,7 @@ class Marcacao extends \yii\db\ActiveRecord
      */
     public function getFkIdCarro()
     {
-        return $this->hasOne(Carro::className(), ['fk_idPessoa' => 'fk_idCarro']);
+        return $this->hasOne(Carro::className(), ['idCarro' => 'fk_idCarro']);
     }
 
     /**
