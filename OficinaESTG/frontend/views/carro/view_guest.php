@@ -40,18 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <td>Status: <?= $model->tipoCarro; ?> </td>
         </tr>
-        <tr>
-            <td>
-                <?= Html::a('Alterar', ['update', 'id' => $model->idCarro], ['class' => 'btn btn-success']) ?>
-                <?= Html::a('Eliminar', ['delete', 'id' => $model->idCarro], [
-                    'class' => 'btn btn-danger',
-                    'data' => [
-                        'confirm' => 'Pretende eliminar o registo do veículo? Não será possível reverter a ação',
-                        'method' => 'post',
-                    ],
-                ]) ?>
-            </td>
-        </tr>
+
     </table>
 
 </div>

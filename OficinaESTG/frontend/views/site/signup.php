@@ -7,6 +7,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\jui\DatePicker;
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
@@ -28,7 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($modelPessoa, 'nome')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($modelPessoa, 'dataNascimento')->textInput() ?>
+            <?= $form->field($modelPessoa, 'dataNascimento')->widget(\yii\jui\DatePicker::classname(), [
+                'options' => ['class' => 'form-control'],
+                'language' => 'pt',
+                'dateFormat' => 'yyyy-MM-dd',
+            ]) ?>
 
             <?= $form->field($modelPessoa, 'morada')->textInput(['maxlength' => true]) ?>
 

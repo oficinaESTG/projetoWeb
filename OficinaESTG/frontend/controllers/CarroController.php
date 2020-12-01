@@ -35,12 +35,10 @@ class CarroController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Carro::find(),
-        ]);
+        $model =Carro::find()->where(['fk_idPessoa' => Yii::$app->user->identity->getId()])->all();
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'model' => $model
         ]);
     }
 
@@ -57,6 +55,13 @@ class CarroController extends Controller
         ]);
     }
 
+    public function actionView_guest($id)
+    {
+        return $this->render('view_guest', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
     /**
      * Creates a new Carro model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -66,8 +71,14 @@ class CarroController extends Controller
     {
         $model = new Carro();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idCarro]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->tipoCarro = 'Reparacao';
+            $model->fk_idPessoa = Yii::$app->user->identity->getId();
+
+            if ($model->save()){
+                return $this->redirect(['view', 'id' => $model->idCarro]);
+            }
         }
 
         return $this->render('create', [
