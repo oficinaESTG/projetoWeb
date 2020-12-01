@@ -12,19 +12,19 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'idCarro')->textInput() ?>
+    <?= $form->field($model, 'marcaCarro')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'modeloCarro')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'marcaCarro')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'ano')->textInput(['maxlength' => 4]) ?>
 
-    <?= $form->field($model, 'ano')->textInput() ?>
+    <?= $form->field($model, 'matricula')->widget(\yii\widgets\MaskedInput::className(), [
+        'mask' => '**-**-**',
+    ]) ?>
 
-    <?= $form->field($model, 'matricula')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'quilometros')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'tipoCarro')->dropDownList([ 'Reparacao' => 'Reparacao', 'Venda' => 'Venda', ], ['prompt' => '']) ?>
-
-    <?= $form->field($model, 'fk_idPessoa')->textInput() ?>
+    <?= $form->field($model, 'combustivel')->dropDownList([ 'Diesel' => 'Diesel', 'Gasolina' => 'Gasolina', ], ['prompt' => '']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

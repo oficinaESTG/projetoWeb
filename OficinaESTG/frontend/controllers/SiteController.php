@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Carro;
 use common\models\Pessoa;
 use common\models\User;
 use frontend\models\ResendVerificationEmailForm;
@@ -86,7 +87,11 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $model =Carro::find()->where(['tipoCarro' => 'Venda'])->all();
+
+        return $this->render('index', [
+            'model' => $model
+        ]);
     }
 
     /**

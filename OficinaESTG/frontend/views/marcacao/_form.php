@@ -13,9 +13,6 @@ use yii\jui\DatePicker;
 
     <?php $form = ActiveForm::begin(); ?>
 
-
-
-
     <?= $form->field($model, 'tipoMarcacao')->dropDownList([ 'Reparacao' => 'Reparacao', ], ['prompt' => '']) ?>
 
     <?= $form->field($model, 'dataMarcacao')->widget(\yii\jui\DatePicker::classname(), [

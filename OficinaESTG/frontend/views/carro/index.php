@@ -14,26 +14,34 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Carro', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Adicionar Veículo', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'idCarro',
-            'modeloCarro',
-            'marcaCarro',
-            'ano',
-            'matricula',
-            //'tipoCarro',
-            //'fk_idPessoa',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+    <?php  foreach($model as $carro){
+        ?>
+        <table class="table table-bordered">
+            <tr>
+                <th rowspan="6" width="200"><b>(Imagem)</b></th>
+                <td><b>Dados:</b></td>
+            </tr>
+            <tr>
+                <td>Marcação: <?= $carro->marcaCarro; ?> </td>
+            </tr>
+            <tr>
+                <td>Modelo: <?= $carro->modeloCarro; ?> </td>
+            </tr>
+            <tr>
+                <td>Km(s):: <?= $carro->quilometros; ?> </td>
+            </tr>
+            <tr>
+                <td>Combustível: <?= $carro->combustivel; ?> </td>
+            </tr>
+            <tr>
+                <td><?= Html::a('Ver Mais', ['view', 'id' => $carro->idCarro], ['class' => 'btn btn-primary']) ?></td>
+            </tr>
+        </table>
+    <?php }
+    ?>
 
 
 </div>
