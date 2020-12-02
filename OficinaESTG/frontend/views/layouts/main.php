@@ -42,6 +42,7 @@ AppAsset::register($this);
     } else {
         $menuItems[] = ['label' => 'Marcações', 'url' => ['/marcacao']];
         $menuItems[] = ['label' => 'Veiculos', 'url' => ['/carro']];
+        $menuItems[] = ['label' => 'Perfil', 'url' => ['/pessoa/view?id=' .Yii::$app->user->identity->getId()]];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(

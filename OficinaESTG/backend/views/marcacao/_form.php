@@ -9,7 +9,6 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Marcacao */
-/* @var $modelMarcacaoHasPeca common\models\MarcacaoHaspecas */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
@@ -34,7 +33,7 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'fk_idPessoa')->hiddenInput(['value'=>Yii::$app->user->id])->label(false) ?>
 
-        <?= $form->field($model, 'fk_idCarro')->dropDownList(ArrayHelper::map(Carro::find()->where(['fk_idPessoa'=> $model->fk_idPessoa])->all(), 'idCarro', 'modeloCarro'), ['prompt' => ''])->label('Carro') ?>
+        <?= $form->field($model, 'fk_idCarro')->dropDownList(ArrayHelper::map(Carro::find()->all(), 'idCarro', 'modeloCarro'), ['prompt' => ''])->label('Carro') ?>
 
         <?= $form->field($model, 'fk_idResponsavel')->dropDownList(ArrayHelper::map(Pessoa::find()->where(['tipoPessoa'=> 'Mecanico'])->all(), 'idPessoa', 'nome'), ['prompt' => ''])->label('Responsável') ?>
 

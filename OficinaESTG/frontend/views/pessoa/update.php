@@ -12,7 +12,8 @@ $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="pessoa-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><b>Atualizar perfil:</b></h3>
+    <br>
 
     <?= $this->render('_form', [
         'model' => $model,

@@ -90,7 +90,7 @@ class MarcacaoController extends Controller
 
         if($model->estadoMarcacao === "Concluida"){
 
-            return $this->render('marcacaohaspecas/create', [
+            return $this->render('..\marcacaohaspecas\create', [
                 'model' => $model,
             ]);
         }
