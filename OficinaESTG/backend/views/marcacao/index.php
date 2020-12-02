@@ -38,6 +38,15 @@ $this->title = 'Gestão de Marcação';
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
+          'rowOptions' => function($model, $key, $index, $column){
+            if($model->tipoMarcacao === 'Venda' && $model->estadoMarcacao === 'Espera'){
+                return ['class' => 'alert'];
+            }else if($model->tipoMarcacao === 'Reparacao' && $model->estadoMarcacao === 'Espera' ){
+                return ['class' => 'danger'];
+            }else if ($model->estadoMarcacao === 'Concluida'){
+
+            }
+          },
     ]); ?>
 
 
