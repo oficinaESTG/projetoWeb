@@ -6,12 +6,12 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Carros';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Gestão de Carros';
 ?>
 <div class="carro-index">
 
-    <h1>Carros Para Venda:</h1>
+    <h3><b>Gestão de Carros para Venda:</b></h3>
+    <br>
 
     <p>
         <?= Html::a('Adicionar Um Carro', ['create'], ['class' => 'btn btn-success']) ?>

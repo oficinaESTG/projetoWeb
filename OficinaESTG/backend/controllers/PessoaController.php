@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\User;
+use common\models\Carro;
 use Yii;
 use common\models\Pessoa;
 use yii\data\ActiveDataProvider;
@@ -53,8 +54,13 @@ class PessoaController extends Controller
      */
     public function actionView($id)
     {
+        $model =$this->findModel($id);
+
+        $carro = Carro::find()->where(['fk_idPessoa'=> $model->idPessoa])->all();
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'carro' => $carro,
         ]);
     }
 
