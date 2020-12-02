@@ -23,12 +23,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idMarcacoes',
-            'tipoMarcacao',
-            'dataMarcacao',
-            'descricaoMarcacao',
-            'estadoMarcacao',
+
+            ['label' => 'ID da Marcação',
+                'attribute' => 'idMarcacoes',
+            ],
+            ['label' => 'Tipo de Marcação',
+                'attribute' => 'tipoMarcacao',
+            ],
+            ['label' => 'Data Para a Marcação',
+                'attribute' => 'dataMarcacao',
+            ],
+            ['label' => 'Estado da Marcação',
+                'attribute' => 'estadoMarcacao',
+            ],
             //'fk_idPessoa',
+            ['label' => 'Nome da Pessoa',
+                'attribute' => 'pessoa.nome',
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

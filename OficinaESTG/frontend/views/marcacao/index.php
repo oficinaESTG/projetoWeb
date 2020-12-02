@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'estadoMarcacao',
             ],
 
+
             ['class' => 'yii\grid\ActionColumn'],
         ],
         'rowOptions' => function($model, $key, $index, $column){
