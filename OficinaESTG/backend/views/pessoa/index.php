@@ -37,7 +37,6 @@ use yii\grid\GridView;
 
             ],
 
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

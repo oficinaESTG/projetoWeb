@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Pessoa */
+/* @var $carro common\models\Carro */
 
 
 ?>
@@ -35,5 +36,19 @@ use yii\widgets\DetailView;
             ],
         ]) ?>
     </p>
+
+    <?php
+    if ($carro != null) {
+    ?>
+        <h3><b>Carros Associados:</b></h3>
+        <br>
+
+        <?php  foreach($carro as $car){
+            ?>
+            <?= Html::a('Ver Carro ('. $car->marcaCarro . ' ' . $car->modeloCarro . ')', ['..\carro\view', 'id' => $car->idCarro], ['class' => 'btn btn-success', 'style'=>'width:500px;']) ?>
+            <br>
+            <br>
+        <?php } }
+        ?>
 
 </div>

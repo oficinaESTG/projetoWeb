@@ -36,7 +36,7 @@ class CarroController extends Controller
     public function actionIndex()
     {
         $model =Carro::find()->where(['fk_idPessoa' => Yii::$app->user->identity->getId()])->all();
-
+        
         return $this->render('index', [
             'model' => $model
         ]);

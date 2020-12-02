@@ -29,7 +29,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => 'OficinaESTG',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -42,6 +42,7 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
         $menuItems = [
+            ['label' => 'Gestão de Carros', 'url' => ['/carro']],
             ['label' => 'Gestão de Marcações', 'url' => ['/marcacao']],
             ['label' => 'Gestão de Utilizadores', 'url' => ['/pessoa']],
         ];
