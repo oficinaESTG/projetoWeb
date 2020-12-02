@@ -3,14 +3,14 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\MarcacaoHaspecas;
+use common\models\Marcacao;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * MarcacaoHaspecasController implements the CRUD actions for MarcacaoHaspecas model.
+ * MarcacaoHaspecasController implements the CRUD actions for Marcacao model.
  */
 class MarcacaoHaspecasController extends Controller
 {
@@ -30,13 +30,13 @@ class MarcacaoHaspecasController extends Controller
     }
 
     /**
-     * Lists all MarcacaoHaspecas models.
+     * Lists all Marcacao models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => MarcacaoHaspecas::find(),
+            'query' => Marcacao::find(),
         ]);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class MarcacaoHaspecasController extends Controller
     }
 
     /**
-     * Displays a single MarcacaoHaspecas model.
+     * Displays a single Marcacao model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,16 +58,16 @@ class MarcacaoHaspecasController extends Controller
     }
 
     /**
-     * Creates a new MarcacaoHaspecas model.
+     * Creates a new Marcacao model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new MarcacaoHaspecas();
+        $model = new Marcacao();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idMarcacao_hasPecas]);
+            return $this->redirect(['view', 'id' => $model->idMarcacoes]);
         }
 
         return $this->render('create', [
@@ -76,7 +76,7 @@ class MarcacaoHaspecasController extends Controller
     }
 
     /**
-     * Updates an existing MarcacaoHaspecas model.
+     * Updates an existing Marcacao model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -87,7 +87,7 @@ class MarcacaoHaspecasController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idMarcacao_hasPecas]);
+            return $this->redirect(['view', 'id' => $model->idMarcacoes]);
         }
 
         return $this->render('update', [
@@ -96,7 +96,7 @@ class MarcacaoHaspecasController extends Controller
     }
 
     /**
-     * Deletes an existing MarcacaoHaspecas model.
+     * Deletes an existing Marcacao model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class MarcacaoHaspecasController extends Controller
     }
 
     /**
-     * Finds the MarcacaoHaspecas model based on its primary key value.
+     * Finds the Marcacao model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return MarcacaoHaspecas the loaded model
+     * @return Marcacao the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = MarcacaoHaspecas::findOne($id)) !== null) {
+        if (($model = Marcacao::findOne($id)) !== null) {
             return $model;
         }
 

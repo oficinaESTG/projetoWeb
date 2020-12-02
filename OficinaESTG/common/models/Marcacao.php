@@ -15,6 +15,8 @@ use Yii;
  * @property int $fk_idPessoa
  * @property int $fk_idCarro
  * @property int|null $fk_idResponsavel
+ * @property int|null $valorFinal
+ * @property string $descricaoFinal
  *
  * @property Carro $fkIdCarro
  * @property Pessoa $fkIdPessoa
@@ -37,10 +39,10 @@ class Marcacao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tipoMarcacao', 'dataMarcacao', 'descricaoMarcacao', 'estadoMarcacao', 'fk_idPessoa', 'fk_idCarro'], 'required'],
-            [['tipoMarcacao', 'estadoMarcacao'], 'string'],
+            [['tipoMarcacao', 'dataMarcacao', 'descricaoMarcacao', 'estadoMarcacao', 'fk_idPessoa', 'fk_idCarro', 'descricaoFinal'], 'required'],
+            [['tipoMarcacao', 'estadoMarcacao', 'descricaoFinal'], 'string'],
             [['dataMarcacao'], 'safe'],
-            [['fk_idPessoa', 'fk_idCarro', 'fk_idResponsavel'], 'integer'],
+            [['fk_idPessoa', 'fk_idCarro', 'fk_idResponsavel', 'valorFinal'], 'integer'],
             [['descricaoMarcacao'], 'string', 'max' => 255],
             [['fk_idCarro'], 'exist', 'skipOnError' => true, 'targetClass' => Carro::className(), 'targetAttribute' => ['fk_idCarro' => 'idCarro']],
             [['fk_idPessoa'], 'exist', 'skipOnError' => true, 'targetClass' => Pessoa::className(), 'targetAttribute' => ['fk_idPessoa' => 'idPessoa']],
@@ -62,6 +64,8 @@ class Marcacao extends \yii\db\ActiveRecord
             'fk_idPessoa' => 'Fk Id Pessoa',
             'fk_idCarro' => 'Fk Id Carro',
             'fk_idResponsavel' => 'Fk Id Responsavel',
+            'valorFinal' => 'Valor Final',
+            'descricaoFinal' => 'Descricao Final',
         ];
     }
 

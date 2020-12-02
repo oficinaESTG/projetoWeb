@@ -88,6 +88,13 @@ class MarcacaoController extends Controller
     {
         $model = $this->findModel($id);
 
+        if($model->estadoMarcacao === "Concluida"){
+
+            return $this->render('marcacaohaspecas/create', [
+                'model' => $model,
+            ]);
+        }
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idMarcacoes]);
         }

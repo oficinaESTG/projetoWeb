@@ -47,6 +47,11 @@ class m201006_201119_init_rbac extends Migration
         $updateCarro->description = 'update Carro';
         $auth->add($updateCarro);
 
+        $deleteCarro = $auth->createPermission('deleteCarro');
+        $deleteCarro->description = 'delete Carro';
+        $auth->add($deleteCarro);
+
+
         //User Roles ---------------------------------------------
         $cliente = $auth->createRole('cliente');
         $auth->add($cliente);
