@@ -39,12 +39,6 @@ use yii\widgets\ActiveForm;
 
 
 
-    <div id="Concluida" style="display:<?= $model->estadoMarcacao == 'Concluida' ? 'block' : 'none' ?>">
-
-
-
-    </div>
-
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

@@ -3,13 +3,13 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Marcacao */
+/* @var $model common\models\MarcacaoHaspecas */
 
-$this->title = 'Create Marcacao';
-$this->params['breadcrumbs'][] = ['label' => 'Marcacaos', 'url' => ['index']];
+$this->title = 'Create Marcacao Haspecas';
+$this->params['breadcrumbs'][] = ['label' => 'Marcacao Haspecas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="marcacao-create">
+<div class="marcacao-haspecas-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

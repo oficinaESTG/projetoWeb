@@ -6,15 +6,15 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Marcacaos';
+$this->title = 'Marcacao Haspecas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="marcacao-index">
+<div class="marcacao-haspecas-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Marcacao', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Marcacao Haspecas', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
@@ -23,16 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idMarcacoes',
-            'tipoMarcacao',
-            'dataMarcacao',
-            'descricaoMarcacao',
-            'estadoMarcacao',
-            //'fk_idPessoa',
-            //'fk_idCarro',
-            //'fk_idResponsavel',
-            //'valorFinal',
-            //'descricaoFinal:ntext',
+            'idMarcacao_hasPecas',
+            'fk_idPeca',
+            'fk_idMarcacao',
+            'quantidadeParaMarcacao',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

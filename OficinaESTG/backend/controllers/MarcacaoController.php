@@ -39,7 +39,8 @@ class MarcacaoController extends Controller
     {
         $dataProvider = null;
 
-        $pessoa = Pessoa::find()->where(['idPessoa' => Yii::$app->user->identity->id])->all();
+        $pessoa = Pessoa::find()->where(['idPessoa' => Yii::$app->user->identity->id])->one();
+
 
         if($pessoa->tipoPessoa === 'Secretaria'){
 
