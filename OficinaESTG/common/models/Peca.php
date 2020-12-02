@@ -9,8 +9,9 @@ use Yii;
  *
  * @property int $idPeca
  * @property string $nomePeca
- * @property string $quantidadePeca
- * @property string $precoPeca
+ * @property int $quantidadePeca
+ * @property int $precoPeca
+ * @property string $referenciaPeca
  *
  * @property MarcacaoHaspecas[] $marcacaoHaspecas
  */
@@ -30,8 +31,10 @@ class Peca extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nomePeca', 'quantidadePeca', 'precoPeca'], 'required'],
-            [['nomePeca', 'quantidadePeca', 'precoPeca'], 'string', 'max' => 45],
+            [['nomePeca', 'quantidadePeca', 'precoPeca', 'referenciaPeca'], 'required'],
+            [['quantidadePeca', 'precoPeca'], 'integer'],
+            [['nomePeca'], 'string', 'max' => 45],
+            [['referenciaPeca'], 'string', 'max' => 255],
         ];
     }
 
@@ -41,10 +44,11 @@ class Peca extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idPeca' => 'Id Peca',
-            'nomePeca' => 'Nome Peca',
-            'quantidadePeca' => 'Quantidade Peca',
-            'precoPeca' => 'Preco Peca',
+            'idPeca' => 'ID',
+            'nomePeca' => 'Nome',
+            'quantidadePeca' => 'Quantidade',
+            'precoPeca' => 'Preco',
+            'referenciaPeca' => 'Referencia',
         ];
     }
 

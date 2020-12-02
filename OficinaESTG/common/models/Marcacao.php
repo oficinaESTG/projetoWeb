@@ -14,9 +14,11 @@ use Yii;
  * @property string $estadoMarcacao
  * @property int $fk_idPessoa
  * @property int $fk_idCarro
+ * @property int|null $fk_idResponsavel
  *
  * @property Carro $fkIdCarro
  * @property Pessoa $fkIdPessoa
+ * @property Pessoa $fkIdResponsavel
  * @property MarcacaoHaspecas[] $marcacaoHaspecas
  */
 class Marcacao extends \yii\db\ActiveRecord
@@ -38,10 +40,11 @@ class Marcacao extends \yii\db\ActiveRecord
             [['tipoMarcacao', 'dataMarcacao', 'descricaoMarcacao', 'estadoMarcacao', 'fk_idPessoa', 'fk_idCarro'], 'required'],
             [['tipoMarcacao', 'estadoMarcacao'], 'string'],
             [['dataMarcacao'], 'safe'],
-            [['fk_idPessoa', 'fk_idCarro'], 'integer'],
+            [['fk_idPessoa', 'fk_idCarro', 'fk_idResponsavel'], 'integer'],
             [['descricaoMarcacao'], 'string', 'max' => 255],
             [['fk_idCarro'], 'exist', 'skipOnError' => true, 'targetClass' => Carro::className(), 'targetAttribute' => ['fk_idCarro' => 'idCarro']],
             [['fk_idPessoa'], 'exist', 'skipOnError' => true, 'targetClass' => Pessoa::className(), 'targetAttribute' => ['fk_idPessoa' => 'idPessoa']],
+            [['fk_idResponsavel'], 'exist', 'skipOnError' => true, 'targetClass' => Pessoa::className(), 'targetAttribute' => ['fk_idResponsavel' => 'idPessoa']],
         ];
     }
 
@@ -58,6 +61,7 @@ class Marcacao extends \yii\db\ActiveRecord
             'estadoMarcacao' => 'Estado Marcacao',
             'fk_idPessoa' => 'Fk Id Pessoa',
             'fk_idCarro' => 'Fk Id Carro',
+            'fk_idResponsavel' => 'Fk Id Responsavel',
         ];
     }
 
@@ -79,6 +83,16 @@ class Marcacao extends \yii\db\ActiveRecord
     public function getFkIdPessoa()
     {
         return $this->hasOne(Pessoa::className(), ['idPessoa' => 'fk_idPessoa']);
+    }
+
+    /**
+     * Gets query for [[FkIdResponsavel]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFkIdResponsavel()
+    {
+        return $this->hasOne(Pessoa::className(), ['idPessoa' => 'fk_idResponsavel']);
     }
 
     /**

@@ -31,6 +31,22 @@ class m201006_201119_init_rbac extends Migration
         $deleteMarcacao->description = 'Update post';
         $auth->add($deleteMarcacao);
 
+        $viewMarcacao = $auth->createPermission('viewMarcacao');
+        $viewMarcacao->description = 'View post';
+        $auth->add($viewMarcacao);
+
+        $viewCarro = $auth->createPermission('viewCarro');
+        $viewCarro->description = 'View Carro';
+        $auth->add($viewCarro);
+
+        $createCarro = $auth->createPermission('createCarro');
+        $createCarro->description = 'create Carro';
+        $auth->add($createCarro);
+
+        $updateCarro = $auth->createPermission('updateCarro');
+        $updateCarro->description = 'update Carro';
+        $auth->add($updateCarro);
+
         //User Roles ---------------------------------------------
         $cliente = $auth->createRole('cliente');
         $auth->add($cliente);

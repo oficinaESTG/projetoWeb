@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use PecaSearch;
 use Yii;
 use common\models\Peca;
 use yii\data\ActiveDataProvider;
@@ -35,6 +36,9 @@ class PecaController extends Controller
      */
     public function actionIndex()
     {
+       // $searchModel = new PecaSearch();
+       // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         $dataProvider = new ActiveDataProvider([
             'query' => Peca::find(),
         ]);

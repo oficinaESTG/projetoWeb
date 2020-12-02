@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Carro;
+use common\models\Pessoa;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -35,10 +36,13 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'fk_idCarro')->dropDownList(ArrayHelper::map(Carro::find()->where(['fk_idPessoa'=> $model->fk_idPessoa])->all(), 'idCarro', 'modeloCarro'), ['prompt' => ''])->label('Carro') ?>
 
+        <?= $form->field($model, 'fk_idResponsavel')->dropDownList(ArrayHelper::map(Pessoa::find()->where(['tipoPessoa'=> 'Mecanico'])->all(), 'idPessoa', 'nome'), ['prompt' => ''])->label('Responsável') ?>
+
+
 
     <div id="Concluida" style="display:<?= $model->estadoMarcacao == 'Concluida' ? 'block' : 'none' ?>">
 
-        <?= $form->field($modelMarcacaoHasPeca, 'quantidadeParaMarcacao')->textInput(['maxlength' => true]) ?>
+
 
     </div>
 

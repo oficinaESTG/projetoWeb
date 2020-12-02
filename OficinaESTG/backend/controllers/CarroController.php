@@ -36,7 +36,7 @@ class CarroController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Carro::find(),
+            'query' => Carro::find()->where(['tipoCarro' => 'Venda']),
         ]);
 
         return $this->render('index', [
@@ -66,8 +66,14 @@ class CarroController extends Controller
     {
         $model = new Carro();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idCarro]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->tipoCarro = 'Venda';
+            $model->fk_idPessoa = Yii::$app->user->identity->getId();
+
+            if ($model->save()){
+                return $this->redirect(['view', 'id' => $model->idCarro]);
+            }
         }
 
         return $this->render('create', [
