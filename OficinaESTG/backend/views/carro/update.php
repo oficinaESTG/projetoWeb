@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Carro */
 
-$this->title = 'Update Carro: ' . $model->idCarro;
+$this->title = 'Atualizar Carro';
 ?>
 <div class="carro-update">
 

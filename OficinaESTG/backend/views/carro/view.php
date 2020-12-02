@@ -6,8 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Carro */
 
-$this->title = $model->idCarro;
-
+$this->title = 'Ver Carro';
 ?>
 
 <div class="carro-view">

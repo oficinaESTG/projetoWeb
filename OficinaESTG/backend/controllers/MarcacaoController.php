@@ -39,7 +39,7 @@ class MarcacaoController extends Controller
     {
         $dataProvider = null;
 
-        $pessoa = Pessoa::find()->where(['idPessoa' => Yii::$app->user->identity->id])->all();
+        $pessoa = Pessoa::find()->where(['idPessoa' => Yii::$app->user->identity->id])->one();
 
         if($pessoa->tipoPessoa === 'Secretaria'){
 
@@ -48,7 +48,7 @@ class MarcacaoController extends Controller
             ]);
         }
 
-        elseif ($pessoa->tipoPessoa === 'Mecanico'){
+        if ($pessoa->tipoPessoa === 'Mecanico'){
 
                $dataProvider = new ActiveDataProvider([
                    'query' => Marcacao::find()->where(['fk_idResponsavel' => Yii::$app->user->identity->id]),

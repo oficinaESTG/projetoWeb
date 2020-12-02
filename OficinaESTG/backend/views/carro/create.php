@@ -6,12 +6,12 @@ use yii\helpers\Html;
 /* @var $model common\models\Carro */
 
 $this->title = 'Create Carro';
-$this->params['breadcrumbs'][] = ['label' => 'Carros', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Criar Carro';
 ?>
 <div class="carro-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><b>Adicionar Carro:</b></h3>
+    <br>
 
     <?= $this->render('_form', [
         'model' => $model,
