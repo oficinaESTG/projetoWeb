@@ -20,8 +20,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nif')->textInput() ?>
 
+    <?= $form->field($model, 'tipoPessoa')->dropDownList([ 'Mecanico' => 'Mecanico', 'Secretaria' => 'Secretaria', 'Cliente' => 'Cliente', 'Gestor' => 'Gestor', ], ['prompt' => '']) ?>
+
     <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

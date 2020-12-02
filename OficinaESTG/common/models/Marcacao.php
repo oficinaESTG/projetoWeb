@@ -40,7 +40,7 @@ class Marcacao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tipoMarcacao', 'dataMarcacao', 'descricaoMarcacao', 'estadoMarcacao', 'fk_idPessoa', 'fk_idCarro', 'descricaoFinal'], 'required'],
+            [['tipoMarcacao', 'dataMarcacao', 'descricaoMarcacao', 'estadoMarcacao', 'fk_idPessoa', 'fk_idCarro'], 'required'],
             [['tipoMarcacao', 'estadoMarcacao', 'descricaoFinal'], 'string'],
             [['dataMarcacao'], 'safe'],
             [['fk_idPessoa', 'fk_idCarro', 'fk_idResponsavel', 'valorFinal'], 'integer'],

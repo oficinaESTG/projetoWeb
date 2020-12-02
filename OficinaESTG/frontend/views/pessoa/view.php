@@ -6,37 +6,36 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Pessoa */
 
-$this->title = $model->idPessoa;
-$this->params['breadcrumbs'][] = ['label' => 'Pessoas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="pessoa-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idPessoa], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idPessoa], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    <h3><b>Visualizar perfil:</b></h3>
+    <br>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idPessoa',
-            'nome',
-            'dataNascimento',
-            'morada',
-            'nif',
-            'tipoPessoa',
-            'email:email',
+            ['label' => 'Nome',
+                'attribute' => 'nome',
+            ],
+            ['label' => 'Email',
+                'attribute' => 'email',
+            ],
+            ['label' => 'Data Nascimento',
+                'attribute' => 'dataNascimento',
+            ],
+            ['label' => 'Morada',
+                'attribute' => 'morada',
+            ],
+            ['label' => 'NIF',
+                'attribute' => 'nif',
+            ],
         ],
     ]) ?>
+
+    <p>
+        <?= Html::a('Atualizar', ['update', 'id' => $model->idPessoa], ['class' => 'btn btn-primary']) ?>
+
+    </p>
 
 </div>

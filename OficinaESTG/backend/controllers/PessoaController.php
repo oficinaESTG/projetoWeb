@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\User;
 use Yii;
 use common\models\Pessoa;
 use yii\data\ActiveDataProvider;
@@ -86,8 +87,11 @@ class PessoaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idPessoa]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->save() ){
+                return $this->redirect(['view', 'id' => $model->idPessoa]);
+            }
         }
 
         return $this->render('update', [
@@ -105,6 +109,7 @@ class PessoaController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+        User::deleteAll(['id' => $id]);
 
         return $this->redirect(['index']);
     }
