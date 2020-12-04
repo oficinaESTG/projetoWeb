@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($model, 'tipoMarcacao')->dropDownList([ 'Reparacao' => 'Venda', ], ['prompt' => '']) ?>
+        <?= $form->field($model, 'tipoMarcacao')->dropDownList([ 'Venda' => 'Venda', ], ['prompt' => '']) ?>
 
         <?= $form->field($model, 'dataMarcacao')->widget(\yii\jui\DatePicker::classname(), [
             'options' => ['class' => 'form-control'],

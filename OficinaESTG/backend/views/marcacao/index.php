@@ -44,7 +44,7 @@ $this->title = 'Gestão de Marcação';
             }else if($model->tipoMarcacao === 'Reparacao' && $model->estadoMarcacao === 'Espera' ){
                 return ['class' => 'danger'];
             }else if ($model->estadoMarcacao === 'Concluida'){
-
+                return ['class' => 'success'];
             }
           },
     ]); ?>

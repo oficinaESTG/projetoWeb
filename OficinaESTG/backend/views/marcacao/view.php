@@ -75,6 +75,9 @@ $this->title = 'Ver marcação';
                 'method' => 'post',
             ],
         ]);
+        if ($model->estadoMarcacao != 'Espera') {
+            echo Html::a('Vender', ['venda/create', 'id' => $model->fk_idCarro], ['class' => 'btn btn-success']) ;
+        }
     }
 
     if ($model->tipoMarcacao == 'Reparacao') {

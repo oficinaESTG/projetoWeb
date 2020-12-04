@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Carro;
+use common\models\Marcacao;
 use Yii;
 use common\models\venda;
 use yii\data\ActiveDataProvider;
@@ -67,6 +68,7 @@ class VendaController extends Controller
     {
         $model = new venda();
         $modelCarro = Carro::find()->where(['idCarro'=>$id])->one();
+        $modelMarcacao = Marcacao::find()->where(['fk_idCarro'=>$modelCarro->idCarro])->one();
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -74,6 +76,11 @@ class VendaController extends Controller
             $model->quantiaVenda = 1;
 
             $modelCarro->vendido = true;
+
+            if ($modelMarcacao != null){
+                $modelMarcacao->estadoMarcacao = 'Concluida';
+                $modelMarcacao->save();
+            }
 
             if ($model->save() && $modelCarro->save()){
                 return $this->redirect(['view', 'id' => $model->idVenda]);
@@ -118,6 +125,12 @@ class VendaController extends Controller
      */
     public function actionDelete($id)
     {
+        $model = $this->findModel($id);
+
+        $modelCarro = Carro::find()->where(['idCarro'=>$model->fk_idCarro])->one();
+        $modelCarro->vendido = false;
+        $modelCarro->save();
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

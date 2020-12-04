@@ -137,10 +137,6 @@ class MarcacaoController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-            if($model->horasTrabalho > 0){
-                $model->valorFinal = $model->valorFinal + (15*$model->horasTrabalho);
-            }
-
             if($model->save()){
                 return $this->redirect(['view', 'id' => $model->idMarcacoes]);
             }
