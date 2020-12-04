@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "marcacao".
@@ -17,7 +16,8 @@ use yii\helpers\ArrayHelper;
  * @property int $fk_idCarro
  * @property int|null $fk_idResponsavel
  * @property int|null $valorFinal
- * @property string $descricaoFinal
+ * @property string|null $descricaoFinal
+ * @property int|null $horasTrabalho
  *
  * @property Carro $fkIdCarro
  * @property Pessoa $fkIdPessoa
@@ -43,7 +43,7 @@ class Marcacao extends \yii\db\ActiveRecord
             [['tipoMarcacao', 'dataMarcacao', 'descricaoMarcacao', 'estadoMarcacao', 'fk_idPessoa', 'fk_idCarro'], 'required'],
             [['tipoMarcacao', 'estadoMarcacao', 'descricaoFinal'], 'string'],
             [['dataMarcacao'], 'safe'],
-            [['fk_idPessoa', 'fk_idCarro', 'fk_idResponsavel', 'valorFinal'], 'integer'],
+            [['fk_idPessoa', 'fk_idCarro', 'fk_idResponsavel', 'valorFinal', 'horasTrabalho'], 'integer'],
             [['descricaoMarcacao'], 'string', 'max' => 255],
             [['fk_idCarro'], 'exist', 'skipOnError' => true, 'targetClass' => Carro::className(), 'targetAttribute' => ['fk_idCarro' => 'idCarro']],
             [['fk_idPessoa'], 'exist', 'skipOnError' => true, 'targetClass' => Pessoa::className(), 'targetAttribute' => ['fk_idPessoa' => 'idPessoa']],
@@ -67,6 +67,7 @@ class Marcacao extends \yii\db\ActiveRecord
             'fk_idResponsavel' => 'Fk Id Responsavel',
             'valorFinal' => 'Valor Final',
             'descricaoFinal' => 'Descricao Final',
+            'horasTrabalho' => 'Horas Trabalho',
         ];
     }
 
@@ -111,8 +112,7 @@ class Marcacao extends \yii\db\ActiveRecord
     }
 
     public function getPessoa(){
-       $pessoa = Pessoa::find()->where(['idPessoa' => $this->fk_idPessoa])->one();
-       return $pessoa;
+        $pessoa = Pessoa::find()->where(['idPessoa' => $this->fk_idPessoa])->one();
+        return $pessoa;
     }
-
 }

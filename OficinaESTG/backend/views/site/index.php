@@ -71,6 +71,9 @@ $carro_venda=\common\models\Carro::find()->where(['tipocarro'=> 'Venda'])->all()
                 <td>Combustível: <?= $carro->combustivel; ?> </td>
             </tr>
             <tr>
+                <td>Preço: <?= $carro->precoCarro; ?> </td>
+            </tr>
+            <tr>
                 <?php
                 if (!Yii::$app->user->isGuest) { ?>
                     <td>

@@ -87,8 +87,14 @@ class MarcacaoController extends Controller
         $model = new Marcacao();
 
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idMarcacoes]);
+        if ($model->load(Yii::$app->request->post()) ) {
+
+            $model->fk_idPessoa = Yii::$app->user->identity->getId();
+
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->idMarcacoes]);
+            }
+
         }
 
         return $this->render('create', [
@@ -107,15 +113,18 @@ class MarcacaoController extends Controller
     {
         $model = $this->findModel($id);
 
-        if($model->estadoMarcacao === "Concluida"){
 
-            return $this->render('..\marcacaohaspecas\create', [
-                'model' => $model,
-            ]);
-        }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idMarcacoes]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            if($model->horasTrabalho > 0){
+                $model->valorFinal = $model->valorFinal + (15*$model->horasTrabalho);
+            }
+
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->idMarcacoes]);
+            }
+
         }
 
         return $this->render('update', [

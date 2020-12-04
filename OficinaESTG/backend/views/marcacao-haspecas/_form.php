@@ -1,5 +1,7 @@
 <?php
 
+use common\models\Peca;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,9 +14,10 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'fk_idPeca')->textInput() ?>
+    <?= $form->field($model, 'fk_idPeca')->dropDownList(ArrayHelper::map(Peca::find()->all(), 'idPeca', 'nomePeca'), ['prompt' => ''])->label('Peça') ?>
 
-    <?= $form->field($model, 'fk_idMarcacao')->textInput() ?>
+
+    <?= $form->field($model, 'fk_idMarcacao')->hiddenInput(['value'=>Yii::$app->getRequest()->getQueryParam('idMarcacao')])->label(false) ?>
 
     <?= $form->field($model, 'quantidadeParaMarcacao')->textInput() ?>
 

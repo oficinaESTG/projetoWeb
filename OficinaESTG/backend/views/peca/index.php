@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
 
-    <input type="text" id="referencia" >
+
 
 
     <?= GridView::widget([
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idPeca',
+            //'idPeca',
             'nomePeca',
             'quantidadePeca',
             'precoPeca',

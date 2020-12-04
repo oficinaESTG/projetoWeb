@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use common\models\Marcacao;
+use common\models\Peca;
 use Yii;
 use common\models\MarcacaoHaspecas;
 use yii\data\ActiveDataProvider;
@@ -33,10 +35,10 @@ class MarcacaoHaspecasController extends Controller
      * Lists all MarcacaoHaspecas models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($idMarcacao)
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => MarcacaoHaspecas::find(),
+            'query' => MarcacaoHaspecas::find()->where(['fk_idMarcacao' => $idMarcacao]),
         ]);
 
         return $this->render('index', [
@@ -62,16 +64,33 @@ class MarcacaoHaspecasController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idMarcacao)
     {
         $model = new MarcacaoHaspecas();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idMarcacao_hasPecas]);
+        if ($model->load(Yii::$app->request->post()) ) {
+
+            $model->fk_idMarcacao = $idMarcacao;
+
+
+            if($model->save()){
+                $modelPeca = Peca::find()->where(['idPeca' => $model->fk_idPeca])->one();
+                $modelPeca->quantidadePeca =  $modelPeca->quantidadePeca - $model->quantidadeParaMarcacao;
+
+                $modelMarcacao = Marcacao::find()->where(['idMarcacoes' => $idMarcacao])->one();
+                $modelMarcacao->valorFinal = $modelMarcacao->valorFinal + ($modelPeca->precoPeca * $model->quantidadeParaMarcacao);
+
+                if($modelPeca->save() && $modelMarcacao->save()){
+                    return $this->redirect(['view', 'id' => $model->idMarcacao_hasPecas]);
+                }
+
+            }
+
         }
 
         return $this->render('create', [
             'model' => $model,
+            'idMarcacao' => $idMarcacao,
         ]);
     }
 

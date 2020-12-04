@@ -26,6 +26,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'combustivel')->dropDownList([ 'Diesel' => 'Diesel', 'Gasolina' => 'Gasolina', ], ['prompt' => '']) ?>
 
+    <?= $form->field($model, 'precoCarro')->textInput(['maxlength' => true]) ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

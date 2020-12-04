@@ -16,8 +16,10 @@ use Yii;
  * @property int $quilometros
  * @property string $combustivel
  * @property int $fk_idPessoa
+ * @property int|null $precoCarro
  *
  * @property Pessoa $fkIdPessoa
+ * @property Marcacao[] $marcacaos
  * @property Venda[] $vendas
  */
 class Carro extends \yii\db\ActiveRecord
@@ -37,7 +39,7 @@ class Carro extends \yii\db\ActiveRecord
     {
         return [
             [['modeloCarro', 'marcaCarro', 'ano', 'tipoCarro', 'quilometros', 'combustivel', 'fk_idPessoa'], 'required'],
-            [['ano', 'quilometros', 'fk_idPessoa'], 'integer'],
+            [['ano', 'quilometros', 'fk_idPessoa', 'precoCarro'], 'integer'],
             [['tipoCarro', 'combustivel'], 'string'],
             [['modeloCarro', 'marcaCarro', 'matricula'], 'string', 'max' => 45],
             [['ano'], 'integer', 'max'=>2020, 'min'=>1900],
@@ -61,6 +63,7 @@ class Carro extends \yii\db\ActiveRecord
             'quilometros' => 'Quilometros',
             'combustivel' => 'Combustivel',
             'fk_idPessoa' => 'Fk Id Pessoa',
+            'precoCarro' => 'Preco Carro',
         ];
     }
 
@@ -72,6 +75,16 @@ class Carro extends \yii\db\ActiveRecord
     public function getFkIdPessoa()
     {
         return $this->hasOne(Pessoa::className(), ['idPessoa' => 'fk_idPessoa']);
+    }
+
+    /**
+     * Gets query for [[Marcacaos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMarcacaos()
+    {
+        return $this->hasMany(Marcacao::className(), ['fk_idCarro' => 'idCarro']);
     }
 
     /**

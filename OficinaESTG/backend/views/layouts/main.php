@@ -44,7 +44,9 @@ AppAsset::register($this);
         $menuItems = [
             ['label' => 'Gestão de Carros', 'url' => ['/carro']],
             ['label' => 'Gestão de Marcações', 'url' => ['/marcacao']],
+            ['label' => 'Gestão de Peças', 'url' => ['/peca']],
             ['label' => 'Gestão de Utilizadores', 'url' => ['/pessoa']],
+
         ];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')

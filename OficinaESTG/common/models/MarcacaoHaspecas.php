@@ -70,4 +70,10 @@ class MarcacaoHaspecas extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Peca::className(), ['idPeca' => 'fk_idPeca']);
     }
+
+    public function getPeca()
+    {
+        $peca = Peca::find()->where(['idPeca' => $this->fk_idPeca])->one();
+        return $peca;
+    }
 }

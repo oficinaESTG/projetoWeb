@@ -31,12 +31,13 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'estadoMarcacao')->dropDownList([ 'Aceite' => 'Aceite', 'Rejeitada' => 'Rejeitada', 'Concluida' => 'Concluida', 'Espera' => 'Espera', ], ['prompt' => '']) ?>
 
-        <?= $form->field($model, 'fk_idPessoa')->hiddenInput(['value'=>Yii::$app->user->id])->label(false) ?>
-
         <?= $form->field($model, 'fk_idCarro')->dropDownList(ArrayHelper::map(Carro::find()->all(), 'idCarro', 'modeloCarro'), ['prompt' => ''])->label('Carro') ?>
 
         <?= $form->field($model, 'fk_idResponsavel')->dropDownList(ArrayHelper::map(Pessoa::find()->where(['tipoPessoa'=> 'Mecanico'])->all(), 'idPessoa', 'nome'), ['prompt' => ''])->label('Responsável') ?>
 
+         <?= $form->field($model, 'descricaoFinal')->textInput(['maxlength' => true]) ?>
+
+        <?= $form->field($model, 'horasTrabalho')->textInput(['maxlength' => true]) ?>
 
 
 

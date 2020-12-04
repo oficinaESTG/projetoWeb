@@ -14,7 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Marcacao Haspecas', ['create'], ['class' => 'btn btn-success']) ?>
+
+        <?= Html::a('Associar Peça na marcação', ['create', 'idMarcacao' => Yii::$app->getRequest()->getQueryParam('idMarcacao')], ['class' => 'btn btn-primary']) ?>
     </p>
 
 
@@ -23,10 +24,25 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idMarcacao_hasPecas',
-            'fk_idPeca',
-            'fk_idMarcacao',
-            'quantidadeParaMarcacao',
+            //'idMarcacao_hasPecas',
+            //'fk_idPeca',
+            //'fk_idMarcacao',
+            //'quantidadeParaMarcacao',
+            //'peca.nomePeca',
+
+            [   'label' => 'Quantidade usada para a Marcação',
+                'attribute' => 'quantidadeParaMarcacao',
+            ],
+            [   'label' => 'Nome da Peça',
+                'attribute' => 'peca.nomePeca',
+            ],
+            [   'label' => 'Referência da Peça',
+                'attribute' => 'peca.referenciaPeca',
+            ],
+            [   'label' => 'Preço Por Peça (€)',
+                'attribute' => 'peca.precoPeca',
+            ],
+
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

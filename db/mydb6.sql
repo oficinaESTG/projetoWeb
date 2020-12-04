@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: 02-Dez-2020 às 20:29
+-- Generation Time: 04-Dez-2020 às 14:33
 -- Versão do servidor: 5.7.26
 -- versão do PHP: 7.2.18
 
@@ -103,20 +103,22 @@ CREATE TABLE IF NOT EXISTS `carro` (
   `quilometros` int(11) NOT NULL,
   `combustivel` enum('Diesel','Gasolina') NOT NULL,
   `fk_idPessoa` int(255) NOT NULL,
+  `precoCarro` int(11) DEFAULT NULL,
   PRIMARY KEY (`idCarro`),
   KEY `fk_idPessoa` (`fk_idPessoa`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `carro`
 --
 
-INSERT INTO `carro` (`idCarro`, `modeloCarro`, `marcaCarro`, `ano`, `matricula`, `tipoCarro`, `quilometros`, `combustivel`, `fk_idPessoa`) VALUES
-(1, 'Passat', 'Volkswagen', 1999, 'aa-11-aa', 'Reparacao', 300000, 'Diesel', 2),
-(2, 'A3', 'Audi', 1999, 'ss-13-da', 'Reparacao', 1000000, 'Diesel', 2),
-(3, 'Vectra', 'Opel', 1992, 'as-21-sa', 'Reparacao', 999999, 'Gasolina', 1),
-(5, 'c220', 'Mercedes', 2000, 'WE-42-ED', 'Reparacao', 10000, 'Diesel', 1),
-(6, 'L200 (Strakar)', 'Mitsubishi', 2002, 'RR-17-00', 'Venda', 200000, 'Diesel', 1);
+INSERT INTO `carro` (`idCarro`, `modeloCarro`, `marcaCarro`, `ano`, `matricula`, `tipoCarro`, `quilometros`, `combustivel`, `fk_idPessoa`, `precoCarro`) VALUES
+(1, 'Passat', 'Volkswagen', 1999, 'aa-11-aa', 'Reparacao', 300000, 'Diesel', 2, NULL),
+(2, 'A3', 'Audi', 1999, 'ss-13-da', 'Reparacao', 1000000, 'Diesel', 2, NULL),
+(3, 'Vectra', 'Opel', 1992, 'as-21-sa', 'Reparacao', 999999, 'Gasolina', 1, NULL),
+(5, 'c220', 'Mercedes', 2000, 'WE-42-ED', 'Reparacao', 10000, 'Diesel', 1, NULL),
+(6, 'L200 (Strakar)', 'Mitsubishi', 2002, 'RR-17-00', 'Venda', 200000, 'Diesel', 1, NULL),
+(7, 's600', 'Mercedes', 2020, 'as-ds-11', 'Venda', 0, 'Gasolina', 1, 150000);
 
 -- --------------------------------------------------------
 
@@ -136,6 +138,7 @@ CREATE TABLE IF NOT EXISTS `marcacao` (
   `fk_idResponsavel` int(11) DEFAULT NULL,
   `valorFinal` int(11) DEFAULT NULL,
   `descricaoFinal` longtext,
+  `horasTrabalho` int(11) DEFAULT NULL,
   PRIMARY KEY (`idMarcacoes`),
   KEY `fk_idPessoa_marcacao` (`fk_idPessoa`),
   KEY `fk_idCarro_marcacao` (`fk_idCarro`),
@@ -146,12 +149,12 @@ CREATE TABLE IF NOT EXISTS `marcacao` (
 -- Extraindo dados da tabela `marcacao`
 --
 
-INSERT INTO `marcacao` (`idMarcacoes`, `tipoMarcacao`, `dataMarcacao`, `descricaoMarcacao`, `estadoMarcacao`, `fk_idPessoa`, `fk_idCarro`, `fk_idResponsavel`, `valorFinal`, `descricaoFinal`) VALUES
-(6, 'Reparacao', '2020-11-17', 'estraguei o motor outra vez', 'Espera', 2, 2, NULL, NULL, ''),
-(7, 'Reparacao', '2020-11-17', 'rebentei o motor todo', 'Espera', 1, 3, NULL, NULL, ''),
-(8, 'Reparacao', '2020-11-28', 'rebentei o motor todo', 'Espera', 2, 1, NULL, NULL, ''),
-(9, 'Reparacao', '2020-12-17', 'a puta do a3 nao vale um cu', 'Espera', 2, 2, NULL, NULL, ''),
-(10, 'Reparacao', '2020-12-17', 'a puta do vectra não arranca', 'Espera', 1, 3, NULL, NULL, '');
+INSERT INTO `marcacao` (`idMarcacoes`, `tipoMarcacao`, `dataMarcacao`, `descricaoMarcacao`, `estadoMarcacao`, `fk_idPessoa`, `fk_idCarro`, `fk_idResponsavel`, `valorFinal`, `descricaoFinal`, `horasTrabalho`) VALUES
+(6, 'Reparacao', '2020-11-17', 'estraguei o motor outra vez', 'Espera', 2, 2, NULL, NULL, '', NULL),
+(7, 'Reparacao', '2020-11-17', 'rebentei o motor todo', 'Espera', 1, 3, NULL, NULL, '', NULL),
+(8, 'Reparacao', '2020-11-28', 'rebentei o motor todo', 'Espera', 1, 1, NULL, NULL, '', NULL),
+(9, 'Reparacao', '2020-12-17', 'a puta do a3 nao vale um cu', 'Concluida', 1, 2, 1, 1422, 'eqweqwe', 12),
+(10, 'Reparacao', '2020-12-17', 'a puta do vectra não arranca', 'Espera', 1, 3, NULL, NULL, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -168,7 +171,16 @@ CREATE TABLE IF NOT EXISTS `marcacao_haspecas` (
   PRIMARY KEY (`idMarcacao_hasPecas`),
   KEY `fk_IdMarcacao` (`fk_idMarcacao`),
   KEY `fk_idPeca` (`fk_idPeca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `marcacao_haspecas`
+--
+
+INSERT INTO `marcacao_haspecas` (`idMarcacao_hasPecas`, `fk_idPeca`, `fk_idMarcacao`, `quantidadeParaMarcacao`) VALUES
+(2, 2, 9, 1),
+(3, 2, 9, 3),
+(5, 3, 9, 3);
 
 -- --------------------------------------------------------
 
@@ -210,7 +222,15 @@ CREATE TABLE IF NOT EXISTS `peca` (
   `precoPeca` int(11) NOT NULL,
   `referenciaPeca` varchar(255) NOT NULL,
   PRIMARY KEY (`idPeca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `peca`
+--
+
+INSERT INTO `peca` (`idPeca`, `nomePeca`, `quantidadePeca`, `precoPeca`, `referenciaPeca`) VALUES
+(2, 'turbo', 8, 14, 'dahsjdb23123'),
+(3, 'motor', 12, 400, 'motor123');
 
 -- --------------------------------------------------------
 
@@ -230,7 +250,7 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
   `fk_IdUser` int(11) NOT NULL,
   PRIMARY KEY (`idPessoa`),
   KEY `fk_IdUser` (`fk_IdUser`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `pessoa`
@@ -238,7 +258,8 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
 
 INSERT INTO `pessoa` (`idPessoa`, `nome`, `dataNascimento`, `morada`, `nif`, `tipoPessoa`, `email`, `fk_IdUser`) VALUES
 (1, 'Rodrigo', '2000-11-17', 'ola', 123456789, 'Mecanico', 'rodrigo@rodrigo.pt', 1),
-(2, 'Cliente', '2000-11-18', 'ola', 123456789, 'Cliente', 'cliente@ola.pt', 2);
+(2, 'Cliente', '2000-11-18', 'ola', 123456789, 'Cliente', 'cliente@ola.pt', 2),
+(3, 'Secretaria', '2000-11-18', 'ola', 123456789, 'Secretaria', 'secretaria@ola.pt', 3);
 
 -- --------------------------------------------------------
 
@@ -262,7 +283,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Extraindo dados da tabela `user`
@@ -270,7 +291,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`, `verification_token`) VALUES
 (1, 'Rodrigo', 's-pP6Nay6ZmGWhW89YbAIZAHO-R9iper', '$2y$13$XSsx9i8O5bNSXbNMFU8.Tex9D7aPd7GRYtSuUeaqL3luCHBpYCgh2', NULL, 'rodrigo@rodrigo.pt', 10, 1606161383, 1606161383, 'mC5sburyLNbsxoQ1JYpVJ-W4wm72yHnd_1606161383'),
-(2, 'Cliente', 'ZYEE7Zm76FfE971aQvgjhntfJEgkG4WQ', '$2y$13$AmVrd3V6yyHIxLUuub8vhuOZp8ztPN6xUYjAMq315XvCWTEVP.UQi', NULL, 'cliente@ola.pt', 10, 1606833991, 1606833991, 'BBv7bFOmBYOuW_PkGtQXU1IZD-VoZsd4_1606833991');
+(2, 'Cliente', 'ZYEE7Zm76FfE971aQvgjhntfJEgkG4WQ', '$2y$13$AmVrd3V6yyHIxLUuub8vhuOZp8ztPN6xUYjAMq315XvCWTEVP.UQi', NULL, 'cliente@ola.pt', 10, 1606833991, 1606833991, 'BBv7bFOmBYOuW_PkGtQXU1IZD-VoZsd4_1606833991'),
+(3, 'secretaria', '2zVOIyuuJG_7rU0d8kjwIkg1DyUwA5av', '$2y$13$VGV8TEdloKPC3SClWT4ysehKjMWOA/9Qwx7G.wqCg5kSo7L36IPMa', NULL, 'secretaria@ola.pt', 10, 1606946121, 1606946121, 'ugvorqdMqQ-HsOSGMWf93RJxxWrxsbtf_1606946121');
 
 -- --------------------------------------------------------
 
