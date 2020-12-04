@@ -8,6 +8,7 @@ use Yii;
 use common\models\Marcacao;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -37,31 +38,31 @@ class MarcacaoController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = null;
+        if (\Yii::$app->user->can('viewMarcacao')) {
+            $dataProvider = null;
 
-        $pessoa = Pessoa::find()->where(['idPessoa' => Yii::$app->user->identity->id])->one();
+            $pessoa = Pessoa::find()->where(['idPessoa' => Yii::$app->user->identity->id])->one();
 
 
-        if($pessoa->tipoPessoa === 'Secretaria'){
+            if ($pessoa->tipoPessoa === 'Secretaria') {
 
-             $dataProvider = new ActiveDataProvider([
-                'query' => Marcacao::find(),
+                $dataProvider = new ActiveDataProvider([
+                    'query' => Marcacao::find(),
+                ]);
+            } elseif ($pessoa->tipoPessoa === 'Mecanico') {
+
+                $dataProvider = new ActiveDataProvider([
+                    'query' => Marcacao::find()->where(['fk_idResponsavel' => Yii::$app->user->identity->id]),
+                ]);
+            }
+
+
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
             ]);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
         }
-
-        elseif ($pessoa->tipoPessoa === 'Mecanico'){
-
-               $dataProvider = new ActiveDataProvider([
-                   'query' => Marcacao::find()->where(['fk_idResponsavel' => Yii::$app->user->identity->id]),
-               ]);
-           }
-
-
-
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
     }
 
     /**
@@ -72,9 +73,15 @@ class MarcacaoController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (\Yii::$app->user->can('viewMarcacao')) {
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
+
+
     }
 
     /**
@@ -84,21 +91,25 @@ class MarcacaoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Marcacao();
+        if (\Yii::$app->user->can('createMarcacao')) {
+            $model = new Marcacao();
 
-        if ($model->load(Yii::$app->request->post()) ) {
+            if ($model->load(Yii::$app->request->post())) {
 
-            $model->fk_idPessoa = Yii::$app->user->identity->getId();
+                $model->fk_idPessoa = Yii::$app->user->identity->getId();
 
-            if($model->save()){
-                return $this->redirect(['view', 'id' => $model->idMarcacoes]);
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->idMarcacoes]);
+                }
+
             }
 
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -110,29 +121,33 @@ class MarcacaoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('updateMarcacao')) {
+            $model = $this->findModel($id);
 
 
+            if ($model->load(Yii::$app->request->post())) {
 
-        if ($model->load(Yii::$app->request->post())) {
+                if ($model->horasTrabalho > 0) {
+                    $model->valorFinal = $model->valorFinal + (15 * $model->horasTrabalho);
+                }
 
-            if($model->horasTrabalho > 0){
-                $model->valorFinal = $model->valorFinal + (15*$model->horasTrabalho);
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->idMarcacoes]);
+                }
+
             }
 
-            if($model->save()){
-                return $this->redirect(['view', 'id' => $model->idMarcacoes]);
-            }
-
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     public function actionUpdate_venda($id)
     {
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
@@ -158,9 +173,13 @@ class MarcacaoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (\Yii::$app->user->can('deleteMarcacao')) {
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**

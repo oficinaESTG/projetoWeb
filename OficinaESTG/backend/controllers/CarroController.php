@@ -6,6 +6,7 @@ use Yii;
 use common\models\Carro;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -35,13 +36,17 @@ class CarroController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Carro::find()->where(['tipoCarro' => 'Venda']),
-        ]);
+        if (\Yii::$app->user->can('viewCarro')) {
+            $dataProvider = new ActiveDataProvider([
+                'query' => Carro::find()->where(['tipoCarro' => 'Venda']),
+            ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
+            ]);
+        }else {
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**
@@ -52,9 +57,14 @@ class CarroController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (\Yii::$app->user->can('viewCarro')) {
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        else {
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**
@@ -64,22 +74,26 @@ class CarroController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Carro();
+        if (\Yii::$app->user->can('createCarro')) {
+            $model = new Carro();
 
-        if ($model->load(Yii::$app->request->post())) {
+            if ($model->load(Yii::$app->request->post())) {
 
-            $model->tipoCarro = 'Venda';
-            $model->fk_idPessoa = Yii::$app->user->identity->getId();
-            $model->vendido = false;
+                $model->tipoCarro = 'Venda';
+                $model->fk_idPessoa = Yii::$app->user->identity->getId();
+                $model->vendido = false;
 
-            if ($model->save()){
-                return $this->redirect(['view', 'id' => $model->idCarro]);
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->idCarro]);
+                }
             }
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        } else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**
@@ -91,15 +105,19 @@ class CarroController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('updateCarro')) {
+            $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idCarro]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->idCarro]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        } else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -111,9 +129,13 @@ class CarroController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (\Yii::$app->user->can('deleteCarro')) {
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**

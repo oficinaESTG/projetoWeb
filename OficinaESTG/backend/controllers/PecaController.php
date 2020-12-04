@@ -8,6 +8,7 @@ use Yii;
 use common\models\Peca;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -37,16 +38,21 @@ class PecaController extends Controller
      */
     public function actionIndex()
     {
-       // $searchModel = new PecaSearch();
-       // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if (\Yii::$app->user->can('viewPecas')) {
+            // $searchModel = new PecaSearch();
+            // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => Peca::find(),
-        ]);
+            $dataProvider = new ActiveDataProvider([
+                'query' => Peca::find(),
+            ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
+            ]);
+
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**
@@ -57,9 +63,14 @@ class PecaController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (\Yii::$app->user->can('viewPecas')) {
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
+
     }
 
     /**
@@ -69,15 +80,19 @@ class PecaController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Peca();
+        if (\Yii::$app->user->can('createPeca')) {
+            $model = new Peca();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idPeca]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->idPeca]);
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -89,15 +104,19 @@ class PecaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('updatePeca')) {
+            $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idPeca]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->idPeca]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -109,9 +128,16 @@ class PecaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (\Yii::$app->user->can('deletePeca')) {
 
-        return $this->redirect(['index']);
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
+
+
     }
 
     /**

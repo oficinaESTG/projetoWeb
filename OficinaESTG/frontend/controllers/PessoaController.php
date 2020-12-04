@@ -6,6 +6,7 @@ use Yii;
 use common\models\Pessoa;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -35,13 +36,17 @@ class PessoaController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Pessoa::find(),
-        ]);
+        if (\Yii::$app->user->can('viewPessoa')) {
+            $dataProvider = new ActiveDataProvider([
+                'query' => Pessoa::find(),
+            ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
+            ]);
+        }else {
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**
@@ -52,9 +57,13 @@ class PessoaController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (\Yii::$app->user->can('viewPessoa')) {
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }else {
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**
@@ -64,15 +73,19 @@ class PessoaController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Pessoa();
+        if (\Yii::$app->user->can('createPessoa')) {
+            $model = new Pessoa();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idPessoa]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->idPessoa]);
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }else {
+            throw new ForbiddenHttpException('Não tem permissões', 403);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -84,15 +97,19 @@ class PessoaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('updatePessoa')) {
+            $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idPessoa]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->idPessoa]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }else {
+            throw new ForbiddenHttpException('Não tem permissões', 403);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -104,9 +121,13 @@ class PessoaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (\Yii::$app->user->can('deletePessoa')) {
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        }else {
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**

@@ -182,8 +182,14 @@ class SiteController extends Controller
 
                     $modelPessoa->fk_IdUser = Yii::$app->user->identity->getId();
                     $modelPessoa->email = $model->email;
+                    $modelPessoa->tipoPessoa = "Cliente";
 
                     if ($modelPessoa->save()){
+
+                        $auth = \Yii::$app->authManager;
+                        $utenteRole = $auth->getRole($modelPessoa->tipoPessoa);
+                        $auth->assign($utenteRole, Yii::$app->user->identity->getId());
+
                         Yii::$app->session->setFlash('success', 'Registado com sucesso.');
                     }
 

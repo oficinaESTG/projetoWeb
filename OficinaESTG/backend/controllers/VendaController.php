@@ -8,6 +8,7 @@ use Yii;
 use common\models\venda;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -37,13 +38,18 @@ class VendaController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => venda::find(),
-        ]);
+        if (\Yii::$app->user->can('viewVenda')) {
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+            $dataProvider = new ActiveDataProvider([
+                'query' => venda::find(),
+            ]);
+
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
+            ]);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**
@@ -54,9 +60,13 @@ class VendaController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (\Yii::$app->user->can('viewVenda')) {
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**
@@ -66,31 +76,35 @@ class VendaController extends Controller
      */
     public function actionCreate($id)
     {
-        $model = new venda();
-        $modelCarro = Carro::find()->where(['idCarro'=>$id])->one();
-        $modelMarcacao = Marcacao::find()->where(['fk_idCarro'=>$modelCarro->idCarro])->one();
+        if (\Yii::$app->user->can('createVenda')) {
+            $model = new venda();
+            $modelCarro = Carro::find()->where(['idCarro' => $id])->one();
+            $modelMarcacao = Marcacao::find()->where(['fk_idCarro' => $modelCarro->idCarro])->one();
 
-        if ($model->load(Yii::$app->request->post())) {
+            if ($model->load(Yii::$app->request->post())) {
 
-            $model->fk_idCarro = $id;
-            $model->quantiaVenda = 1;
+                $model->fk_idCarro = $id;
+                $model->quantiaVenda = 1;
 
-            $modelCarro->vendido = true;
+                $modelCarro->vendido = true;
 
-            if ($modelMarcacao != null){
-                $modelMarcacao->estadoMarcacao = 'Concluida';
-                $modelMarcacao->save();
+                if ($modelMarcacao != null) {
+                    $modelMarcacao->estadoMarcacao = 'Concluida';
+                    $modelMarcacao->save();
+                }
+
+                if ($model->save() && $modelCarro->save()) {
+                    return $this->redirect(['view', 'id' => $model->idVenda]);
+                }
             }
 
-            if ($model->save() && $modelCarro->save()){
-                return $this->redirect(['view', 'id' => $model->idVenda]);
-            }
+            return $this->render('create', [
+                'model' => $model,
+                'modelCarro' => $modelCarro,
+            ]);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-            'modelCarro' => $modelCarro,
-        ]);
     }
 
     /**
@@ -102,18 +116,22 @@ class VendaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('updateVenda')) {
+            $model = $this->findModel($id);
 
-        $modelCarro = Carro::find()->where(['idCarro'=>$model->fk_idCarro])->one();
+            $modelCarro = Carro::find()->where(['idCarro' => $model->fk_idCarro])->one();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idVenda]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->idVenda]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+                'modelCarro' => $modelCarro,
+            ]);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-            'modelCarro'=>$modelCarro,
-        ]);
     }
 
     /**
@@ -125,15 +143,19 @@ class VendaController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('deleteVenda')) {
+            $model = $this->findModel($id);
 
-        $modelCarro = Carro::find()->where(['idCarro'=>$model->fk_idCarro])->one();
-        $modelCarro->vendido = false;
-        $modelCarro->save();
+            $modelCarro = Carro::find()->where(['idCarro' => $model->fk_idCarro])->one();
+            $modelCarro->vendido = false;
+            $modelCarro->save();
 
-        $this->findModel($id)->delete();
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        }else{
+            throw new ForbiddenHttpException('Não tem permissões', 403);
+        }
     }
 
     /**
