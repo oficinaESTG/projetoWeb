@@ -50,6 +50,7 @@ $carro_venda=\common\models\Carro::find()->where(['tipocarro'=> 'Venda'])->all()
 
     <br>
     <?php  foreach($carro_venda as $carro){
+        if ($carro->vendido == false) {
         ?>
         <table class="table table-bordered">
             <tr>
@@ -71,16 +72,20 @@ $carro_venda=\common\models\Carro::find()->where(['tipocarro'=> 'Venda'])->all()
                 <td>Combustível: <?= $carro->combustivel; ?> </td>
             </tr>
             <tr>
-                <td>Preço: <?= $carro->precoCarro; ?> </td>
+
             </tr>
             <tr>
+                <td>Preço: <?= $carro->precoCarro; ?> </td>
+
                 <?php
                 if (!Yii::$app->user->isGuest) { ?>
                     <td>
                         <?= Html::a('Ver mais', ['carro/view', 'id' => $carro->idCarro], ['class' => 'btn btn-success']) ?>
                     </td>
-                <?php   } ?>
+                <?php }  } ?>
+
             </tr>
+
         </table>
     <?php }
     ?>

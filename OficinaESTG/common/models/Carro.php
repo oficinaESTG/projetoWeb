@@ -17,6 +17,7 @@ use Yii;
  * @property string $combustivel
  * @property int $fk_idPessoa
  * @property int|null $precoCarro
+ * @property boolean|null $vendido
  *
  * @property Pessoa $fkIdPessoa
  * @property Marcacao[] $marcacaos
@@ -41,6 +42,7 @@ class Carro extends \yii\db\ActiveRecord
             [['modeloCarro', 'marcaCarro', 'ano', 'tipoCarro', 'quilometros', 'combustivel', 'fk_idPessoa'], 'required'],
             [['ano', 'quilometros', 'fk_idPessoa', 'precoCarro'], 'integer'],
             [['tipoCarro', 'combustivel'], 'string'],
+            [['vendido'], 'boolean'],
             [['modeloCarro', 'marcaCarro', 'matricula'], 'string', 'max' => 45],
             [['ano'], 'integer', 'max'=>2020, 'min'=>1900],
             [['quilometros'], 'integer', 'max'=>1000000, 'min'=>0],

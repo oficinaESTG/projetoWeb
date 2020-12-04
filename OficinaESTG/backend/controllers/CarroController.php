@@ -70,6 +70,7 @@ class CarroController extends Controller
 
             $model->tipoCarro = 'Venda';
             $model->fk_idPessoa = Yii::$app->user->identity->getId();
+            $model->vendido = false;
 
             if ($model->save()){
                 return $this->redirect(['view', 'id' => $model->idCarro]);

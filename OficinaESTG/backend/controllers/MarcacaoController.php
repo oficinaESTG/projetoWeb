@@ -86,7 +86,6 @@ class MarcacaoController extends Controller
     {
         $model = new Marcacao();
 
-
         if ($model->load(Yii::$app->request->post()) ) {
 
             $model->fk_idPessoa = Yii::$app->user->identity->getId();
@@ -131,6 +130,28 @@ class MarcacaoController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionUpdate_venda($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if($model->horasTrabalho > 0){
+                $model->valorFinal = $model->valorFinal + (15*$model->horasTrabalho);
+            }
+
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->idMarcacoes]);
+            }
+
+        }
+
+        return $this->render('update_venda', [
+            'model' => $model,
+        ]);
+    }
+
 
     /**
      * Deletes an existing Marcacao model.

@@ -13,7 +13,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="marcacao-view">
 
-    <?= DetailView::widget([
+    <?php
+
+    $estado_0 = DetailView::widget([
         'model' => $model,
         'attributes' => [
             'tipoMarcacao',
@@ -21,7 +23,49 @@ $this->params['breadcrumbs'][] = $this->title;
             'descricaoMarcacao',
             'estadoMarcacao'
         ],
-    ]) ?>
+    ]);
+
+    $estado_1 = DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            ['label' => 'Tipo',
+                'attribute' => 'tipoMarcacao',
+            ],
+            ['label' => 'Data',
+                'attribute' => 'dataMarcacao',
+            ],
+            ['label' => 'Descrição problema',
+                'attribute' => 'descricaoMarcacao',
+            ],
+            ['label' => 'Estado',
+                'attribute' => 'estadoMarcacao',
+            ],
+            ['label' => 'Nome da Pessoa',
+                'attribute' => 'pessoa.nome',
+            ],
+            ['label' => 'Preço',
+                'attribute' => 'valorFinal',
+            ],
+            ['label' => 'Descrição trabalho',
+                'attribute' => 'descricaoFinal',
+            ],
+            ['label' => 'Horas Trabalhadas (15€/h)',
+                'attribute' => 'horasTrabalho',
+            ],
+
+        ],
+    ]);
+
+    if ($model->estadoMarcacao == 'Concluida'){
+        echo  $estado_1;
+    }else{
+        echo  $estado_0;
+    }
+
+
+
+    ?>
+
 
     <p>
         <?= Html::a('Atualizar', ['update', 'id' => $model->idMarcacoes], ['class' => 'btn btn-primary']) ?>

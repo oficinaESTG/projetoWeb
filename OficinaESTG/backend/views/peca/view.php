@@ -13,11 +13,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="peca-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><b>Gestão de peças:</b></h3>
+    <br>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idPeca], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idPeca], [
+        <?= Html::a('Atualizar', ['update', 'id' => $model->idPeca], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->idPeca], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',

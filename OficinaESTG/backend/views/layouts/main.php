@@ -43,6 +43,7 @@ AppAsset::register($this);
     } else {
         $menuItems = [
             ['label' => 'Gestão de Carros', 'url' => ['/carro']],
+            ['label' => 'Gestão de Vendas', 'url' => ['/venda']],
             ['label' => 'Gestão de Marcações', 'url' => ['/marcacao']],
             ['label' => 'Gestão de Peças', 'url' => ['/peca']],
             ['label' => 'Gestão de Utilizadores', 'url' => ['/pessoa']],

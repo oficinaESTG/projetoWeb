@@ -12,7 +12,7 @@ $this->title = 'Atualizar Marcação';
 
     <h3><b>Atualizar marcação:</b></h3>
 
-    <?= $this->render('_form', [
+    <?= $this->render('_form_venda', [
         'model' => $model,
     ]) ?>
 

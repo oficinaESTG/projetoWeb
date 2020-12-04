@@ -62,4 +62,9 @@ class Venda extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Carro::className(), ['idCarro' => 'fk_idCarro']);
     }
+
+    public function getCarro(){
+        $pessoa = Carro::find()->where(['idCarro' => $this->fk_idCarro])->one();
+        return $pessoa;
+    }
 }

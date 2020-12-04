@@ -23,8 +23,6 @@ $this->title = 'Gestão de Carros';
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'idCarro',
-
             'marcaCarro',
             'modeloCarro',
             'ano',
@@ -32,10 +30,14 @@ $this->title = 'Gestão de Carros';
             'tipoCarro',
             'quilometros',
             'combustivel',
-            //'fk_idPessoa',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
+        'rowOptions' => function($model, $key, $index, $column){
+            if($model->vendido == true){
+                return ['class' => 'success'];
+            }
+        },
     ]); ?>
 
 

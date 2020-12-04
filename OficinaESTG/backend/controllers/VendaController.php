@@ -2,15 +2,16 @@
 
 namespace backend\controllers;
 
+use common\models\Carro;
 use Yii;
-use common\models\Venda;
+use common\models\venda;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * VendaController implements the CRUD actions for Venda model.
+ * VendaController implements the CRUD actions for venda model.
  */
 class VendaController extends Controller
 {
@@ -30,13 +31,13 @@ class VendaController extends Controller
     }
 
     /**
-     * Lists all Venda models.
+     * Lists all venda models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Venda::find(),
+            'query' => venda::find(),
         ]);
 
         return $this->render('index', [
@@ -45,7 +46,7 @@ class VendaController extends Controller
     }
 
     /**
-     * Displays a single Venda model.
+     * Displays a single venda model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,25 +59,35 @@ class VendaController extends Controller
     }
 
     /**
-     * Creates a new Venda model.
+     * Creates a new venda model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
-        $model = new Venda();
+        $model = new venda();
+        $modelCarro = Carro::find()->where(['idCarro'=>$id])->one();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idVenda]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->fk_idCarro = $id;
+            $model->quantiaVenda = 1;
+
+            $modelCarro->vendido = true;
+
+            if ($model->save() && $modelCarro->save()){
+                return $this->redirect(['view', 'id' => $model->idVenda]);
+            }
         }
 
         return $this->render('create', [
             'model' => $model,
+            'modelCarro' => $modelCarro,
         ]);
     }
 
     /**
-     * Updates an existing Venda model.
+     * Updates an existing venda model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -86,17 +97,20 @@ class VendaController extends Controller
     {
         $model = $this->findModel($id);
 
+        $modelCarro = Carro::find()->where(['idCarro'=>$model->fk_idCarro])->one();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idVenda]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'modelCarro'=>$modelCarro,
         ]);
     }
 
     /**
-     * Deletes an existing Venda model.
+     * Deletes an existing venda model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +124,15 @@ class VendaController extends Controller
     }
 
     /**
-     * Finds the Venda model based on its primary key value.
+     * Finds the venda model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Venda the loaded model
+     * @return venda the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Venda::findOne($id)) !== null) {
+        if (($model = venda::findOne($id)) !== null) {
             return $model;
         }
 

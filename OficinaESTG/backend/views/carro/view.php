@@ -40,7 +40,13 @@ $this->title = 'Ver Carro';
         </tr>
         <tr>
             <td>
-                <?= Html::a('Alterar', ['update', 'id' => $model->idCarro], ['class' => 'btn btn-success']) ?>
+                <?php
+                if($model->vendido ==false)
+                {
+                    echo Html::a('Vender', ['../venda/create', 'id' => $model->idCarro], ['class' => 'btn btn-primary']);
+                }
+                ?>
+                <?= Html::a('Alterar Carro', ['update', 'id' => $model->idCarro], ['class' => 'btn btn-success']) ?>
                 <?= Html::a('Eliminar', ['delete', 'id' => $model->idCarro], [
                     'class' => 'btn btn-danger',
                     'data' => [

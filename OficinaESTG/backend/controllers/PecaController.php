@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Carro;
 use PecaSearch;
 use Yii;
 use common\models\Peca;

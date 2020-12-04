@@ -33,13 +33,20 @@ $this->title = 'Oficina ESTG';
                     <td>Combustível: <?= $carro->combustivel; ?> </td>
                 </tr>
                 <tr>
-                    <?php
-                    if (!Yii::$app->user->isGuest) { ?>
-                        <td>
-                            <?= Html::a('Ver mais', ['carro/view_guest', 'id' => $carro->idCarro], ['class' => 'btn btn-success']) ?>
-                        </td>
-                    <?php   } ?>
+
                 </tr>
+                <tr>
+                    <td>Preço: <?= $carro->precoCarro; ?> </td>
+
+                        <?php
+                        if (!Yii::$app->user->isGuest) { ?>
+                    <td>
+                        <?= Html::a('Ver mais', ['carro/view_guest', 'id' => $carro->idCarro], ['class' => 'btn btn-success']) ?>
+                    </td>
+                    <?php   } ?>
+
+                </tr>
+
             </table>
         <?php }
     ?>
