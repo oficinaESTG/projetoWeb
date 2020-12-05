@@ -38,7 +38,7 @@ class PessoaController extends Controller
      */
     public function actionIndex()
     {
-        if (\Yii::$app->user->can('viewPessoa')) {
+        if (\Yii::$app->user->can('viewPessoa_back')) {
             $dataProvider = new ActiveDataProvider([
                 'query' => Pessoa::find(),
             ]);
@@ -59,7 +59,7 @@ class PessoaController extends Controller
      */
     public function actionView($id)
     {
-        if (\Yii::$app->user->can('viewPessoa')) {
+        if (\Yii::$app->user->can('viewPessoa_back')) {
             $model = $this->findModel($id);
 
             $carro = Carro::find()->where(['fk_idPessoa' => $model->idPessoa])->all();
@@ -80,7 +80,7 @@ class PessoaController extends Controller
      */
     public function actionCreate()
     {
-        if (\Yii::$app->user->can('createPessoa')) {
+        if (\Yii::$app->user->can('createPessoa_back')) {
             $model = new Pessoa();
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -104,18 +104,18 @@ class PessoaController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (\Yii::$app->user->can('updatePessoa')) {
+        if (\Yii::$app->user->can('updatePessoa_back')) {
             $model = $this->findModel($id);
 
             if ($model->load(Yii::$app->request->post())) {
 
                 if ($model->save()) {
-                    $user_id = User::find()->where(['id' => Yii::$app->user->identity->getId()])->one();
+                    $user_id = User::find()->where(['id' => $id])->one();
 
                     $auth = \Yii::$app->authManager;
                     $utenteRole = $auth->getRole($model->tipoPessoa);
                     $auth->revokeAll($user_id->id);
-                    $auth->assign($utenteRole, Yii::$app->user->identity->getId());
+                    $auth->assign($utenteRole, $id);
 
                     return $this->redirect(['view', 'id' => $model->idPessoa]);
                 }
@@ -138,7 +138,7 @@ class PessoaController extends Controller
      */
     public function actionDelete($id)
     {
-        if (\Yii::$app->user->can('deletePessoa')) {
+        if (\Yii::$app->user->can('deletePessoa_back')) {
             $this->findModel($id)->delete();
             User::deleteAll(['id' => $id]);
 

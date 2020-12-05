@@ -36,7 +36,7 @@ class PessoaController extends Controller
      */
     public function actionIndex()
     {
-        if (\Yii::$app->user->can('viewPessoa')) {
+        if (\Yii::$app->user->can('viewPessoa_front')) {
             $dataProvider = new ActiveDataProvider([
                 'query' => Pessoa::find(),
             ]);
@@ -57,7 +57,7 @@ class PessoaController extends Controller
      */
     public function actionView($id)
     {
-        if (\Yii::$app->user->can('viewPessoa')) {
+        if (\Yii::$app->user->can('viewPessoa_front')) {
             return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);
@@ -73,7 +73,7 @@ class PessoaController extends Controller
      */
     public function actionCreate()
     {
-        if (\Yii::$app->user->can('createPessoa')) {
+        if (\Yii::$app->user->can('createPessoa_front')) {
             $model = new Pessoa();
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -97,7 +97,7 @@ class PessoaController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (\Yii::$app->user->can('updatePessoa')) {
+        if (\Yii::$app->user->can('updatePessoa_front')) {
             $model = $this->findModel($id);
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -121,7 +121,7 @@ class PessoaController extends Controller
      */
     public function actionDelete($id)
     {
-        if (\Yii::$app->user->can('deletePessoa')) {
+        if (\Yii::$app->user->can('deletePessoa_front')) {
             $this->findModel($id)->delete();
 
             return $this->redirect(['index']);

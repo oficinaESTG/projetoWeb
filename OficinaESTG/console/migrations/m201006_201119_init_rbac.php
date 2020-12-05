@@ -73,21 +73,41 @@ class m201006_201119_init_rbac extends Migration
 
         //Pessoa----------------
 
-        $viewPessoa = $auth->createPermission('viewPessoa');
-        $viewPessoa->description = 'View Pessoa';
-        $auth->add($viewPessoa);
+        //frontend
 
-        $createPessoa = $auth->createPermission('createPessoa');
-        $createPessoa->description = 'create Pessoa';
-        $auth->add($createPessoa);
+        $viewPessoa_front = $auth->createPermission('viewPessoa_front');
+        $viewPessoa_front->description = 'View Pessoa';
+        $auth->add($viewPessoa_front);
 
-        $updatePessoa = $auth->createPermission('updatePessoa');
-        $updatePessoa->description = 'update Pessoa';
-        $auth->add($updatePessoa);
+        $createPessoa_front = $auth->createPermission('createPessoa_front');
+        $createPessoa_front->description = 'create Pessoa';
+        $auth->add($createPessoa_front);
 
-        $deletePessoa = $auth->createPermission('deletePessoa');
-        $deletePessoa->description = 'delete Pessoa';
-        $auth->add($deletePessoa);
+        $updatePessoa_front = $auth->createPermission('updatePessoa_front');
+        $updatePessoa_front->description = 'update Pessoa';
+        $auth->add($updatePessoa_front);
+
+        $deletePessoa_front = $auth->createPermission('deletePessoa_front');
+        $deletePessoa_front->description = 'delete Pessoa';
+        $auth->add($deletePessoa_front);
+
+        //backend
+
+        $viewPessoa_back = $auth->createPermission('viewPessoa_back');
+        $viewPessoa_back->description = 'View Pessoa';
+        $auth->add($viewPessoa_back);
+
+        $createPessoa_back = $auth->createPermission('createPessoa_back');
+        $createPessoa_back->description = 'create Pessoa';
+        $auth->add($createPessoa_back);
+
+        $updatePessoa_back = $auth->createPermission('updatePessoa_back');
+        $updatePessoa_back->description = 'update Pessoa';
+        $auth->add($updatePessoa_back);
+
+        $deletePessoa_back = $auth->createPermission('deletePessoa_back');
+        $deletePessoa_back->description = 'delete Pessoa';
+        $auth->add($deletePessoa_back);
 
         //Venda----------------
 
@@ -139,8 +159,8 @@ class m201006_201119_init_rbac extends Migration
         $auth->addChild($cliente, $createCarro);
         $auth->addChild($cliente, $updateCarro);
         $auth->addChild($cliente, $deleteCarro);
-        $auth->addChild($cliente, $updatePessoa);
-        $auth->addChild($cliente, $viewPessoa);
+        $auth->addChild($cliente, $updatePessoa_front);
+        $auth->addChild($cliente, $viewPessoa_front);
 
 
 
@@ -176,6 +196,10 @@ class m201006_201119_init_rbac extends Migration
         $auth->addChild($secretaria, $gestor);
         $auth->addChild($secretaria, $mecanico);
         $auth->addChild($secretaria, $cliente);
+
+        $auth->addChild($secretaria, $viewPessoa_back);
+        $auth->addChild($secretaria, $updatePessoa_back);
+        $auth->addChild($secretaria, $deletePessoa_back);
 
 
         /*$auth->assign($cliente, 1);
