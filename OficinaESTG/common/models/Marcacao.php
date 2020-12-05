@@ -43,6 +43,7 @@ class Marcacao extends \yii\db\ActiveRecord
             [['tipoMarcacao', 'dataMarcacao', 'descricaoMarcacao', 'estadoMarcacao', 'fk_idPessoa', 'fk_idCarro'], 'required'],
             [['tipoMarcacao', 'estadoMarcacao', 'descricaoFinal'], 'string'],
             [['dataMarcacao'], 'safe'],
+            ['dataMarcacao', 'datetime', 'format' => 'yyyy-MM-dd'],
             [['fk_idPessoa', 'fk_idCarro', 'fk_idResponsavel', 'valorFinal', 'horasTrabalho'], 'integer'],
             [['descricaoMarcacao'], 'string', 'max' => 255],
             [['fk_idCarro'], 'exist', 'skipOnError' => true, 'targetClass' => Carro::className(), 'targetAttribute' => ['fk_idCarro' => 'idCarro']],
