@@ -25,35 +25,35 @@ class MarcacaoTest extends \Codeception\Test\Unit
     {
     }
 
-    private function getUser(){
-
+    private function getUser()
+    {
         $user = new User();
 
-        $user->username = 'rodrigo';
-        $user->auth_key = 'ZYEE7Zm76FfE971aQvgjhntfJEgkG4WQ';
+        $user->username = 'Jose';
+        $user->auth_key = 's-pP6Nay6ZmGWhW89YbAIZAHO-R9iper';
         $user->password_hash = '$2y$13$M4TDIVbZXyoesjIoJHuMM.5iJE1QJRGme4YocS5bfg10UwlFqmNrK';
-        $user->email = "rodrigo@oleole.pt";
+        $user->email = "asd@asd.com";
         $user->status = 10;
-        $user->created_at = 1606161389;
-        $user->updated_at = 1606161389;
+        $user->created_at = 1606161383;
+        $user->updated_at = 1606161383;
         $user->save();
 
         return $user;
-
     }
 
     private function getPessoa(){
         $pessoa = new Pessoa();
 
-
-        $pessoa->nome = "Rodrigo";
-        $pessoa->dataNascimento = "2000-11-17";
-        $pessoa->morada = "Leiria";
+        $pessoa->nome = "Jose";
+        $pessoa->dataNascimento = "2017-06-15";
+        $pessoa->morada = "Fátima";
         $pessoa->nif = 123456789;
         $pessoa->tipoPessoa = "Mecanico";
-        $pessoa->email = "asbajsb@dksndnsd.pt";
+        $pessoa->email = "asd@asd.com";
+
         $user = $this->getUser();
-        $pessoa->fk_IdUser =  $user->id;
+        $pessoa->fk_IdUser = $user->id;
+
         $pessoa->save();
 
         return $pessoa;
@@ -61,21 +61,23 @@ class MarcacaoTest extends \Codeception\Test\Unit
 
     private function getCarro(){
 
-        $c = new Carro();
+        $carro = new Carro();
 
-        $c->modeloCarro = "Passat";
-        $c->marcaCarro = "Volkswagen";
-        $c->ano = 1999;
-        $c->matricula = "AA-11-CC";
-        $c->tipoCarro = "Reparacao";
-        $c->combustivel = "Diesel";
-        $c->quilometros = "100000";
+        $carro->modeloCarro = "Passat";
+        $carro->marcaCarro = "Volkswagen";
+        $carro->ano = 1999;
+        $carro->matricula = "AA-11-CC";
+        $carro->tipoCarro = "Reparacao";
+        $carro->quilometros = "100";
+        $carro->combustivel = "Diesel";
+
         $pessoa = $this->getPessoa();
-        $c->fk_idPessoa = $pessoa->idPessoa;
-        $c->save();
+        $carro->fk_idPessoa = $pessoa->idPessoa;
+
+        $carro->save();
 
 
-        return $c;
+        return $carro;
     }
 
     private function getMarcacaoValida(){
@@ -88,8 +90,7 @@ class MarcacaoTest extends \Codeception\Test\Unit
         $marcacao->estadoMarcacao = 'Espera';
         $c = $this->getCarro();
         $marcacao->fk_idCarro = $c->idCarro;
-        $pessoa = $this->getPessoa();
-        $marcacao->fk_idPessoa = $pessoa->idPessoa;
+        $marcacao->fk_idPessoa = $c->fk_idPessoa;
 
         return $marcacao;
     }
@@ -105,32 +106,31 @@ class MarcacaoTest extends \Codeception\Test\Unit
         $this->assertTrue($marcacao->validate());
     }
 
-
-    public function tipoMarcacaoVazio(){
+    public function testtipoMarcacaoVazio(){
         $marcacao = $this->getMarcacaoValida();
         $marcacao->tipoMarcacao = "";
         $this->assertFalse($marcacao->validate());
     }
 
-    public function dataMarcacaoVazio(){
+    public function testdataMarcacaoVazio(){
         $marcacao = $this->getMarcacaoValida();
         $marcacao->dataMarcacao = "";
         $this->assertFalse($marcacao->validate());
     }
 
-    public function dataMarcacaoInvalida(){
+    public function testdataMarcacaoInvalida(){
         $marcacao = $this->getMarcacaoValida();
         $marcacao->dataMarcacao = "17-11-2000";
         $this->assertFalse($marcacao->validate());
     }
 
-    public function descricaoMarcacaoVazio(){
+    public function testdescricaoMarcacaoVazio(){
         $marcacao = $this->getMarcacaoValida();
         $marcacao->descricaoMarcacao = "";
         $this->assertFalse($marcacao->validate());
     }
 
-    public function descricaoMarcacaoInvalida(){
+    public function testdescricaoMarcacaoInvalida(){
         $marcacao = $this->getMarcacaoValida();
         //+255 carateres
         $marcacao->descricaoMarcacao = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
