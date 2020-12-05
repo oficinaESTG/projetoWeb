@@ -1,7 +1,9 @@
 <?php namespace backend\tests;
 
 use common\models\Carro;
+use common\models\Marcacao;
 use common\models\Pessoa;
+use common\models\User;
 
 class CarroTest extends \Codeception\Test\Unit
 {
@@ -10,26 +12,47 @@ class CarroTest extends \Codeception\Test\Unit
      */
     protected $tester;
 
+    private function getUser(){
+        $user = new User();
+
+        $user->username = 'Rodrigo2';
+        $user->auth_key = 's-pP6Nay6ZmGWhW89YbAIZAHO-R9iper';
+        $user->password_hash = '$2y$13$M4TDIVbZXyoesjIoJHuMM.5iJE1QJRGme4YocS5bfg10UwlFqmNrK';
+        $user->email = "rodrigo@ole.pt";
+        $user->status = 10;
+        $user->created_at = 1606161383;
+        $user->updated_at = 1606161383;
+        $user->save();
+
+        return $user;
+
+    }
+
     private function getPessoa(){
         $pessoa = new Pessoa();
 
-        //$pessoa->idPessoa = 1;
+
         $pessoa->nome = "Rodrigo";
-        $pessoa->dataNascimento = "2000/11/17";
+        $pessoa->dataNascimento = "2000-11-17";
         $pessoa->morada = "Leiria";
         $pessoa->nif = 123456789;
         $pessoa->tipoPessoa = "Mecanico";
         $pessoa->email = "asbajsb@dksndnsd.pt";
+        $user = $this->getUser();
+        $pessoa->fk_IdUser =  $user->id;
         $pessoa->save();
 
         return $pessoa;
     }
 
+
+
     protected function _before()
     {
-       $pessoa = $this->getPessoa();
-       $pessoa->save();
-
+        Marcacao::deleteAll();
+        Carro::deleteAll();
+        Pessoa::deleteAll();
+        User::deleteAll();
     }
 
     protected function _after()
