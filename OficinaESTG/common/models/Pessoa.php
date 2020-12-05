@@ -42,6 +42,10 @@ class Pessoa extends \yii\db\ActiveRecord
             [['tipoPessoa'], 'string'],
             [['nome', 'morada', 'email'], 'string', 'max' => 255],
             [['fk_IdUser'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['fk_IdUser' => 'id']],
+
+            ['dataNascimento', 'datetime', 'format' => 'yyyy-MM-dd'], //formato da data
+            [['nif'],'number','min'=>99999999,'max'=>9999999999], //nif definir máximo e mínimo
+            [['email'], 'email'], // verificação do email
         ];
     }
 

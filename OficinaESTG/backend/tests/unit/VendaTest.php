@@ -1,7 +1,9 @@
 <?php namespace backend\tests;
 
 use common\models\Carro;
+use common\models\Marcacao;
 use common\models\Pessoa;
+use common\models\User;
 use common\models\Venda;
 
 class VendaTest extends \Codeception\Test\Unit
@@ -11,16 +13,48 @@ class VendaTest extends \Codeception\Test\Unit
      */
     protected $tester;
 
+    protected function _before()
+    {
+        Venda::deleteAll();
+        Marcacao::deleteAll();
+        Carro::deleteAll();
+        Pessoa::deleteAll();
+        User::deleteAll();
+    }
+
+    protected function _after()
+    {
+    }
+
+    private function getUser()
+    {
+        $user = new User();
+
+        $user->username = 'Jose';
+        $user->auth_key = 's-pP6Nay6ZmGWhW89YbAIZAHO-R9iper';
+        $user->password_hash = '$2y$13$M4TDIVbZXyoesjIoJHuMM.5iJE1QJRGme4YocS5bfg10UwlFqmNrK';
+        $user->email = "asd@asd.com";
+        $user->status = 10;
+        $user->created_at = 1606161383;
+        $user->updated_at = 1606161383;
+        $user->save();
+
+        return $user;
+    }
+
     private function getPessoa(){
         $pessoa = new Pessoa();
 
-        //$pessoa->idPessoa = 1;
-        $pessoa->nome = "Rodrigo";
-        $pessoa->dataNascimento = "2000/11/17";
-        $pessoa->morada = "Leiria";
+        $pessoa->nome = "Jose";
+        $pessoa->dataNascimento = "2017-06-15";
+        $pessoa->morada = "Fátima";
         $pessoa->nif = 123456789;
         $pessoa->tipoPessoa = "Mecanico";
-        $pessoa->email = "asbajsb@dksndnsd.pt";
+        $pessoa->email = "asd@asd.com";
+
+        $user = $this->getUser();
+        $pessoa->fk_IdUser = $user->id;
+
         $pessoa->save();
 
         return $pessoa;
@@ -28,47 +62,39 @@ class VendaTest extends \Codeception\Test\Unit
 
     private function getCarro(){
 
-        $c = new Carro();
+        $carro = new Carro();
 
-        $c->modeloCarro = "Passat";
-        $c->marcaCarro = "Volkswagen";
-        $c->ano = 1999;
-        $c->matricula = "AA-11-CC";
-        $c->tipoCarro = "Reparacao";
+        $carro->modeloCarro = "Passat";
+        $carro->marcaCarro = "Volkswagen";
+        $carro->ano = 1999;
+        $carro->matricula = "AA-11-CC";
+        $carro->tipoCarro = "Reparacao";
+        $carro->quilometros = "100";
+        $carro->combustivel = "Diesel";
+
         $pessoa = $this->getPessoa();
-        $c->fk_idPessoa = $pessoa->idPessoa;
+        $carro->fk_idPessoa = $pessoa->idPessoa;
 
-        $c->save();
+        $carro->save();
 
 
-        return $c;
-    }
-
-    protected function _before()
-    {
-        $pessoa = $this->getPessoa();
-        $pessoa->save();
-        $c = $this->getCarro();
-        $c->save();
-    }
-
-    protected function _after()
-    {
+        return $carro;
     }
 
     private function getVenda(){
 
-        $v = new Venda();
+        $venda = new Venda();
 
-        $v->quantiaVenda = 124;
-        $v->dataVenda = "2020/11/17";
-        $v->descricaoVenda = "Venda de um passat 1.9 tdi de 1999";
-        $c = $this->getCarro();
-        $v->fk_idCarro = $c->idCarro;
+        $venda->quantiaVenda = 124;
+        $venda->dataVenda = "2020/11/17";
+        $venda->descricaoVenda = "Venda de um passat 1.9 tdi de 1999";
+        $carro = $this->getCarro();
+        $venda->fk_idCarro = $carro->idCarro;
 
-        return $v;
+        return $venda;
 
     }
+
     // tests
     public function testVendaValido()
     {
@@ -91,44 +117,39 @@ class VendaTest extends \Codeception\Test\Unit
         $this->assertFalse($v->validate());
     }
 
-   /* public function testAdicionarCarro()
+    //Adicionar venda
+    public function testAdicionarVenda()
     {
-        $this->tester->cantSeeRecord(Carro::class, ['modeloCarro' => 'Passat']);
+        $this->tester->cantSeeRecord(Venda::class, ['quantiaVenda' => 124]);
 
-        $c = $this->getCarroValido();
-        $c->save();
+        $tester = $this->getVenda();
+        $tester->save();
 
-        $this->tester->seeRecord(Carro::class, ['modeloCarro' => 'Passat']);
+        $this->tester->seeRecord(Venda::class, ['quantiaVenda' => 124]);
     }
 
-    public function testAtualizarRegisto()
+    //Atualizar venda
+    public function testAtualizarVenda()
     {
-        // pré-condicoes
-        $c = $this->getCarroValido();
-        $c->save();
+        $venda_adicionar = $this->testAdicionarVenda();
 
-        // fazer trabalho...
-        $alvo = Carro::find()->where(['modeloCarro' => 'Passat'])->one();
-        $alvo->modeloCarro = "Civic";
-        $alvo->update();
+        $venda=Venda::find()->where(['quantiaVenda'=>124])->one();
+        $venda->quantiaVenda = 200;
+        $venda->update();
 
-        // confirmar mudanças...
-        $this->tester->seeRecord(Carro::class, ['modeloCarro' => 'Civic']);
-        $this->tester->cantSeeRecord(Carro::class, ['modeloCarro' => 'Passat']);
+        $this->tester->seeRecord(Venda::class, ['quantiaVenda' => 200]);
+        $this->tester->cantSeeRecord(Venda::class, ['quantiaVenda' => 124]);
     }
 
-    public function testApagarRegisto()
+    //Eliminar venda
+    public function testApagarPessoa()
     {
-        // pré-condicoes
-        $c = $this->getCarroValido();
-        $c->save();
+        $venda_adicionar = $this->testAdicionarVenda();
 
-        // fazer trabalho...
-        $alvo= Carro::find()->where(['modeloCarro' => 'Passat'])->one();
-        $alvo->delete();
+        $venda=Venda::find()->where(['quantiaVenda'=>124])->one();
+        $venda->delete();
 
-        // confirmar mudanças...
-        $this->tester->cantSeeRecord(Carro::class, ['modeloCarro' => 'Passat']);
+        $this->tester->cantSeeRecord(Venda::class, ['quantiaVenda' => 124]);
     }
-   */
+
 }

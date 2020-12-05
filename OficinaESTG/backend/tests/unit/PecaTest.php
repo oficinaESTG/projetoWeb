@@ -60,7 +60,6 @@ class PecaTest extends \Codeception\Test\Unit
         $this->assertFalse($p->validate());
     }
 
-
     public function testAdicionarCarro()
     {
         $this->tester->cantSeeRecord(Peca::class, ['nomePeca' => 'peca1']);
