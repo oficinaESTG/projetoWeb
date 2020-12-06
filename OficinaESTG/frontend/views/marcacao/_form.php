@@ -13,7 +13,7 @@ use yii\jui\DatePicker;
 
 <div class="marcacao-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id'=>'form-marcacao']); ?>
 
     <?= $form->field($model, 'dataMarcacao')->widget(\yii\jui\DatePicker::classname(), [
         'options' => ['class' => 'form-control'],
@@ -23,7 +23,7 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'descricaoMarcacao')->textInput(['maxlength' => true])->label('Descrição') ?>
 
-    <?= $form->field($model, 'fk_idCarro')->dropDownList(ArrayHelper::map(Carro::find()->where(['fk_idPessoa'=>Yii::$app->user->identity->id])->all(), 'idCarro', 'modeloCarro'), ['prompt' => ''])->label('Carro') ?>
+    <?= $form->field($model, 'fk_idCarro')->dropDownList(ArrayHelper::map(Carro::find()->where(['fk_idPessoa'=>Yii::$app->user->identity->id])->all(), 'idCarro', 'modeloCarro'), ['prompt' => '', 'id'=>'fkcarro'])->label('Carro') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
