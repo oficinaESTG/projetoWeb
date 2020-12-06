@@ -36,6 +36,27 @@ class MarcacaoCest
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Registar');
 
+        //Criar Carro
+        $I->see('Veiculos');
+        $I->click('Veiculos');
+
+        //Botão criar carro
+        $I->see('Adicionar Veículo');
+        $I->click('Adicionar Veículo');
+
+        //Criar carro
+        $I->fillField('Marca', 'Renault');
+        $I->fillField('Modelo', 'Megane');
+        $I->fillField('Ano', '2020');
+        $I->fillField('Matrícula', 'AA-00-AA');
+        $I->fillField('Quilómetros', '0');
+        $I->selectOption('#combustivel','Diesel');
+        $I->click('Guardar', 'button');
+
+        //Ver detalhes
+        $I->see('Alterar');
+        $I->see('Eliminar');
+
         //Ir para página marcação
         $I->see('Marcações');
         $I->click('Marcações');
@@ -47,12 +68,13 @@ class MarcacaoCest
         //Criar marcação
         $I->fillField('Data', '2020-12-12');
         $I->fillField('Descrição', 'descricao');
-        $I->selectOption('#fkcarro','L200 (Strakar)');
+        $I->selectOption('#fkcarro','Megane');
 
         $I->click('Guardar', 'button');
 
         $I->see('Atualizar');
         $I->see('Eliminar');
+
     }
 
 }

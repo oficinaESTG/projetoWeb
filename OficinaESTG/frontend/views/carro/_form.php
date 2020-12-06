@@ -12,19 +12,19 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'marcaCarro')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'marcaCarro')->textInput(['maxlength' => true])->label('Marca') ?>
 
-    <?= $form->field($model, 'modeloCarro')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'modeloCarro')->textInput(['maxlength' => true])->label('Modelo') ?>
 
-    <?= $form->field($model, 'ano')->textInput(['maxlength' => 4]) ?>
+    <?= $form->field($model, 'ano')->textInput(['maxlength' => 4])->label('Ano') ?>
 
     <?= $form->field($model, 'matricula')->widget(\yii\widgets\MaskedInput::className(), [
         'mask' => '**-**-**',
-    ]) ?>
+    ])->label('Matrícula') ?>
 
-    <?= $form->field($model, 'quilometros')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'quilometros')->textInput(['maxlength' => true])->label('Quilómetros') ?>
 
-    <?= $form->field($model, 'combustivel')->dropDownList([ 'Diesel' => 'Diesel', 'Gasolina' => 'Gasolina', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'combustivel')->dropDownList([ 'Diesel' => 'Diesel', 'Gasolina' => 'Gasolina', ], ['prompt' => '', 'id'=>'combustivel']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
