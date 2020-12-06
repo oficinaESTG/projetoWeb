@@ -14,8 +14,8 @@ $this->title = 'Ver Venda';
     <h3><b>Ver Venda : </b></h3>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idVenda], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idVenda], [
+        <?= Html::a('Editar', ['update', 'id' => $model->idVenda], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->idVenda], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',

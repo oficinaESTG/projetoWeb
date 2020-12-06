@@ -16,13 +16,13 @@ use yii\widgets\ActiveForm;
         'options' => ['class' => 'form-control'],
         'language' => 'pt',
         'dateFormat' => 'yyyy-MM-dd',
-    ]) ?>
+    ])->label('DataVenda') ?>
 
-    <?= $form->field($model, 'descricaoVenda')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'descricaoVenda')->textInput(['maxlength' => true])->label('DescricaoVenda') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Cancelar', ['../carro/view', 'id' => $modelCarro->idCarro], ['class' => 'btn btn-danger']) ?>
+        <?= Html::a('Cancelar', ['carro/view', 'id' => $modelCarro->idCarro], ['class' => 'btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
