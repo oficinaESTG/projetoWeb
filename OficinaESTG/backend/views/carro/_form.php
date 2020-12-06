@@ -24,12 +24,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'quilometros')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'combustivel')->dropDownList([ 'Diesel' => 'Diesel', 'Gasolina' => 'Gasolina', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'combustivel')->dropDownList([ 'Diesel' => 'Diesel', 'Gasolina' => 'Gasolina', ], ['prompt' => '', 'id'=>'combustivel']) ?>
 
     <?= $form->field($model, 'precoCarro')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
