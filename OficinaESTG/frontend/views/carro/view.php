@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td><b>Dados</b></td>
         </tr>
         <tr>
-            <td>Marcação: <?= $model->marcaCarro; ?> </td>
+            <td>Marca: <?= $model->marcaCarro; ?> </td>
         </tr>
         <tr>
             <td>Modelo: <?= $model->modeloCarro; ?> </td>
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td>Ano: <?= $model->ano; ?> </td>
         </tr>
         <tr>
-            <td>Km(s):: <?= $model->quilometros; ?> </td>
+            <td>Km(s): <?= $model->quilometros; ?> </td>
         </tr>
         <tr>
             <td>Combustível: <?= $model->combustivel; ?> </td>

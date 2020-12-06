@@ -2,7 +2,7 @@
 use common\fixtures\UserFixture;
 use frontend\tests\FunctionalTester;
 
-class MarcacaoCest
+class CarroCest
 {
     public function _before(FunctionalTester $I)
     {
@@ -28,7 +28,7 @@ class MarcacaoCest
         ];
     }
 
-    public function TestInserirMarcacao(FunctionalTester $I)
+    public function TestCarro(FunctionalTester $I)
     {
         //Fazer login
         $I->submitForm('#login-form', $this->formParams('rodrigo', 'password_0'));
@@ -53,30 +53,36 @@ class MarcacaoCest
         $I->selectOption('#combustivel','Diesel');
         $I->click('Guardar', 'button');
 
-        //Ver detalhes
+        //Verificar se guardou
+        $I->see('Marca: Renault');
+        $I->see('Modelo: Megane');
+        $I->see('Ano: 2020');
+        $I->see('Km(s): 0');
+        $I->see('Combustível: Diesel');
+        $I->see('Matrícula: AA-00-AA');
+        $I->see('Status: Reparacao');
+
+        //Botão alterar carro
         $I->see('Alterar');
-        $I->see('Eliminar');
+        $I->click('Alterar');
 
-        //Ir para página marcação
-        $I->see('Marcações');
-        $I->click('Marcações');
-
-        //Botão criar marcação
-        $I->see('Criar Marcação');
-        $I->click('Criar Marcação');
-
-        //Criar marcação
-        $I->fillField('Data', '2020-12-12');
-        $I->fillField('Descrição', 'descricao');
-        $I->selectOption('#fkcarro','Megane');
-
+        //Atualizar carro
+        $I->fillField('Marca', 'Renault');
+        $I->fillField('Modelo', 'Laguna');
+        $I->fillField('Ano', '2019');
+        $I->fillField('Matrícula', 'AA-00-AA');
+        $I->fillField('Quilómetros', '0');
+        $I->selectOption('#combustivel','Diesel');
         $I->click('Guardar', 'button');
 
         //Verificar se guardou
-        $I->see('Reparacao');
-        $I->see('2020-12-12');
-        $I->see('descricao');
-        $I->see('Espera');
+        $I->see('Marca: Renault');
+        $I->see('Modelo: Laguna');
+        $I->see('Ano: 2019');
+        $I->see('Km(s): 0');
+        $I->see('Combustível: Diesel');
+        $I->see('Matrícula: AA-00-AA');
+        $I->see('Status: Reparacao');
 
     }
 }

@@ -62,20 +62,6 @@ $this->params['breadcrumbs'][] = $this->title;
         echo  $estado_0;
     }
 
-
-
     ?>
-
-
-    <p>
-        <?= Html::a('Atualizar', ['update', 'id' => $model->idMarcacoes], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->idMarcacoes], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Pretende eliminar a marcação? Não será possível reverter a ação',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
 
 </div>
