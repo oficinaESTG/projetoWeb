@@ -28,8 +28,6 @@ class MarcacaoCest
         ];
     }
 
-    protected $formId = '#form-marcacao';
-
     public function TestNovaMarcacao(FunctionalTester $I)
     {
         //Fazer login
