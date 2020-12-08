@@ -16,7 +16,7 @@ $this->title = 'Criar venda:';
             <td><b>Dados</b></td>
         </tr>
         <tr>
-            <td>Marcação: <?= $modelCarro->marcaCarro; ?> </td>
+            <td>Marca: <?= $modelCarro->marcaCarro; ?> </td>
         </tr>
         <tr>
             <td>Modelo: <?= $modelCarro->modeloCarro; ?> </td>
@@ -25,7 +25,7 @@ $this->title = 'Criar venda:';
             <td>Ano: <?= $modelCarro->ano; ?> </td>
         </tr>
         <tr>
-            <td>Km(s):: <?= $modelCarro->quilometros; ?> </td>
+            <td>Km(s): <?= $modelCarro->quilometros; ?> </td>
         </tr>
         <tr>
             <td>Combustível: <?= $modelCarro->combustivel; ?> </td>

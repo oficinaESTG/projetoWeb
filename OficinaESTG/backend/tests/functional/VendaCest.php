@@ -1,11 +1,10 @@
 <?php namespace backend\tests\functional;
 use backend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
+use yii\rbac\Assignment;
 
-class CarroCest
+class VendaCest
 {
-
-
     public function _before(FunctionalTester $I)
     {
         $I->amOnRoute('site/login');
@@ -18,6 +17,7 @@ class CarroCest
             'user' => [
                 'class' => UserFixture::className(),
                 'dataFile' => codecept_data_dir() . 'login_data.php',
+
             ],
         ];
     }
@@ -30,9 +30,7 @@ class CarroCest
         ];
     }
 
-
-    // tests
-    public function CarroTest(FunctionalTester $I)
+    public function VendaTest(FunctionalTester $I)
     {
         //Fazer login
         $I->submitForm('#login-form', $this->formParamsLogin('rodrigo', 'password_0'));
@@ -63,30 +61,22 @@ class CarroCest
         $I->see('Alterar Carro');
         $I->see('Eliminar');
 
-        //Botão alterar carro
-        $I->see('Alterar Carro');
-        $I->click('Alterar Carro');
+        //vender carro
+        $I->see('Vender');
+        $I->click('Vender');
 
-        //atualizar o carro
-        $I->fillField('Marca Carro', 'marcacarro1');
-        $I->fillField('Modelo Carro', 'modelocarro1');
-        $I->fillField('Ano', '2020');
-        $I->fillField('Matricula', 'AA-11-CC');
-        $I->fillField('Quilometros', '12000');
-        $I->selectOption('#combustivel','Diesel');
-        $I->fillField('Preco Carro', '12000');
+        //$I->dontSeeLink('carro');
 
+        //preencher os campos
+        $I->fillField('DataVenda', '2000-11-17');
+        $I->fillField('DescricaoVenda', 'foi vendido');
         $I->click('Guardar', 'button');
 
-        //Verificar se guardou
-        $I->see('Marca: marcacarro1');
-        $I->see('Modelo: modelocarro1');
-        $I->see('Ano: 2020');
-        $I->see('Km(s): 12000');
-        $I->see('Combustível: Diesel');
-        $I->see('Matrícula: AA-11-CC');
-        $I->see('Status: Venda');
-
+        $I->see('Id Venda');
+        $I->see('Quantia Venda');
+        $I->see('Data Venda');
+        $I->see('Descricao Venda');
+        $I->see('Fk Id Carro');
 
     }
 }

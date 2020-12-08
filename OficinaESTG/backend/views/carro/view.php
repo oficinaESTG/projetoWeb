@@ -18,7 +18,7 @@ $this->title = 'Ver Carro';
             <td><b>Dados</b></td>
         </tr>
         <tr>
-            <td>Marcação: <?= $model->marcaCarro; ?> </td>
+            <td>Marca: <?= $model->marcaCarro; ?> </td>
         </tr>
         <tr>
             <td>Modelo: <?= $model->modeloCarro; ?> </td>
@@ -27,7 +27,7 @@ $this->title = 'Ver Carro';
             <td>Ano: <?= $model->ano; ?> </td>
         </tr>
         <tr>
-            <td>Km(s):: <?= $model->quilometros; ?> </td>
+            <td>Km(s): <?= $model->quilometros; ?> </td>
         </tr>
         <tr>
             <td>Combustível: <?= $model->combustivel; ?> </td>
@@ -43,7 +43,7 @@ $this->title = 'Ver Carro';
                 <?php
                 if($model->vendido ==false)
                 {
-                    echo Html::a('Vender', ['../venda/create', 'id' => $model->idCarro], ['class' => 'btn btn-primary']);
+                    echo Html::a('Vender', ['venda/create', 'id' => $model->idCarro], ['class' => 'btn btn-primary']);
                 }
                 ?>
                 <?= Html::a('Alterar Carro', ['update', 'id' => $model->idCarro], ['class' => 'btn btn-success']) ?>

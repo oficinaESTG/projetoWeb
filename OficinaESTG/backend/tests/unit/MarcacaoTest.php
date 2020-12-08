@@ -42,6 +42,7 @@ class MarcacaoTest extends \Codeception\Test\Unit
     }
 
     private function getPessoa(){
+
         $pessoa = new Pessoa();
 
         $pessoa->nome = "Jose";
@@ -86,7 +87,7 @@ class MarcacaoTest extends \Codeception\Test\Unit
 
         $marcacao->tipoMarcacao = 'Reparacao';
         $marcacao->dataMarcacao = '2020-11-17';
-        $marcacao->descricaoMarcacao = 'ola';
+        $marcacao->descricaoMarcacao = 'olaolaolaola';
         $marcacao->estadoMarcacao = 'Espera';
         $c = $this->getCarro();
         $marcacao->fk_idCarro = $c->idCarro;
@@ -102,19 +103,19 @@ class MarcacaoTest extends \Codeception\Test\Unit
         $marcacao = $this->getMarcacaoValida();
         $this->assertTrue($marcacao->validate());
 
-        $marcacao->descricaoMarcacao = "ola";
+        $marcacao->descricaoMarcacao = 'ola';
         $this->assertTrue($marcacao->validate());
     }
 
     public function testtipoMarcacaoVazio(){
         $marcacao = $this->getMarcacaoValida();
-        $marcacao->tipoMarcacao = "";
+        $marcacao->tipoMarcacao = '';
         $this->assertFalse($marcacao->validate());
     }
 
     public function testdataMarcacaoVazio(){
         $marcacao = $this->getMarcacaoValida();
-        $marcacao->dataMarcacao = "";
+        $marcacao->dataMarcacao = '';
         $this->assertFalse($marcacao->validate());
     }
 
@@ -126,15 +127,58 @@ class MarcacaoTest extends \Codeception\Test\Unit
 
     public function testdescricaoMarcacaoVazio(){
         $marcacao = $this->getMarcacaoValida();
-        $marcacao->descricaoMarcacao = "";
+        $marcacao->descricaoMarcacao = '';
         $this->assertFalse($marcacao->validate());
     }
 
     public function testdescricaoMarcacaoInvalida(){
         $marcacao = $this->getMarcacaoValida();
         //+255 carateres
-        $marcacao->descricaoMarcacao = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
-        1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901";
+        $marcacao->descricaoMarcacao = '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+        1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901';
         $this->assertFalse($marcacao->validate());
     }
+
+    public function testAdicionarMarcacao()
+    {
+        $this->tester->cantSeeRecord(Marcacao::class, ["descricaoMarcacao" => 'olaolaolaola']);
+
+        $p = $this->getMarcacaoValida();
+        $p->save();
+
+        $this->tester->seeRecord(Marcacao::class, ["descricaoMarcacao" => 'olaolaolaola']);
+    }
+
+    public function testAtualizarRegisto()
+    {
+        // pré-condicoes
+        $p = $this->getMarcacaoValida();
+        $p->save();
+
+        // fazer trabalho...
+        $alvo = Marcacao::find()->where(["descricaoMarcacao" => 'olaolaolaola'])->one();
+        $alvo->descricaoMarcacao = 'ola1';
+        $alvo->update();
+
+        // confirmar mudanças...
+        $this->tester->seeRecord(Marcacao::class, ["descricaoMarcacao" => 'ola1']);
+        $this->tester->cantSeeRecord(Marcacao::class, ["descricaoMarcacao" => 'olaolaolaola']);
+    }
+
+    public function testApagarRegisto()
+    {
+        // pré-condicoes
+        $p = $this->getMarcacaoValida();
+        $p->save();
+
+        // fazer trabalho...
+        $alvo= Marcacao::find()->where(['descricaoMarcacao' => 'olaolaolaola'])->one();
+        $alvo->delete(); //erro aqui perguntar ao stor
+
+        // confirmar mudanças...
+        $this->tester->cantSeeRecord(Marcacao::class, ['descricaoMarcacao' => 'olaolaolaola']);
+    }
+
+
+
 }
