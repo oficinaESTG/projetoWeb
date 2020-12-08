@@ -98,4 +98,10 @@ class Carro extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Venda::className(), ['fk_idCarro' => 'idCarro']);
     }
+
+    public function getcarro()
+    {
+        return $this->hasMany(Carro::find()->all());
+    }
+
 }
