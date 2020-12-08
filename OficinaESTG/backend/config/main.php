@@ -57,6 +57,11 @@ return [
                         'POST carrocreate' => 'carrocreate',
                         'GET carroget' => 'carroget',
                     ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>', //O standard tem que aparecer!
+                        '{limit}' => '<limit:\\d+>',
+
+                    ],
                 ],
             ],
         ],
