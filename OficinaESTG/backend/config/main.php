@@ -55,6 +55,7 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'POST carrocreate' => 'carrocreate',
+                        'GET carroget' => 'carroget',
                     ],
                 ],
             ],
