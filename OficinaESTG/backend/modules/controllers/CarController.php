@@ -5,15 +5,15 @@ namespace backend\modules\controllers;
 use common\models\Carro;
 use Yii;
 use yii\helpers\Json;
+use yii\rest\ActiveController;
 use yii\web\Controller;
 
 /**
  * Default controller for the `api` module
  */
-class CarController extends Controller
+class CarController extends ActiveController
 {
     public $modelClass = 'common\models\Carro';
-
 
     public function actionIndex(){
 
@@ -23,7 +23,7 @@ class CarController extends Controller
 
     }
 
-    public function actionCreate(){
+    public function actionCarrocreate(){
 
         $marcaCarro=Yii::$app->request->post('marcaCarro');
         $modeloCarro=Yii::$app->request->post('modeloCarro');
@@ -44,7 +44,7 @@ class CarController extends Controller
         $modelCarro->tipoCarro = 'Reparação';
         $modelCarro->fk_idPessoa = 1;
         $modelCarro->vendido = false;
-        
+
         $ret = $modelCarro->save();
 
         return ['SaveError'=> $ret];

@@ -54,7 +54,7 @@ return [
                     'controller' => 'api/car',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'POST create' => 'create',
+                        'POST carrocreate' => 'carrocreate',
                     ],
                 ],
             ],
