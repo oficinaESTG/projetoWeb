@@ -56,6 +56,7 @@ return [
                     'extraPatterns' => [
                         'POST carrocreate' => 'carrocreate',
                         'GET carroget' => 'carroget',
+                        'PUT carroput/{id}' => 'carroput',
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>', //O standard tem que aparecer!
