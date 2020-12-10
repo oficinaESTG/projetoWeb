@@ -51,16 +51,20 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/car',
+                    'controller' => [
+                        'api/car',
+                        'api/mar'],
                     'pluralize' => false,
                     'extraPatterns' => [
+                        //Métodos do CarController
                         'POST carrocreate' => 'carrocreate',
                         'GET carroget' => 'carroget',
-                    ],
-                    'tokens' => [
-                        '{id}' => '<id:\\d+>', //O standard tem que aparecer!
-                        '{limit}' => '<limit:\\d+>',
-
+                        //Métodos do MarController
+                        'POST marcacaocreate' => 'marcacaocreate',
+                        'GET marcacaoget' => 'marcacaoget',
+                        //Métodos do PerController
+                        'POST pessoacreate' => 'pessoacreate',
+                        'GET pessoaget' => 'pessoaget',
                     ],
                 ],
             ],

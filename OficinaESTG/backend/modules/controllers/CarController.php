@@ -6,7 +6,10 @@ use common\models\Carro;
 use common\models\Pessoa;
 use common\models\User;
 use Yii;
+use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBasicAuth;
+use yii\filters\auth\HttpBearerAuth;
+use yii\filters\auth\QueryParamAuth;
 use yii\helpers\Json;
 use yii\rest\ActiveController;
 use yii\web\Controller;
@@ -18,32 +21,19 @@ class CarController extends ActiveController
 {
     public $modelClass = 'common\models\Carro';
 
-
     public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
-            'auth' => [$this, 'auth']
+            'class' => QueryParamAuth::className(),
         ];
         return $behaviors;
     }
 
-    public function auth($username, $password)
-    { $user = User::findByUsername($username);
-        if ($user && $user->validatePassword($password)) {
-            return $user;
-        }
-        return null;
-    }
-
-
-    public function actionIndex(){
-
-        $carro = Carro::find()->all();
-
-        return Json::encode($carro);
-
+    public function actions() {
+        $actions =parent::actions();
+        unset($actions['index']);
+        return $actions;
     }
 
     public function actionCarroget()
@@ -53,11 +43,15 @@ class CarController extends ActiveController
         $pessoa = Pessoa::find()->where(['fk_IdUser' => $user->id])->one();
         $rec = Carro::find()->where(['fk_idPessoa' => $pessoa->idPessoa])->all();
 
-        return Json::encode($rec);
+        return $rec;
 
     }
 
     public function actionCarrocreate(){
+
+        $actoken = Yii::$app->request->get("access-token");
+        $user = User::findIdentityByAccessToken($actoken);
+        $pessoa = Pessoa::find()->where(['fk_IdUser' => $user->id])->one();
 
         $marcaCarro=Yii::$app->request->post('marcaCarro');
         $modeloCarro=Yii::$app->request->post('modeloCarro');
@@ -77,7 +71,7 @@ class CarController extends ActiveController
         $modelCarro->combustivel = $combustivel;
         $modelCarro->precoCarro = $precoCarro;
         $modelCarro->tipoCarro = 'Reparação';
-        $modelCarro->fk_idPessoa = 1;
+        $modelCarro->fk_idPessoa = $pessoa->idPessoa;
         $modelCarro->vendido = false;
 
         $ret = $modelCarro->save();
