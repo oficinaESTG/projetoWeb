@@ -89,7 +89,7 @@ class CarController extends ActiveController
         $user = User::findIdentityByAccessToken($actoken);
         $pessoa = Pessoa::find()->where(['fk_IdUser' => $user->id])->one();
 
-        $marcaCarro=Yii::$app->request->post('marcaCarro');
+        $marcaCarro=Yii::$app->request->getBodyParam('marcaCarro');
         $modeloCarro=Yii::$app->request->post('modeloCarro');
         $ano=Yii::$app->request->post('ano');
         $matricula=Yii::$app->request->post('matricula');
@@ -101,6 +101,7 @@ class CarController extends ActiveController
         $modelCarro = new $this->modelClass;
 
         $rec = $modelCarro::find()->where("idCarro=".$id)->one();
+
 
 
 
@@ -119,7 +120,8 @@ class CarController extends ActiveController
 
             $rec->save();
 
-            return ['SaveError'=> $rec];
+            return ['SaveError'=> $marcaCarro];
+
         }
 
         throw new \yii\web\NotFoundHttpException(" id not found!");
