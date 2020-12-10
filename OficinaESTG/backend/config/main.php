@@ -65,7 +65,16 @@ return [
                         //Métodos do PerController
                         'POST pessoacreate' => 'pessoacreate',
                         'GET pessoaget' => 'pessoaget',
+                        'PUT carroput/{id}' => 'carroput',
                     ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>', //O standard tem que aparecer!
+                        '{limit}' => '<limit:\\d+>',
+
+
+                    ],
+
+                        
                 ],
             ],
         ],
