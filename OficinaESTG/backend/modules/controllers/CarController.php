@@ -94,7 +94,7 @@ class CarController extends ActiveController
         $user = User::findIdentityByAccessToken($actoken);
         $pessoa = Pessoa::find()->where(['fk_IdUser' => $user->id])->one();
 
-        $marcaCarro=Yii::$app->request->getBodyParams('marcaCarro');
+        $marcaCarro=Yii::$app->request->post('marcacarro');
         $modeloCarro=Yii::$app->request->post('modeloCarro');
         $ano=Yii::$app->request->post('ano');
         $matricula=Yii::$app->request->post('matricula');
@@ -107,7 +107,7 @@ class CarController extends ActiveController
 
         $rec = $modelCarro::find()->where("idCarro=".$id)->one();
 
-        
+
         if($rec != null){
 
             //$rec = new $this->modelClass;
@@ -123,12 +123,21 @@ class CarController extends ActiveController
 
             $rec->save();
 
-            return ['SaveError'=> $marcaCarro];
+            return ['SaveError'=> $rec];
 
         }
 
-        throw new \yii\web\NotFoundHttpException(" id not found!");
+        throw new \yii\web\NotFoundHttpException(" idCarro not found!");
 
 
+    }
+
+    public function actionCarrodel($id){
+        $modelCarro = new $this->modelClass;
+        $ret = $modelCarro->deleteAll("idCarro=".$id);
+        if($ret){
+            Yii::$app->response->statusCode =200; return ['code'=>'ok'];
+        }
+        Yii::$app->response->statusCode =404; return ['code'=>'error'];
     }
 }
