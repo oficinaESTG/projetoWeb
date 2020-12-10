@@ -37,7 +37,7 @@ class CarController extends ActiveController
         $carro = Carro::find()->all();
 
         return Json::encode($carro);
-<<<<<<< Updated upstream
+
 
 
     }
@@ -51,9 +51,6 @@ class CarController extends ActiveController
 
         return $rec;
 
-=======
-        
->>>>>>> Stashed changes
     }
 
     public function actionCarrocreate(){
@@ -97,7 +94,7 @@ class CarController extends ActiveController
         $user = User::findIdentityByAccessToken($actoken);
         $pessoa = Pessoa::find()->where(['fk_IdUser' => $user->id])->one();
 
-        $marcaCarro=Yii::$app->request->getBodyParam('marcaCarro');
+        $marcaCarro=Yii::$app->request->getBodyParams('marcaCarro');
         $modeloCarro=Yii::$app->request->post('modeloCarro');
         $ano=Yii::$app->request->post('ano');
         $matricula=Yii::$app->request->post('matricula');
@@ -110,9 +107,7 @@ class CarController extends ActiveController
 
         $rec = $modelCarro::find()->where("idCarro=".$id)->one();
 
-
-
-
+        
         if($rec != null){
 
             //$rec = new $this->modelClass;
