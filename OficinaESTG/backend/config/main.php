@@ -59,13 +59,15 @@ return [
                         //Métodos do CarController
                         'POST carrocreate' => 'carrocreate',
                         'GET carroget' => 'carroget',
+                        'PUT carroput/{id}' => 'carroput',
                         //Métodos do MarController
                         'POST marcacaocreate' => 'marcacaocreate',
                         'GET marcacaoget' => 'marcacaoget',
                         //Métodos do PerController
                         'POST pessoacreate' => 'pessoacreate',
                         'GET pessoaget' => 'pessoaget',
-                        'PUT carroput/{id}' => 'carroput',
+                        //Métodos do RegController
+                        'POST registar' => 'pessoacreate',
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>', //O standard tem que aparecer!
