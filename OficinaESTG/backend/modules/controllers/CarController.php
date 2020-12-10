@@ -13,7 +13,6 @@ use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\helpers\Json;
 use yii\rest\ActiveController;
-use yii\web\Controller;
 
 /**
  * Default controller for the `api` module
@@ -38,6 +37,7 @@ class CarController extends ActiveController
         $carro = Carro::find()->all();
 
         return Json::encode($carro);
+<<<<<<< Updated upstream
 
 
     }
@@ -51,6 +51,9 @@ class CarController extends ActiveController
 
         return $rec;
 
+=======
+        
+>>>>>>> Stashed changes
     }
 
     public function actionCarrocreate(){
@@ -83,6 +86,7 @@ class CarController extends ActiveController
         $ret = $modelCarro->save();
 
         return ['SaveError'=> $ret];
+
     }
 
     public function actionCarroput($id){
