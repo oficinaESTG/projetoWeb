@@ -51,9 +51,13 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => [
+                    'controller' =>
+                    [
                         'api/car',
-                        'api/mar'],
+                        'api/mar',
+                        'api/reg',
+                        'api/per'
+                    ],
                     'pluralize' => false,
                     'extraPatterns' => [
                         //Métodos do CarController
@@ -64,10 +68,10 @@ return [
                         'POST marcacaocreate' => 'marcacaocreate',
                         'GET marcacaoget' => 'marcacaoget',
                         //Métodos do PerController
-                        'POST pessoacreate' => 'pessoacreate',
                         'GET pessoaget' => 'pessoaget',
                         //Métodos do RegController
-                        'POST registar' => 'pessoacreate',
+                        'POST registar' => 'registar',
+                        'POST login' => 'login',
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>', //O standard tem que aparecer!

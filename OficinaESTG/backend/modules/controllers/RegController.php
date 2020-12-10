@@ -3,6 +3,7 @@
 namespace backend\modules\controllers;
 
 use common\models\Carro;
+use common\models\LoginForm;
 use common\models\Pessoa;
 use common\models\User;
 use frontend\models\SignupForm;
@@ -18,13 +19,13 @@ use yii\web\Controller;
 /**
  * Default controller for the `api` module
  */
-class PerController extends ActiveController
+class RegController extends ActiveController
 {
     public $modelClass = 'common\models\Pessoa';
+    public $modelLogin = 'common\models\LoginForm';
 
     public function actionRegistar()
     {
-
         $username=Yii::$app->request->post('username');
         $email=Yii::$app->request->post('email');
         $password=Yii::$app->request->post('password');
@@ -39,22 +40,42 @@ class PerController extends ActiveController
         $model->email = $email;
         $model->password = $password;
 
-        $model->signup();
+        if ($model->signup()){
 
-        $identity = User::findOne(['email' => $email]);
+            $identity = User::findOne(['email' => $email]);
 
-        $modelPessoa = new $this->modelClass;
+            $modelPessoa = new $this->modelClass;
 
-        $modelPessoa->nome = $nome;
-        $modelPessoa->dataNascimento = $dataNascimento;
-        $modelPessoa->morada = $morada;
-        $modelPessoa->nif = $nif;
-        $modelPessoa->tipoPessoa = "Cliente";
-        $modelPessoa->email = $email;
-        $modelPessoa->fk_IdUser = $identity->getId();
+            $modelPessoa->nome = $nome;
+            $modelPessoa->dataNascimento = $dataNascimento;
+            $modelPessoa->morada = $morada;
+            $modelPessoa->nif = $nif;
+            $modelPessoa->tipoPessoa = "Cliente";
+            $modelPessoa->email = $email;
+            $modelPessoa->fk_IdUser = $identity->getId();
 
-        $ret = $modelPessoa->save();
+            if ($modelPessoa->save()){
+                return ['SaveError'=> true];
+            }
 
-        return ['SaveError'=> $ret];
+            return ['SaveError'=> $modelPessoa];
+        }
+
+        return ['SaveError'=> $model];
     }
+
+    public function actionLogin()
+    {
+        $model = new LoginForm();
+        $model->username = Yii::$app->request->post('username');
+        $model->password = Yii::$app->request->post('password');
+
+        if( $model->login()){
+            return User::find()->where(['username' => $model->username])->one();
+        }
+
+        return false;
+    }
+
+
 }
