@@ -60,6 +60,7 @@ return [
                         'POST carrocreate' => 'carrocreate',
                         'GET carroget' => 'carroget',
                         'PUT carroput/{id}' => 'carroput',
+                        'DELETE carrodel/{id}' => 'carrodel',
                         //Métodos do MarController
                         'POST marcacaocreate' => 'marcacaocreate',
                         'GET marcacaoget' => 'marcacaoget',
