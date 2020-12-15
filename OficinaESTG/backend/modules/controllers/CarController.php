@@ -93,24 +93,24 @@ class CarController extends ActiveController
         $actoken = Yii::$app->request->get("access-token");
         $user = User::findIdentityByAccessToken($actoken);
         $pessoa = Pessoa::find()->where(['fk_IdUser' => $user->id])->one();
+        $request = Yii::$app->request;
 
-        $marcaCarro=Yii::$app->request->post('marcacarro');
-        $modeloCarro=Yii::$app->request->post('modeloCarro');
-        $ano=Yii::$app->request->post('ano');
-        $matricula=Yii::$app->request->post('matricula');
-        $quilometros=Yii::$app->request->post('quilometros');
-        $combustivel=Yii::$app->request->post('combustivel');
-        $precoCarro=Yii::$app->request->post('precoCarro');
+        $marcaCarro = $request->getBodyParam('marcaCarro');
+        $modeloCarro = $request->getBodyParam('modeloCarro');
+        $ano = $request->getBodyParam('ano');
+        $matricula = $request->getBodyParam('matricula');
+        $quilometros = $request->getBodyParam('quilometros');
+        $combustivel = $request->getBodyParam('combustivel');
+        $precoCarro = $request->getBodyParam('precoCarro');
+
 
 
         $modelCarro = new $this->modelClass;
 
         $rec = $modelCarro::find()->where("idCarro=".$id)->one();
 
-
         if($rec != null){
 
-            //$rec = new $this->modelClass;
             $rec->marcaCarro = $marcaCarro;
             $rec->modeloCarro = $modeloCarro;
             $rec->ano = $ano;
@@ -121,14 +121,14 @@ class CarController extends ActiveController
             $rec->tipoCarro = 'Reparação';
             $rec->vendido = false;
 
-            $rec->save();
-
-            return ['SaveError'=> $rec];
-
+            if( $rec->save()){
+                return ['Save'=> $rec];
+            }else{
+                return ['SaveError'=> $rec];
+            }
         }
 
         throw new \yii\web\NotFoundHttpException(" idCarro not found!");
-
 
     }
 
