@@ -7,8 +7,14 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.oficinaestg.Listeners.LoginListener;
+import com.example.oficinaestg.Modelos.User;
 import com.example.oficinaestg.R;
+import com.example.oficinaestg.Singleton.LoginSingleton;
+
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,33 +34,23 @@ public class LoginActivity extends AppCompatActivity {
         String email = edit_login.getText().toString();
         String password = edit_password.getText().toString();
 
-        //Para testes não verifica
-        /*if (!isEmailValido(email)){z
-            edit_login.setError(getString(R.string.email_invalido));
-            return;
-        }
-        if (!isPasswordValida(password)){
-            edit_password.setError(getString(R.string.password_invalida));
-            return;
-        }*/
+        LoginSingleton.getInstance(getApplicationContext()).loginAPI(email, password, getApplicationContext(), new LoginListener() {
+            @Override
+            public void onSuccess(User user) {
+                System.out.println("A-->"+user);
 
+                if (user != null){
+                    main(view, user.getEmail());
+                }else{
+                    Toast.makeText(getApplicationContext(), "Login não efetuado", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void main (View view, String email){
         Intent intent = new Intent(this, MenuMainActivity.class);
         intent.putExtra(MenuMainActivity.EMAIL_GESS,email);
         startActivity(intent);
-    }
-
-    // verifica o email se é válido
-    private boolean isEmailValido(String email){
-        if (email==null){
-            return false;
-        }
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-    //verifica se a password tem no minimo 4 caracteres
-    private boolean isPasswordValida(String password){
-        if (password==null){
-            return false;
-        }
-        return password.length()>=4;
     }
 }
