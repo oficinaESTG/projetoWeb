@@ -11,8 +11,10 @@ import android.widget.Toast;
 
 import com.example.oficinaestg.Listeners.LoginListener;
 import com.example.oficinaestg.Modelos.User;
+import com.example.oficinaestg.Modelos.UserDBHelp;
 import com.example.oficinaestg.R;
 import com.example.oficinaestg.Singleton.LoginSingleton;
+import com.example.oficinaestg.Utils.UserJsonParser;
 
 import org.json.JSONObject;
 
@@ -34,23 +36,34 @@ public class LoginActivity extends AppCompatActivity {
         String email = edit_login.getText().toString();
         String password = edit_password.getText().toString();
 
-        LoginSingleton.getInstance(getApplicationContext()).loginAPI(email, password, getApplicationContext(), new LoginListener() {
+        LoginSingleton.getInstance(getApplicationContext()).loginAPI(email, password, getApplicationContext(), UserJsonParser.isConnectionInternet(getApplicationContext()), new LoginListener() {
             @Override
             public void onSuccess(User user) {
                 System.out.println("A-->"+user);
 
                 if (user != null){
-                    main(view, user.getEmail());
+
+                    main(view, user.getEmail(), user.getUsername());
                 }else{
-                    Toast.makeText(getApplicationContext(), "Login não efetuado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Username ou Password Errado", Toast.LENGTH_SHORT).show();
+                }
+            };
+            @Override
+            public void onSemNet(User user, Boolean verifica) {
+
+                if (verifica == true){
+                    main(view, user.getEmail(), user.getUsername());
+                }else{
+                    Toast.makeText(getApplicationContext(), "Username ou Password Errado", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    public void main (View view, String email){
+    public void main (View view, String email, String nome){
         Intent intent = new Intent(this, MenuMainActivity.class);
         intent.putExtra(MenuMainActivity.EMAIL_GESS,email);
+        intent.putExtra(MenuMainActivity.NOME_GESS,nome);
         startActivity(intent);
     }
 }

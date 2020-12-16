@@ -30,8 +30,11 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
     private NavigationView navigationView;
     private DrawerLayout drawer;
     public static final String EMAIL_GESS = "EMAIL_GESS";
+    public static final String NOME_GESS = "NOME_GESS";
     private static final String user_email = "user_email";
+    private static final String user_nome = "user_nome";
     private String email = "";
+    private String nome = "";
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -57,12 +60,13 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
         carregarcabecalho();
     }
 
-    //Temporário
     private void carregarcabecalho() {
         email = getIntent().getStringExtra(EMAIL_GESS);
+        nome = getIntent().getStringExtra(NOME_GESS);
 
         sharedPreferences= getSharedPreferences(user_email, Context.MODE_PRIVATE);
-        
+        sharedPreferences= getSharedPreferences(user_nome, Context.MODE_PRIVATE);
+
         //Email
         if (email == null){
             email=sharedPreferences.getString(user_email,getString(R.string.sem_email));
@@ -75,10 +79,25 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
             editor.apply();
         }
 
+        //Nome
+        if (nome == null){
+            nome=sharedPreferences.getString(user_email,getString(R.string.sem_email));
+        }else if (nome.length() == 0){
+            System.out.println("-->"+ nome.length());
+            nome= getString(R.string.semnome);
+        }else{
+            editor = sharedPreferences.edit();
+            editor.putString(user_nome,nome);
+            editor.apply();
+        }
+
         View hView = navigationView.getHeaderView(0);
-        TextView nav_user = hView.findViewById(R.id.tv_email);
-        nav_user.setText(email);
-        System.out.println("-->"+ email);
+
+        TextView nav_email = hView.findViewById(R.id.tv_email);
+        nav_email.setText(email);
+
+        TextView nav_nome = hView.findViewById(R.id.tv_nome);
+        nav_nome.setText(nome);
     }
 
     @Override

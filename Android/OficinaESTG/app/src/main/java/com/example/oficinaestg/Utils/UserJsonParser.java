@@ -1,6 +1,8 @@
 package com.example.oficinaestg.Utils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.oficinaestg.Modelos.User;
@@ -13,11 +15,12 @@ import java.util.ArrayList;
 
 public class UserJsonParser {
 
-    public static User parserJsonUser (JSONObject response, Context context) {
+    public static User parserJsonUser (JSONObject response, Context context, String password) {
         User user = null;
         try {
             int id =response.getInt("id");
             String username= response.getString("username");
+            int status= response.getInt("status");
             String auth_key= response.getString("auth_key");
             String email= response.getString("email");
             int created_at= response.getInt("created_at");
@@ -26,7 +29,7 @@ public class UserJsonParser {
             String password_reset_token= response.getString("password_reset_token");
             String verification_token= response.getString("verification_token");
 
-            user = new User(id, username, auth_key ,email, created_at, updated_at, password_hash, password_reset_token, verification_token);
+            user = new User(id,status, username, auth_key ,email, created_at, updated_at, password_hash, password_reset_token, verification_token, password);
 
         }
         catch(JSONException e) {
@@ -34,5 +37,12 @@ public class UserJsonParser {
         }
 
         return user;
+    }
+
+    public static boolean isConnectionInternet(Context context) {
+        ConnectivityManager cm =(ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo nInfo = cm.getActiveNetworkInfo();
+
+        return nInfo!=null && nInfo.isConnected();
     }
 }
