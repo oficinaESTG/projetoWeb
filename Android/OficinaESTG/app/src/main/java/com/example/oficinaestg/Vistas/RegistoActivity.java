@@ -3,9 +3,13 @@ package com.example.oficinaestg.Vistas;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.oficinaestg.Listeners.RegistoListener;
+import com.example.oficinaestg.Modelos.Pessoa;
+import com.example.oficinaestg.Modelos.User;
 import com.example.oficinaestg.R;
 import com.example.oficinaestg.Singleton.LoginSingleton;
 
@@ -19,6 +23,9 @@ public class RegistoActivity extends AppCompatActivity {
     private EditText et_rMorada;
     private EditText et_rNIF;
 
+
+    private Pessoa pessoa;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +51,18 @@ public class RegistoActivity extends AppCompatActivity {
         String nome = et_rNome.getText().toString();
         String dataNascimento = et_rDataNascimento.getText().toString();
         String morada = et_rMorada.getText().toString();
-        String nif = et_rNIF.getText().toString();
+        int nif = Integer.parseInt(et_rNIF.getText().toString());
 
-        LoginSingleton.getInstance(getApplicationContext()).registarPessoaAPI(username, password, email, nome, dataNascimento, morada, nif, getApplicationContext());
+
+        pessoa = new Pessoa(0, nif, 0, nome, morada, null, dataNascimento);
+        user = new User(0, 0, username, null, email, 0, 0, null, null, null, password);
+
+        LoginSingleton.getInstance(getApplicationContext()).registarPessoaAPI(pessoa, user, getApplicationContext(), new RegistoListener() {
+            @Override
+            public void onSuccess(boolean sucesso) {
+                Toast.makeText(getApplicationContext(), "Registou com sucesso", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }

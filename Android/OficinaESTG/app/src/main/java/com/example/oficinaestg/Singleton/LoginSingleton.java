@@ -10,8 +10,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oficinaestg.Listeners.LoginListener;
+import com.example.oficinaestg.Listeners.RegistoListener;
+import com.example.oficinaestg.Modelos.Pessoa;
 import com.example.oficinaestg.Modelos.User;
 import com.example.oficinaestg.Modelos.UserDBHelp;
 import com.example.oficinaestg.Utils.UserJsonParser;
@@ -19,12 +22,17 @@ import com.example.oficinaestg.Utils.UserJsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginSingleton extends AppCompatActivity {
     
     private static LoginSingleton instance = null;
     private static RequestQueue volleyQueue;
 
     private final String mUrlAPILogin = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/login";
+    private final String mUrlAPIRegisto = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
+
 
     //USER
     private User user;
@@ -98,6 +106,38 @@ public class LoginSingleton extends AppCompatActivity {
 
         }
 
+    }
+
+    public void registarPessoaAPI(final Pessoa pessoa, final User user, final Context context, RegistoListener registoListener){
+
+        StringRequest request = new StringRequest(Request.Method.POST, mUrlAPIRegisto, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context, "Registou com sucesso", Toast.LENGTH_SHORT).show();
+                registoListener.onSuccess(true);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Erro ao fazer o Registo", Toast.LENGTH_SHORT).show();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap<>();
+                params.put("username", user.getUsername());
+                params.put("password", user.getPassword());
+                params.put("email", user.getEmail());
+                params.put("nome", pessoa.getNome());
+                params.put("morada", pessoa.getMorada());
+                params.put("dataNascimento", pessoa.getDataNascimento());
+                params.put("nif", ""+pessoa.getNif());
+
+                return  params;
+            }
+        };
+        volleyQueue.add(request);
     }
 
 

@@ -1,22 +1,18 @@
 package com.example.oficinaestg.Vistas;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.oficinaestg.Listeners.LoginListener;
 import com.example.oficinaestg.Modelos.User;
-import com.example.oficinaestg.Modelos.UserDBHelp;
 import com.example.oficinaestg.R;
 import com.example.oficinaestg.Singleton.LoginSingleton;
 import com.example.oficinaestg.Utils.UserJsonParser;
-
-import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -64,6 +60,11 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MenuMainActivity.class);
         intent.putExtra(MenuMainActivity.EMAIL_GESS,email);
         intent.putExtra(MenuMainActivity.NOME_GESS,nome);
+        startActivity(intent);
+    }
+
+    public void onClickLoginRegistar(View view) {
+        Intent intent = new Intent(this, RegistoActivity.class);
         startActivity(intent);
     }
 }
