@@ -16,6 +16,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oficinaestg.Listeners.LoginListener;
 import com.example.oficinaestg.Modelos.User;
+import com.example.oficinaestg.Modelos.UserDBHelp;
 import com.example.oficinaestg.Utils.UserJsonParser;
 import com.example.oficinaestg.Vistas.MenuMainActivity;
 
@@ -35,9 +36,13 @@ public class LoginSingleton extends AppCompatActivity {
 
     private final String mUrlAPILogin = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/login";
 
+    //USER
     private User user;
+    private UserDBHelp userBD;
+
 
     public LoginSingleton(Context context) {
+        userBD = new UserDBHelp(context);
     }
 
     public static synchronized LoginSingleton getInstance(Context context) {
@@ -50,35 +55,58 @@ public class LoginSingleton extends AppCompatActivity {
         return instance;
     }
 
-    public void loginAPI(final String email, final String password, final Context context, LoginListener loginListener) {
+    public void loginAPI(final String email, final String password, final Context context, boolean isConnected, LoginListener loginListener) {
+        if (isConnected){
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+            RequestQueue queue = Volley.newRequestQueue(context);
 
-        JSONObject postData = new JSONObject();
+            JSONObject postData = new JSONObject();
 
-        try {
-            postData.put("username", email);
-            postData.put("password", password);
+            String eemail = "secretaria";
+            String ppassword = "1234567890";
 
-        } catch (JSONException e) {
-            System.out.println("A-->"+e);
+            try {
+                postData.put("username", email);
+                postData.put("password", password);
+
+            } catch (JSONException e) {
+                System.out.println("A-->"+e);
+            }
+
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, mUrlAPILogin, postData,new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    user = UserJsonParser.parserJsonUser(response, context, password);
+                    //remover todos os que existem
+                    userBD.removerAllUserBD();
+                    //adicionar o user
+                    userBD.adicionarUserBD(user);
+                    loginListener.onSuccess(user);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("A-->"+error);
+                    Toast.makeText(context, "Erro a fazer Login", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            queue.add(jsonObjectRequest);
+        }
+        else{
+            Boolean verifica = false;
+
+            user = userBD.getUserBDbyNome(email, password);
+
+            if (user!= null){
+                verifica=true;
+                loginListener.onSemNet(user, verifica);
+            }
+
+            loginListener.onSemNet(null, verifica);
         }
 
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, mUrlAPILogin, postData,new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                user = UserJsonParser.parserJsonUser(response, context);
-                loginListener.onSuccess(user);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Erro a fazer Login", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        queue.add(jsonObjectRequest);
     }
 
 

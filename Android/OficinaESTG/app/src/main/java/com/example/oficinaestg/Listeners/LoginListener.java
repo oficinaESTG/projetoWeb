@@ -8,4 +8,5 @@ import java.util.ArrayList;
 
 public interface LoginListener {
     void onSuccess(User user);
+    void onSemNet(User user, Boolean verifica);
 }
