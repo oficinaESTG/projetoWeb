@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OficinaESTG">
+        <activity android:name=".Vistas.RegistoActivity"></activity>
         <activity android:name=".Vistas.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,8 +21,7 @@
         <activity
             android:name=".Vistas.MenuMainActivity"
             android:label="@string/title_activity_menu_main"
-            android:theme="@style/Theme.OficinaESTG.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.OficinaESTG.NoActionBar"></activity>
     </application>
 
 </manifest>
