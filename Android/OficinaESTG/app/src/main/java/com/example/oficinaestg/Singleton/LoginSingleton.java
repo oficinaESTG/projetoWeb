@@ -110,15 +110,19 @@ public class LoginSingleton extends AppCompatActivity {
 
     public void registarPessoaAPI(final Pessoa pessoa, final User user, final Context context, RegistoListener registoListener){
 
+        RequestQueue queue = Volley.newRequestQueue(context);
+
         StringRequest request = new StringRequest(Request.Method.POST, mUrlAPIRegisto, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                System.out.println("A-->"+response);
                 Toast.makeText(context, "Registou com sucesso", Toast.LENGTH_SHORT).show();
                 registoListener.onSuccess(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.out.println("A-->"+error);
                 Toast.makeText(context, "Erro ao fazer o Registo", Toast.LENGTH_SHORT).show();
             }
         })
@@ -127,17 +131,19 @@ public class LoginSingleton extends AppCompatActivity {
             protected Map<String, String> getParams(){
                 Map<String, String> params = new HashMap<>();
                 params.put("username", user.getUsername());
-                params.put("password", user.getPassword());
                 params.put("email", user.getEmail());
+                params.put("password", user.getPassword());
                 params.put("nome", pessoa.getNome());
-                params.put("morada", pessoa.getMorada());
                 params.put("dataNascimento", pessoa.getDataNascimento());
-                params.put("nif", ""+pessoa.getNif());
+                params.put("morada", pessoa.getMorada());
+                params.put("nif", String.valueOf(pessoa.getNif()));
 
                 return  params;
             }
         };
-        volleyQueue.add(request);
+
+        queue.add(request);
+
     }
 
 

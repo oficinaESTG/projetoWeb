@@ -1,5 +1,6 @@
 package com.example.oficinaestg.Vistas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -32,7 +33,6 @@ public class RegistoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registo);
 
-
         et_rUsername= findViewById(R.id.et_rUsername);
         et_rPassword=findViewById(R.id.et_rPassword);
         et_rEmail=findViewById(R.id.et_rEmail);
@@ -61,9 +61,13 @@ public class RegistoActivity extends AppCompatActivity {
             @Override
             public void onSuccess(boolean sucesso) {
                 Toast.makeText(getApplicationContext(), "Registou com sucesso", Toast.LENGTH_SHORT).show();
+                main(view);
             }
         });
+    }
 
-
+    public void main (View view){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }
