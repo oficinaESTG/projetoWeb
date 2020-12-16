@@ -55,6 +55,11 @@ class RegController extends ActiveController
             $modelPessoa->fk_IdUser = $identity->getId();
 
             if ($modelPessoa->save()){
+
+                $auth = \Yii::$app->authManager;
+                $utenteRole = $auth->getRole($modelPessoa->tipoPessoa);
+                $auth->assign($utenteRole, Yii::$app->user->identity->getId());
+
                 return ['SaveError'=> true];
             }
 
