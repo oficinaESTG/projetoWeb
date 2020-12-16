@@ -102,9 +102,10 @@ public class LoginSingleton extends AppCompatActivity {
             if (user!= null){
                 verifica=true;
                 loginListener.onSemNet(user, verifica);
+            }else{
+                loginListener.onSemNet(null, verifica);
             }
 
-            loginListener.onSemNet(null, verifica);
         }
 
     }

@@ -83,9 +83,12 @@ public class UserDBHelp extends SQLiteOpenHelper {
     }
 
     public User getUserBDbyNome(String email, String password){
+
+        String queryString = "(" + username_USER + " = '" + email + "') AND (" + password_USER + " = '" + password + "')";
+
         Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME, new String[]{
                 id_USER, status_USER, created_at_USER, updated_at_at_USER, username_USER, auth_key_USER,email_USER,password_hash_USER,password_reset_token_USER,verification_token_USER,password_USER},
-                username_USER + "=?",new String[] { email }, null, null, null, null);
+                queryString, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 

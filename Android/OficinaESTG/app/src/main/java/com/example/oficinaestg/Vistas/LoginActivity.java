@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (user != null){
 
-                    main(view, user.getEmail());
+                    main(view, user.getEmail(), user.getUsername());
                 }else{
                     Toast.makeText(getApplicationContext(), "Username ou Password Errado", Toast.LENGTH_SHORT).show();
                 }
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onSemNet(User user, Boolean verifica) {
 
                 if (verifica == true){
-                    main(view, user.getEmail());
+                    main(view, user.getEmail(), user.getUsername());
                 }else{
                     Toast.makeText(getApplicationContext(), "Username ou Password Errado", Toast.LENGTH_SHORT).show();
                 }
@@ -60,9 +60,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void main (View view, String email){
+    public void main (View view, String email, String nome){
         Intent intent = new Intent(this, MenuMainActivity.class);
         intent.putExtra(MenuMainActivity.EMAIL_GESS,email);
+        intent.putExtra(MenuMainActivity.NOME_GESS,nome);
         startActivity(intent);
     }
 }

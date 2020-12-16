@@ -25,4 +25,5 @@
     <string name="modelo_do_carro">Modelo do Carro:</string>
     <string name="quilometros">Quilômetros:</string>
     <string name="ano">Ano:</string>
+    <string name="semnome">Sem Nome</string>
 </resources>
