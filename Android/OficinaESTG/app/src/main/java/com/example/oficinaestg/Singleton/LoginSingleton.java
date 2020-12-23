@@ -9,19 +9,26 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.oficinaestg.Listeners.CarroVendaListener;
 import com.example.oficinaestg.Listeners.LoginListener;
 import com.example.oficinaestg.Listeners.RegistoListener;
+import com.example.oficinaestg.Modelos.Carro;
+import com.example.oficinaestg.Modelos.CarroDBHelp;
 import com.example.oficinaestg.Modelos.Pessoa;
 import com.example.oficinaestg.Modelos.User;
 import com.example.oficinaestg.Modelos.UserDBHelp;
+import com.example.oficinaestg.Utils.CarroJsonParser;
 import com.example.oficinaestg.Utils.UserJsonParser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,16 +39,32 @@ public class LoginSingleton extends AppCompatActivity {
 
     private final String mUrlAPILogin = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/login";
     private final String mUrlAPIRegisto = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
+    private final String mUrlAPICarroVenda = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
 
+    public LoginSingleton(Context context) {
+        userBD = new UserDBHelp(context);
+    }
 
     //USER
     private User user;
     private UserDBHelp userBD;
 
+    //CarroVenda
+    private ArrayList<Carro> carrosVenda;
+    private CarroVendaListener carroListener;
+    private CarroDBHelp carroDBHelp;
 
-    public LoginSingleton(Context context) {
-        userBD = new UserDBHelp(context);
+    public void setCarrosVendaListener(CarroVendaListener carroListener){
+        this.carroListener = carroListener;
     }
+
+    public void adicionarCarroBD(ArrayList<Carro> livros){
+        userBD.removerAllCarroVendaBD();
+        for(Carro l : livros){
+            userBD.adicionarCarroVendaBD(l);
+        }
+    }
+
 
     public static synchronized LoginSingleton getInstance(Context context) {
 
@@ -146,5 +169,29 @@ public class LoginSingleton extends AppCompatActivity {
 
     }
 
+    public void getAllCarrosVendaAPI(final Context context, boolean isConnected){
+        if (isConnected) {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPICarroVenda + "?access-token=2zVOIyuuJG_7rU0d8kjwIkg1DyUwA5av", null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    carrosVenda = CarroJsonParser.parserJsonCarro(response);
 
+                    adicionarCarroBD(carrosVenda);
+
+                    if (carroListener != null) {
+                        carroListener.onRefreshListaCarrosVenda(carrosVenda);
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            volleyQueue.add(request);
+        }else{
+            //falta fazer
+        }
+    }
 }

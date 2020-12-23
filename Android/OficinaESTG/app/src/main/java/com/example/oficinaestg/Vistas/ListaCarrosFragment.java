@@ -1,4 +1,4 @@
-package com.example.oficinaestg;
+package com.example.oficinaestg.Vistas;
 
 import android.os.Bundle;
 
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import com.example.oficinaestg.R;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -15,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -57,7 +58,15 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
         navigationView.setNavigationItemSelectedListener(this);
         fragmentManager = getSupportFragmentManager();
 
+        carregarMenuInicial();
         carregarcabecalho();
+    }
+
+    private void carregarMenuInicial(){
+        Fragment fragment = new ListaCarrosVendaFragment();
+        fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
+        //Testes
+        setTitle("Stand Vendas");
     }
 
     private void carregarcabecalho() {

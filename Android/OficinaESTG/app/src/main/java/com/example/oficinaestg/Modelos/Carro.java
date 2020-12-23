@@ -3,9 +3,9 @@ package com.example.oficinaestg.Modelos;
 public class Carro {
     private int idCarro, ano, quilometros, fk_idPessoa, precoCarro;
     private String modeloCarro, marcaCarro, matricula, tipoCarro, combustivel;
-    private boolean vendido;
+    private int vendido;
 
-    public Carro(int idCarro, int ano, int quilometros, int fk_idPessoa, int precoCarro, String modeloCarro, String marcaCarro, String matricula, String tipoCarro, String combustivel, boolean vendido) {
+    public Carro(int idCarro, int ano, int quilometros, int fk_idPessoa, int precoCarro, String modeloCarro, String marcaCarro, String matricula, String tipoCarro, String combustivel, int vendido) {
 
         this.idCarro = idCarro;
         this.ano = ano;
@@ -101,12 +101,9 @@ public class Carro {
         this.combustivel = combustivel;
     }
 
-    public boolean isVendido() {
+    public int getVendido() {
         return vendido;
     }
 
-    public void setVendido(boolean vendido) {
-        this.vendido = vendido;
 
-    }
 }

@@ -37,9 +37,6 @@ class CarController extends ActiveController
         $carro = Carro::find()->all();
 
         return Json::encode($carro);
-
-
-
     }
 
     public function actionCarroget()
@@ -50,7 +47,13 @@ class CarController extends ActiveController
         $rec = Carro::find()->where(['fk_idPessoa' => $pessoa->idPessoa])->all();
 
         return $rec;
+    }
 
+    public function actionCarrovendaget()
+    {
+        $rec = Carro::find()->where(['tipoCarro' => 'venda' ])->all();
+
+        return $rec;
     }
 
     public function actionCarrocreate(){

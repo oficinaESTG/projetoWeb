@@ -63,6 +63,7 @@ return [
                         //Métodos do CarController
                         'POST carrocreate' => 'carrocreate',
                         'GET carroget' => 'carroget',
+                        'GET carrovendaget' => 'carrovendaget',
                         'PUT carroput/{id}' => 'carroput',
                         'DELETE carrodel/{id}' => 'carrodel',
                         //Métodos do MarController
