@@ -15,13 +15,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.oficinaestg.Listeners.CarroVendaListener;
 import com.example.oficinaestg.Listeners.LoginListener;
+import com.example.oficinaestg.Listeners.MarcacoesListener;
 import com.example.oficinaestg.Listeners.RegistoListener;
 import com.example.oficinaestg.Modelos.Carro;
 import com.example.oficinaestg.Modelos.CarroDBHelp;
+import com.example.oficinaestg.Modelos.Marcacao;
 import com.example.oficinaestg.Modelos.Pessoa;
 import com.example.oficinaestg.Modelos.User;
 import com.example.oficinaestg.Modelos.UserDBHelp;
 import com.example.oficinaestg.Utils.CarroJsonParser;
+import com.example.oficinaestg.Utils.MarcacaoJsonParser;
 import com.example.oficinaestg.Utils.UserJsonParser;
 
 import org.json.JSONArray;
@@ -40,6 +43,7 @@ public class LoginSingleton extends AppCompatActivity {
     private final String mUrlAPILogin = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/login";
     private final String mUrlAPIRegisto = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
     private final String mUrlAPICarroVenda = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
+    private final String mUrlAPIMarcacaoGet = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
 
     public LoginSingleton(Context context) {
         userBD = new UserDBHelp(context);
@@ -54,9 +58,20 @@ public class LoginSingleton extends AppCompatActivity {
     private CarroVendaListener carroListener;
     private CarroDBHelp carroDBHelp;
 
+    //Marcacoes
+    private ArrayList<Marcacao>  marcacoes;
+    private MarcacoesListener marcacoesListener;
+    private UserDBHelp userMarcacoesBDHelper;
+
     public void setCarrosVendaListener(CarroVendaListener carroListener){
         this.carroListener = carroListener;
     }
+
+    public void setMarcacoesListener(MarcacoesListener marcacoesListener){
+        this.marcacoesListener = marcacoesListener;
+    }
+
+
 
     public void adicionarCarroBD(ArrayList<Carro> livros){
         userBD.removerAllCarroVendaBD();
@@ -64,6 +79,15 @@ public class LoginSingleton extends AppCompatActivity {
             userBD.adicionarCarroVendaBD(l);
         }
     }
+
+    public void adicionarMarcacaoBD(ArrayList<Marcacao> marcacoes){
+        userBD.removerAllMarcacoesBD();
+        for(Marcacao l : marcacoes){
+            userBD.adicionarMarcacaoBD(l);
+        }
+    }
+
+
 
 
     public static synchronized LoginSingleton getInstance(Context context) {
@@ -192,6 +216,39 @@ public class LoginSingleton extends AppCompatActivity {
             volleyQueue.add(request);
         }else{
             //falta fazer
+        }
+    }
+
+    public void getAllMarcacoesUserLoggadoAPI(final Context context, boolean isConnected){
+        if (isConnected) {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPIMarcacaoGet + "?access-token=s-pP6Nay6ZmGWhW89YbAIZAHO-R9iper", null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    marcacoes = MarcacaoJsonParser.parserJsonMarcacoes(response);
+
+                    adicionarMarcacaoBD(marcacoes);
+
+                    if (marcacoesListener != null) {
+                        marcacoesListener.onRefreshListaMarcacao(marcacoes);
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            volleyQueue.add(request);
+        }else{
+
+            Toast.makeText(context, "NAO TEM NET", Toast.LENGTH_SHORT).show();
+
+            if(marcacoesListener != null){
+                //fazer amanhã o getAllMarcacoes a receber o id da pessoa logada
+                //marcacoesListener.onRefreshListaMarcacao(userMarcacoesBDHelper.getAllMarcacoes());
+            }
+
         }
     }
 }

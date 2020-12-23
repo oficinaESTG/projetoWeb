@@ -14,7 +14,7 @@
         <ImageView
             android:id="@+id/imagelogo"
             android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_height="83dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
 
                 <TextView
                     android:id="@+id/marca_Text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:text="@string/marca_do_carro"
@@ -50,7 +50,7 @@
 
                 <TextView
                     android:id="@+id/modelo_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="@string/modelo_do_carro"
                     android:textColor="@android:color/holo_orange_dark"
@@ -71,7 +71,7 @@
 
                 <TextView
                     android:id="@+id/quilometros_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="@string/quilometros"
                     android:textColor="@android:color/holo_orange_dark"
@@ -93,7 +93,7 @@
 
                 <TextView
                     android:id="@+id/ano_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="@string/ano"
                     android:textColor="@android:color/holo_orange_dark"

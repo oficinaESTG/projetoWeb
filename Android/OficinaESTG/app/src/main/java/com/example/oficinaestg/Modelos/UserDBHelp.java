@@ -45,6 +45,23 @@ public class UserDBHelp extends SQLiteOpenHelper {
     private static final String combustivel_CARRO= "combustivel";
     private static final String vendido_CARRO= "vendido";
 
+    private static final String TABLE_NAME_MARCACAO = "Marcacao";
+
+    private static final String idMarcacoes_MARCACAO= "idMarcacoes";
+    private static final String fk_idPessoa_MARCACAO= "fk_idPessoa";
+    private static final String fk_idCarro_MARCACAO= "fk_idCarro";
+    private static final String fk_idResponsavel_MARCACAO= "fk_idResponsavel";
+    private static final String valorFinal_MARCACAO= "valorFinal";
+    private static final String horasTrabalho_MARCACAO= "horasTrabalho";
+    private static final String tipoMarcacao_MARCACAO= "tipoMarcacao";
+    private static final String dataMarcacao_MARCACAO= "dataMarcacao";
+    private static final String descricaoMarcacao_MARCACAO= "descricaoMarcacao";
+    private static final String estadoMarcacao_MARCACAO= "estadoMarcacao";
+    private static final String descricaoFinal_MARCACAO= "descricaoFinal";
+
+
+
+
     private User user;
 
     public UserDBHelp( Context context) {
@@ -85,12 +102,71 @@ public class UserDBHelp extends SQLiteOpenHelper {
                         vendido_CARRO + " INTEGER NOT NULL" +
                         ");";
         db.execSQL(createCarroTable);
+
+        String createMarcacaoTable =
+                "CREATE TABLE " + TABLE_NAME_MARCACAO +
+                        "( " + idMarcacoes_MARCACAO + " INTEGER NOT NULL, " +
+                        fk_idPessoa_MARCACAO + " INTEGER NOT NULL, " +
+                        fk_idCarro_MARCACAO + " INTEGER NOT NULL, " +
+                        fk_idResponsavel_MARCACAO + " INTEGER, " +
+                        valorFinal_MARCACAO + " INTEGER, " +
+                        horasTrabalho_MARCACAO + " INTEGER, " +
+                        tipoMarcacao_MARCACAO + " TEXT NOT NULL, " +
+                        dataMarcacao_MARCACAO + " TEXT NOT NULL, " +
+                        descricaoMarcacao_MARCACAO + " TEXT, " +
+                        estadoMarcacao_MARCACAO + " TEXT NOT NULL, " +
+                        descricaoFinal_MARCACAO + " TEXT" +
+                        ");";
+        db.execSQL(createMarcacaoTable);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         this.onCreate(sqLiteDatabase);
+    }
+
+    //MARCACAO
+
+    public void adicionarMarcacaoBD (Marcacao marcacao){
+        ContentValues values = new ContentValues();
+
+        values.put(idMarcacoes_MARCACAO, marcacao.getIdMarcacoes());
+        values.put(fk_idPessoa_MARCACAO, marcacao.getFk_idPessoa());
+        values.put(fk_idCarro_MARCACAO, marcacao.getFk_idCarro());
+        values.put(fk_idResponsavel_MARCACAO, marcacao.getFk_idResponsavel());
+        values.put(valorFinal_MARCACAO, marcacao.getValorFinal());
+        values.put(horasTrabalho_MARCACAO, marcacao.getHorasTrabalho());
+        values.put(tipoMarcacao_MARCACAO, marcacao.getTipoMarcacao());
+        values.put(dataMarcacao_MARCACAO, marcacao.getDataMarcacao());
+        values.put(descricaoMarcacao_MARCACAO, marcacao.getDescricaoMarcacao());
+        values.put(estadoMarcacao_MARCACAO, marcacao.getEstadoMarcacao());
+        values.put(descricaoFinal_MARCACAO, marcacao.getDescricaoFinal());
+
+        this.sqLiteDatabase.insert(TABLE_NAME, null, values);
+    }
+
+    public void removerAllMarcacoesBD(){
+        this.sqLiteDatabase.delete(TABLE_NAME_MARCACAO, null, null);
+    }
+
+    public ArrayList<Marcacao> getAllMarcacoes(int id){
+        //falta fazer a condição de filtração de marcações do user
+        String queryStringMarcacao = "(" + fk_idPessoa_MARCACAO + " = '" + id + "')";
+
+        ArrayList<Marcacao> marcacoes = new ArrayList<>();
+        Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME_MARCACAO, new String[]{
+                idMarcacoes_MARCACAO, fk_idPessoa_MARCACAO, fk_idCarro_MARCACAO, fk_idResponsavel_MARCACAO, valorFinal_MARCACAO,
+                horasTrabalho_MARCACAO,tipoMarcacao_MARCACAO,dataMarcacao_MARCACAO,descricaoMarcacao_MARCACAO,estadoMarcacao_MARCACAO,descricaoFinal_MARCACAO}, queryStringMarcacao, null, null, null, null, null);
+        if (cursor.moveToFirst()){
+            do {
+                Marcacao auxMarcacao = new Marcacao(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5),
+                        cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10));
+                marcacoes.add(auxMarcacao);
+            }while (cursor.moveToNext());
+        }
+        return marcacoes;
     }
 
 
