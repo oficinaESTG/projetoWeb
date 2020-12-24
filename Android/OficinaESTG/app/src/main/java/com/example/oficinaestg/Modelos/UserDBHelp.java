@@ -144,7 +144,7 @@ public class UserDBHelp extends SQLiteOpenHelper {
         values.put(estadoMarcacao_MARCACAO, marcacao.getEstadoMarcacao());
         values.put(descricaoFinal_MARCACAO, marcacao.getDescricaoFinal());
 
-        this.sqLiteDatabase.insert(TABLE_NAME, null, values);
+        this.sqLiteDatabase.insert(TABLE_NAME_MARCACAO, null, values);
     }
 
     public void removerAllMarcacoesBD(){
