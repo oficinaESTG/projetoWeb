@@ -24,7 +24,6 @@
     <string name="marca_do_carro">Marca do Carro:</string>
     <string name="modelo_do_carro">Modelo do Carro:</string>
     <string name="quilometros">Quilômetros:</string>
-    <string name="ano">Ano:</string>
     <string name="semnome">Sem Nome</string>
     <string name="titulo">titulo</string>
     <string name="combustivel">Combustível</string>
@@ -32,4 +31,6 @@
     <string name="modelo">Modelo:</string>
     <string name="combutivel">Combutível:</string>
     <string name="preco">Preço</string>
+    <string name="ano">Ano:</string>
+    <string name="matricula">Matrícula:</string>
 </resources>

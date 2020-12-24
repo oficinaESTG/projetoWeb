@@ -28,7 +28,8 @@
         android:backgroundTint="#E91E63"
         android:clickable="true"
         android:src="@drawable/ic_menu_adicionar"
-        android:focusable="true" />
+        android:focusable="true"
+        android:visibility="invisible"/>
 
 
 </FrameLayout>

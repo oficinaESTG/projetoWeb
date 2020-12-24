@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -54,14 +55,27 @@ public class ListaCarrosVendaFragment extends Fragment implements SwipeRefreshLa
         LoginSingleton.getInstance(getContext()).setCarrosVendaListener(this);
         LoginSingleton.getInstance(getContext()).getAllCarrosVendaAPI(getContext(),UserJsonParser.isConnectionInternet(getContext()));
 
+        lvCarroLista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Carro temCarro = (Carro) parent.getItemAtPosition(position);
+
+                Intent intent = new Intent(getContext(), DetalhesCarroVendaActivity.class);
+                intent.putExtra(DetalhesCarroVendaActivity.DETALHES_CARROVENDA, temCarro.getIdCarro());
+                startActivityForResult(intent, 0);
+            }
+        });
+
         return rootView;
     }
 
     @Override
     public void onRefreshListaCarrosVenda(ArrayList<Carro> listaCarros) {
+
         if(listaCarros != null){
             lvCarroLista.setAdapter(new ListaCarroVendaAdaptador(getContext(), listaCarros));
         }
+
     }
 
     @Override

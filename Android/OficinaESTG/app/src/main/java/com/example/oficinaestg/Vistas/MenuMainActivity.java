@@ -36,7 +36,6 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
     private String nome = "";
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-
     private FragmentManager fragmentManager;
 
     @Override

@@ -71,13 +71,20 @@ public class LoginSingleton extends AppCompatActivity {
         this.marcacoesListener = marcacoesListener;
     }
 
-
-
-    public void adicionarCarroBD(ArrayList<Carro> livros){
+    public void adicionarCarroBD(ArrayList<Carro> carros){
         userBD.removerAllCarroVendaBD();
-        for(Carro l : livros){
-            userBD.adicionarCarroVendaBD(l);
+        for(Carro car : carros){
+            userBD.adicionarCarroVendaBD(car);
         }
+    }
+
+    public Carro getCarro(int idCarro){
+        for (Carro carro : carrosVenda){
+            if(carro.getIdCarro() == idCarro){
+                return carro;
+            }
+        }
+        return null;
     }
 
     public void adicionarMarcacaoBD(ArrayList<Marcacao> marcacoes){
@@ -86,9 +93,6 @@ public class LoginSingleton extends AppCompatActivity {
             userBD.adicionarMarcacaoBD(l);
         }
     }
-
-
-
 
     public static synchronized LoginSingleton getInstance(Context context) {
 
@@ -194,6 +198,7 @@ public class LoginSingleton extends AppCompatActivity {
     }
 
     public void getAllCarrosVendaAPI(final Context context, boolean isConnected){
+
         if (isConnected) {
             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPICarroVenda + "?access-token=2zVOIyuuJG_7rU0d8kjwIkg1DyUwA5av", null, new Response.Listener<JSONArray>() {
                 @Override
@@ -213,9 +218,17 @@ public class LoginSingleton extends AppCompatActivity {
                     Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+
             volleyQueue.add(request);
+
         }else{
-            //falta fazer
+
+            carrosVenda =  userBD.getAllCarrosVendaBD();
+
+            if (carroListener != null) {
+                carroListener.onRefreshListaCarrosVenda(carrosVenda);
+            }
+
         }
     }
 
