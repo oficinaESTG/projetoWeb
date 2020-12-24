@@ -3,27 +3,25 @@ package com.example.oficinaestg.Vistas;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Menu;
 import android.widget.TextView;
 
-import com.example.oficinaestg.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
+import com.example.oficinaestg.R;
+import com.google.android.material.navigation.NavigationView;
 
 public class MenuMainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener {
 
@@ -124,7 +122,25 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+    public boolean onNavigationItemSelected( MenuItem menuItem) {
+
+        Fragment fragment = null;
+        switch (menuItem.getItemId()) {
+            case R.id.nav_marcacoes:
+                System.out.println("-->Nav Marcacoes");
+                fragment = new ListaMarcacoesFragment();
+                setTitle(menuItem.getTitle());
+                break;
+
+        }
+
+        if(fragment != null){
+            fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+
     }
+
+
 }
