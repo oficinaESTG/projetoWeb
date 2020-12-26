@@ -242,7 +242,13 @@ public class UserDBHelp extends SQLiteOpenHelper {
     }
 
     public void removerAllCarroVendaBD(){
-        this.sqLiteDatabase.delete(TABLE_NAME_CARROVENDA, null, null);
+        String queryString = "(" + tipoCarro_CARRO + " = 'Venda')";
+        this.sqLiteDatabase.delete(TABLE_NAME_CARROVENDA, queryString, null);
+    }
+
+    public void removerAllCarroPessoalBD(){
+        String queryString = "(" + tipoCarro_CARRO + " = 'Reparacao')";
+        this.sqLiteDatabase.delete(TABLE_NAME_CARROVENDA, queryString, null);
     }
 
     public ArrayList<Carro> getAllCarrosVendaBD(){

@@ -1,7 +1,12 @@
 package com.example.oficinaestg.Vistas;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +16,8 @@ import android.widget.Toast;
 import com.example.oficinaestg.Modelos.Carro;
 import com.example.oficinaestg.R;
 import com.example.oficinaestg.Singleton.LoginSingleton;
+import com.example.oficinaestg.Utils.UserJsonParser;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DetalhesCarroPessoalActivity extends AppCompatActivity {
 
@@ -21,6 +28,7 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
 
     private TextView etMarca, etModelo, etQuilometros, etAno, etCombustivel, etMatricula;
     private Button botao;
+    private FloatingActionButton botaodelete;
 
     String marca, modelo, matricula, combustivel;
     int ano, quilometros;
@@ -40,6 +48,9 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
         etCombustivel = findViewById(R.id.et_Combustivel_tx);
         etMatricula = findViewById(R.id.et_Matricula_tx);
         botao = findViewById(R.id.btnGravar);
+        botaodelete = findViewById(R.id.fabEliminarCarro);
+
+        boolean net = UserJsonParser.isConnectionInternet(getApplicationContext());
 
 
         if(carro != null){
@@ -53,10 +64,23 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
             etCombustivel.setText(carro.getCombustivel());
             etMatricula.setText(carro.getMatricula());
             botao.setText("Alterar");
+            botaodelete.setVisibility(View.VISIBLE);
 
         }else{
             setTitle("Adicionar Carro");
             botao.setText("Adicionar");
+        }
+
+        botaodelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removerCarro(carro);
+            }
+        });
+
+        if (!net){
+            botao.setVisibility(View.INVISIBLE);
+            botaodelete.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -72,6 +96,7 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
 
             Carro carros = new Carro(carro.getIdCarro() ,ano, quilometros, 0, 0, modelo, marca, matricula, null, combustivel,0 );
             LoginSingleton.getInstance(getApplicationContext()).alterarCarroPessoalAPI(carros, getApplicationContext());
+            finish();
 
         }else{
             marca = etMarca.getText().toString();
@@ -83,7 +108,30 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
 
             Carro carros = new Carro(0,ano, quilometros, 0, 0, modelo, marca, matricula, null, combustivel,0 );
             LoginSingleton.getInstance(getApplicationContext()).guardarCarroPessoalAPI(carros, getApplicationContext());
+            finish();
         }
 
+    }
+
+    public void removerCarro(Carro carro){
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.eliminarcarro)
+                .setMessage(R.string.reverter)
+                .setPositiveButton(R.string.sim, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        LoginSingleton.getInstance(getApplicationContext()).removerCarroPessoalAPI(carro, getApplicationContext());
+                        finish();
+                    }
+                })
+                .setNegativeButton(R.string.nao, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setIcon(android.R.drawable.ic_menu_delete)
+                .show();
     }
 }

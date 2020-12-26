@@ -42,4 +42,12 @@
     <string name="marcar">Marcar</string>
     <string name="insirar_o_username">Insira o username</string>
     <string name="registar">Registar</string>
+    <string name="eliminarcarro">Eliminar carro</string>
+    <string name="reverter">Pretende eliminar o carro da lista? Não será possível reverter a ação!</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string-array name="planets_array">
+        <item>Diesel</item>
+        <item>Gasolina</item>
+    </string-array>
 </resources>

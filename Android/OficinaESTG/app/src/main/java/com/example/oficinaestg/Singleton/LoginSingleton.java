@@ -4,6 +4,8 @@ import android.content.Context;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,9 +26,11 @@ import com.example.oficinaestg.Modelos.Marcacao;
 import com.example.oficinaestg.Modelos.Pessoa;
 import com.example.oficinaestg.Modelos.User;
 import com.example.oficinaestg.Modelos.UserDBHelp;
+import com.example.oficinaestg.R;
 import com.example.oficinaestg.Utils.CarroJsonParser;
 import com.example.oficinaestg.Utils.MarcacaoJsonParser;
 import com.example.oficinaestg.Utils.UserJsonParser;
+import com.example.oficinaestg.Vistas.ListaCarrosPessoalFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,16 +47,22 @@ public class LoginSingleton extends AppCompatActivity {
 
     private final String mUrlAPILogin = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/login";
     private final String mUrlAPIRegisto = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
+
     private final String mUrlAPICarroVenda = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
     private final String mUrlAPICarroPessoal = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carroget";
     private final String mUrlAPIAlterarCarroPessoal = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carroput";
     private final String mUrlAPIAdicionarCarroPessoal = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carrocreate";
+    private final String mUrlAPIEliminarCarroPessoal = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carrodel";
+
+
     private final String mUrlAPIMarcacaoGet = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
     private final String mUrlAPIMarcacaoVendaGet = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
 
     public LoginSingleton(Context context) {
         userBD = new UserDBHelp(context);
     }
+
+    private FragmentManager fragmentManager;
 
     //USER
     private User user;
@@ -93,6 +103,7 @@ public class LoginSingleton extends AppCompatActivity {
     }
 
     public void adicionarPessoalCarroBD(ArrayList<Carro> carros){
+        userBD.removerAllCarroPessoalBD();
         for(Carro car : carros){
             userBD.adicionarCarroVendaBD(car);
         }
@@ -363,12 +374,13 @@ public class LoginSingleton extends AppCompatActivity {
             public void onResponse(String response) {
                 System.out.println("A-->"+response);
                 Toast.makeText(context, "Carro inserido", Toast.LENGTH_SHORT).show();
+                carroPessoalListener.onActions();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("A-->"+error);
-                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         })
@@ -401,12 +413,13 @@ public class LoginSingleton extends AppCompatActivity {
             public void onResponse(String response) {
                 System.out.println("A-->"+response);
                 Toast.makeText(context, "Carro alterado", Toast.LENGTH_SHORT).show();
+                carroPessoalListener.onActions();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("A-->"+error);
-                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         })
@@ -429,4 +442,21 @@ public class LoginSingleton extends AppCompatActivity {
         queue.add(request);
 
     }
+
+    public void removerCarroPessoalAPI(final Carro carro, final Context context){
+        StringRequest request = new StringRequest(Request.Method.DELETE, mUrlAPIEliminarCarroPessoal + "/" + carro.getIdCarro()  + "?access-token="+user.getAuth_key(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context, "Carro eliminado", Toast.LENGTH_SHORT).show();
+                carroPessoalListener.onActions();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        volleyQueue.add(request);
+    }
+
 }

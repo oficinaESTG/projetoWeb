@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -37,6 +38,11 @@ public class ListaCarrosPessoalFragment extends Fragment implements SwipeRefresh
     @Override
     public void onRefresh() {
         LoginSingleton.getInstance(getContext()).getAllCarrosPessoalAPI(getContext(), UserJsonParser.isConnectionInternet(getContext()));
+
+        boolean net = UserJsonParser.isConnectionInternet(getContext());
+        if (!net){
+            fab.setVisibility(View.INVISIBLE);
+        }
 
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -77,6 +83,10 @@ public class ListaCarrosPessoalFragment extends Fragment implements SwipeRefresh
             }
         });
 
+        boolean net = UserJsonParser.isConnectionInternet(getContext());
+        if (!net){
+            fab.setVisibility(View.INVISIBLE);
+        }
 
         return rootView;
     }
@@ -86,10 +96,23 @@ public class ListaCarrosPessoalFragment extends Fragment implements SwipeRefresh
         if(listaCarros != null){
             lvCarroPessoalLista.setAdapter(new ListaCarroPessoalAdaptador(getContext(), listaCarros));
         }
+
+        boolean net = UserJsonParser.isConnectionInternet(getContext());
+        if (!net){
+            fab.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     public void onUpdateListaCarrosPessoalBD(Carro carro, int operação) {
 
     }
+
+    @Override
+    public void onActions(){
+        LoginSingleton.getInstance(getContext()).getAllCarrosPessoalAPI(getContext(), UserJsonParser.isConnectionInternet(getContext()));
+
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
 }
