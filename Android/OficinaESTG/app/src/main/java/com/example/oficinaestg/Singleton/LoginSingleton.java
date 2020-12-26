@@ -13,6 +13,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.oficinaestg.Listeners.CarroPessoalListener;
 import com.example.oficinaestg.Listeners.CarroVendaListener;
 import com.example.oficinaestg.Listeners.LoginListener;
 import com.example.oficinaestg.Listeners.MarcacoesListener;
@@ -43,6 +44,7 @@ public class LoginSingleton extends AppCompatActivity {
     private final String mUrlAPILogin = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/login";
     private final String mUrlAPIRegisto = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
     private final String mUrlAPICarroVenda = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
+    private final String mUrlAPICarroPessoal = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carroget";
     private final String mUrlAPIMarcacaoGet = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
     private final String mUrlAPIMarcacaoVendaGet = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
 
@@ -59,6 +61,11 @@ public class LoginSingleton extends AppCompatActivity {
     private CarroVendaListener carroListener;
     private CarroDBHelp carroDBHelp;
 
+    //CarroPessoal
+    private ArrayList<Carro> carroPessoal;
+    private CarroPessoalListener carroPessoalListener;
+    private CarroDBHelp carroPessoalDBHelp;
+
     //Marcacoes
     private ArrayList<Marcacao>  marcacoes;
     private MarcacoesListener marcacoesListener;
@@ -68,12 +75,22 @@ public class LoginSingleton extends AppCompatActivity {
         this.carroListener = carroListener;
     }
 
+    public void setCarrosPessoalListener(CarroPessoalListener carroPessoalListener){
+        this.carroPessoalListener = carroPessoalListener;
+    }
+
     public void setMarcacoesListener(MarcacoesListener marcacoesListener){
         this.marcacoesListener = marcacoesListener;
     }
 
     public void adicionarCarroBD(ArrayList<Carro> carros){
         userBD.removerAllCarroVendaBD();
+        for(Carro car : carros){
+            userBD.adicionarCarroVendaBD(car);
+        }
+    }
+
+    public void adicionarPessoalCarroBD(ArrayList<Carro> carros){
         for(Carro car : carros){
             userBD.adicionarCarroVendaBD(car);
         }
@@ -228,6 +245,41 @@ public class LoginSingleton extends AppCompatActivity {
 
             if (carroListener != null) {
                 carroListener.onRefreshListaCarrosVenda(carrosVenda);
+            }
+
+        }
+    }
+
+    public void getAllCarrosPessoalAPI(final Context context, boolean isConnected){
+
+        if (isConnected) {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPICarroPessoal + "?access-token="+user.getAuth_key(), null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    carrosVenda = CarroJsonParser.parserJsonCarro(response);
+
+                    adicionarPessoalCarroBD(carrosVenda);
+
+                    if (carroPessoalListener != null) {
+                        carroPessoalListener.onRefreshListaCarrosPessoal(carrosVenda);
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            volleyQueue.add(request);
+
+        }else{
+
+            carrosVenda =  userBD.getAllCarrosPessoaBD(user.getId());
+
+            if (carroPessoalListener != null) {
+                carroPessoalListener.onRefreshListaCarrosPessoal(carrosVenda);
             }
 
         }

@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.oficinaestg.Modelos.Carro;
 import com.example.oficinaestg.R;
 import com.example.oficinaestg.Singleton.LoginSingleton;
+import com.example.oficinaestg.Utils.UserJsonParser;
 
 public class DetalhesCarroVendaActivity extends AppCompatActivity {
 
@@ -20,10 +22,12 @@ public class DetalhesCarroVendaActivity extends AppCompatActivity {
     private int idCarro;
     private Carro carro;
 
-    private TextView etMarca, etModelo, etQuilometros, etAno, etCombustivel, etMatricula, etPreco, etData, etNota;
+    private TextView etMarca, etModelo, etQuilometros, etAno, etCombustivel, etMatricula, etPreco, etData, etData_tx, etNota, etnota_tx, et_texto_guardar;
     private String Data, Nota, Carro;
+    private Button btnGuardar;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,25 @@ public class DetalhesCarroVendaActivity extends AppCompatActivity {
         etCombustivel = findViewById(R.id.tv_combustivel_tx_view);
         etMatricula = findViewById(R.id.tv_matricula_tx_view);
         etPreco = findViewById(R.id.tv_preco_tx_view);
+
+        etData= findViewById(R.id.et_venda_data);
+        etNota= findViewById(R.id.et_venda_notas);
+        et_texto_guardar= findViewById(R.id.tv_vistoria);
+        etData_tx= findViewById(R.id.tv_venda_data);
+        etnota_tx= findViewById(R.id.tv_venda_notas);
+        btnGuardar= findViewById(R.id.button_guardar);
+
+        boolean net = UserJsonParser.isConnectionInternet(getApplicationContext());
+
+        if (!net){
+            etData.setVisibility(View.INVISIBLE);
+            etNota.setVisibility(View.INVISIBLE);
+            etData_tx.setVisibility(View.INVISIBLE);
+            etnota_tx.setVisibility(View.INVISIBLE);
+            btnGuardar.setVisibility(View.INVISIBLE);
+
+            et_texto_guardar.setText("Sem Internet");
+        }
 
         if(carro != null){
 
@@ -58,9 +81,6 @@ public class DetalhesCarroVendaActivity extends AppCompatActivity {
     }
 
     public void marcarvistoria_onClick(View view) {
-
-        etData= findViewById(R.id.et_venda_data);
-        etNota= findViewById(R.id.et_venda_notas);
 
         Data = etData.getText().toString();
         Nota = etNota.getText().toString();

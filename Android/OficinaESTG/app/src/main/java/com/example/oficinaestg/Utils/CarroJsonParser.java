@@ -29,8 +29,8 @@ public class CarroJsonParser {
                 int quilometros = carro.getInt("quilometros");
                 String combustivel = carro.getString("combustivel");
                 int fk_idPessoa = carro.getInt("fk_idPessoa");
-                int precoCarro = carro.getInt("precoCarro");
-                int vendido = carro.getInt("vendido");
+                int precoCarro = carro.optInt("precoCarro", 0);
+                int vendido = carro.optInt("vendido", 0);
 
                 Carro carroaux = new Carro(idCarro,ano,quilometros, fk_idPessoa, precoCarro,modeloCarro,marcaCarro,matricula,tipoCarro,combustivel,vendido );
 

@@ -134,6 +134,10 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
                 fragment = new ListaCarrosVendaFragment();
                 setTitle(menuItem.getTitle());
                 break;
+            case R.id.nav_garagem:
+                fragment = new ListaCarrosPessoalFragment();
+                setTitle(menuItem.getTitle());
+                break;
 
         }
 

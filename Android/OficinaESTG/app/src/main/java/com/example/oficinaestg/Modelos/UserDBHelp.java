@@ -246,9 +246,29 @@ public class UserDBHelp extends SQLiteOpenHelper {
     }
 
     public ArrayList<Carro> getAllCarrosVendaBD(){
+        String queryString = "(" + tipoCarro_CARRO + " = 'Venda')";
+
         ArrayList<Carro> carros = new ArrayList<>();
         Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME_CARROVENDA, new String[]{
-                idCarro_CARRO, ano_CARRO, quilometros_CARRO, fk_idPessoa_CARRO, precoCarro_CARRO, modeloCarro_CARRO,marcaCarro_CARRO,matricula_CARRO,tipoCarro_CARRO,combustivel_CARRO,vendido_CARRO}, null, null, null, null, null);
+                idCarro_CARRO, ano_CARRO, quilometros_CARRO, fk_idPessoa_CARRO, precoCarro_CARRO, modeloCarro_CARRO,marcaCarro_CARRO,matricula_CARRO,tipoCarro_CARRO,combustivel_CARRO,vendido_CARRO},
+                queryString, null, null, null, null);
+        if (cursor.moveToFirst()){
+            do {
+                Carro auxCarro = new Carro(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5),
+                        cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getInt(10));
+                carros.add(auxCarro);
+            }while (cursor.moveToNext());
+        }
+        return carros;
+    }
+
+    public ArrayList<Carro> getAllCarrosPessoaBD(int idUser){
+        String queryString = "(" + fk_idPessoa_CARRO + " = '"+ idUser +"')";
+
+        ArrayList<Carro> carros = new ArrayList<>();
+        Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME_CARROVENDA, new String[]{
+                        idCarro_CARRO, ano_CARRO, quilometros_CARRO, fk_idPessoa_CARRO, precoCarro_CARRO, modeloCarro_CARRO,marcaCarro_CARRO,matricula_CARRO,tipoCarro_CARRO,combustivel_CARRO,vendido_CARRO},
+                queryString, null, null, null, null);
         if (cursor.moveToFirst()){
             do {
                 Carro auxCarro = new Carro(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5),
