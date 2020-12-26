@@ -33,9 +33,12 @@ public class ListaCarrosPessoalFragment extends Fragment implements SwipeRefresh
     private SearchView searchView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
+
     @Override
     public void onRefresh() {
+        LoginSingleton.getInstance(getContext()).getAllCarrosPessoalAPI(getContext(), UserJsonParser.isConnectionInternet(getContext()));
 
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -52,6 +55,27 @@ public class ListaCarrosPessoalFragment extends Fragment implements SwipeRefresh
 
         LoginSingleton.getInstance(getContext()).setCarrosPessoalListener(this);
         LoginSingleton.getInstance(getContext()).getAllCarrosPessoalAPI(getContext(), UserJsonParser.isConnectionInternet(getContext()));
+
+        fab = rootView.findViewById(R.id.fabAdicionarCarro);
+
+        lvCarroPessoalLista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Carro temCarro = (Carro) parent.getItemAtPosition(position);
+
+                Intent intent = new Intent(getContext(), DetalhesCarroPessoalActivity.class);
+                intent.putExtra(DetalhesCarroPessoalActivity.DETALHES_CARROPESSOAL, temCarro.getIdCarro());
+                startActivityForResult(intent, 0);
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), DetalhesCarroPessoalActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
 
 
         return rootView;

@@ -45,6 +45,8 @@ public class LoginSingleton extends AppCompatActivity {
     private final String mUrlAPIRegisto = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
     private final String mUrlAPICarroVenda = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
     private final String mUrlAPICarroPessoal = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carroget";
+    private final String mUrlAPIAlterarCarroPessoal = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carroput";
+    private final String mUrlAPIAdicionarCarroPessoal = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carrocreate";
     private final String mUrlAPIMarcacaoGet = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
     private final String mUrlAPIMarcacaoVendaGet = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
 
@@ -343,6 +345,82 @@ public class LoginSingleton extends AppCompatActivity {
                 params.put("dataMarcacao",data);
                 params.put("descricaoMarcacao", nota);
                 params.put("fk_idCarro", idCarro);
+
+                return  params;
+            }
+        };
+
+        queue.add(request);
+
+    }
+
+    public void guardarCarroPessoalAPI(final Carro carro , final Context context){
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest request = new StringRequest(Request.Method.POST, mUrlAPIAdicionarCarroPessoal + "?access-token="+user.getAuth_key(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println("A-->"+response);
+                Toast.makeText(context, "Carro inserido", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("A-->"+error);
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap<>();
+                params.put("marcaCarro",carro.getMarcaCarro());
+                params.put("modeloCarro", carro.getModeloCarro());
+                params.put("ano", ""+carro.getAno());
+                params.put("matricula", carro.getMatricula());
+                params.put("quilometros", ""+carro.getQuilometros());
+                params.put("combustivel", carro.getCombustivel());
+                params.put("precoCarro", ""+carro.getPrecoCarro());
+
+                return  params;
+            }
+        };
+
+        queue.add(request);
+
+    }
+
+    public void alterarCarroPessoalAPI(final Carro carro , final Context context){
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest request = new StringRequest(Request.Method.PUT, mUrlAPIAlterarCarroPessoal +"/" + carro.getIdCarro() + "?access-token="+user.getAuth_key(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println("A-->"+response);
+                Toast.makeText(context, "Carro alterado", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("A-->"+error);
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap<>();
+                params.put("marcaCarro",carro.getMarcaCarro());
+                params.put("modeloCarro", carro.getModeloCarro());
+                params.put("ano", ""+carro.getAno());
+                params.put("matricula", carro.getMatricula());
+                params.put("quilometros", ""+carro.getQuilometros());
+                params.put("combustivel", carro.getCombustivel());
+                params.put("precoCarro", ""+carro.getPrecoCarro());
 
                 return  params;
             }
