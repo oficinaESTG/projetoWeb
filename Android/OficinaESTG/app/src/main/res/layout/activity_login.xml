@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/insira_o_email"
+        android:hint="@string/insirar_o_username"
         android:inputType="textPersonName" />
 
     <EditText
@@ -54,6 +54,8 @@
         android:id="@+id/buton_registar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:onClick="onClickLoginRegistar"/>
+        android:background="#4CAF50"
+        android:onClick="onClickLoginRegistar"
+        android:text="@string/registar"
+        app:backgroundTint="#8BC34A" />
 </LinearLayout>

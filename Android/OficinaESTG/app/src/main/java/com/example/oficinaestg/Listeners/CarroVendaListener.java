@@ -8,4 +8,5 @@ import java.util.ArrayList;
 public interface CarroVendaListener {
     void onRefreshListaCarrosVenda(ArrayList<Carro> listaCarros);
     void onUpdateListaCarrosVendaBD(Carro livro, int operação);
+
 }

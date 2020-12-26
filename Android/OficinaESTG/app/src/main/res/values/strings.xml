@@ -33,4 +33,13 @@
     <string name="preco">Preço</string>
     <string name="ano">Ano:</string>
     <string name="matricula">Matrícula:</string>
+    <string name="stand_vendas">Stand Vendas</string>
+    <string name="nome">Nome:</string>
+    <string name="email">Email:</string>
+    <string name="data">Data:</string>
+    <string name="notas">Notas:</string>
+    <string name="marcar_vistoria">Marcar vistoria:</string>
+    <string name="marcar">Marcar</string>
+    <string name="insirar_o_username">Insira o username</string>
+    <string name="registar">Registar</string>
 </resources>

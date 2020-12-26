@@ -19,7 +19,7 @@
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="197dp"
                 app:srcCompat="@drawable/logo"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="0dp" />
@@ -35,7 +35,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/marca"
-                    android:textAlignment="viewStart"
+                    android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -57,7 +57,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/modelo"
-                    android:textAlignment="viewStart"
+                    android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -79,7 +79,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/quilometros"
-                    android:textAlignment="viewStart"
+                    android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -100,7 +100,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/ano"
-                    android:textAlignment="viewStart"
+                    android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -125,7 +125,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/combutivel"
-                    android:textAlignment="viewStart"
+                    android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -150,7 +150,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/matricula"
-                    android:textAlignment="viewStart"
+                    android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -190,6 +190,86 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:id="@+id/tv_vistoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#953232"
+                android:text="@string/marcar_vistoria"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHighlight="#FFFFFF"
+                android:textColorLink="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_venda_data"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="@string/data"
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_venda_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:ems="10"
+                    android:inputType="date" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:textAlignment="textEnd">
+
+                <TextView
+                    android:id="@+id/tv_venda_notas"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="@string/notas"
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_venda_notas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:ems="10"
+                    android:lines="1"
+                    android:maxLines="5" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="marcarvistoria_onClick"
+                android:text="@string/marcar"
+                app:backgroundTint="@color/design_default_color_error" />
 
         </LinearLayout>
 

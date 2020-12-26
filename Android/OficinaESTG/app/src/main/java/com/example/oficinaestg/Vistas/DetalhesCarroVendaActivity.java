@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,7 +20,8 @@ public class DetalhesCarroVendaActivity extends AppCompatActivity {
     private int idCarro;
     private Carro carro;
 
-    private TextView etMarca, etModelo, etQuilometros, etAno, etCombustivel, etMatricula, etPreco;
+    private TextView etMarca, etModelo, etQuilometros, etAno, etCombustivel, etMatricula, etPreco, etData, etNota;
+    private String Data, Nota, Carro;
 
 
     @Override
@@ -52,6 +54,20 @@ public class DetalhesCarroVendaActivity extends AppCompatActivity {
 
         }else{
             setTitle("Erro");
+        }
+    }
+
+    public void marcarvistoria_onClick(View view) {
+
+        etData= findViewById(R.id.et_venda_data);
+        etNota= findViewById(R.id.et_venda_notas);
+
+        Data = etData.getText().toString();
+        Nota = etNota.getText().toString();
+        Carro = ""+carro.getIdCarro();
+
+        if (Data != null && Nota != null){
+            LoginSingleton.getInstance(getApplicationContext()).guardarVistoriaMarcacaoAPI(Data, Nota, Carro, getApplicationContext());
         }
     }
 }

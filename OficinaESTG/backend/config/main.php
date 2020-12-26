@@ -68,6 +68,7 @@ return [
                         'DELETE carrodel/{id}' => 'carrodel',
                         //Métodos do MarController
                         'POST marcacaocreate' => 'marcacaocreate',
+                        'POST marcacaovendacreate' => 'marcacaovendacreate',
                         'GET marcacaoget' => 'marcacaoget',
                         //Métodos do PerController
                         'GET pessoaget' => 'pessoaget',

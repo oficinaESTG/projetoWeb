@@ -72,5 +72,29 @@ class MarController extends ActiveController
         return ['SaveError'=> $ret];
     }
 
+    public function actionMarcacaovendacreate(){
+
+        $actoken = Yii::$app->request->get("access-token");
+        $user = User::findIdentityByAccessToken($actoken);
+        $pessoa = Pessoa::find()->where(['fk_IdUser' => $user->id])->one();
+
+        $dataMarcacao=Yii::$app->request->post('dataMarcacao');
+        $descricaoMarcacao=Yii::$app->request->post('descricaoMarcacao');
+        $fk_idCarro=Yii::$app->request->post('fk_idCarro');
+
+        $modelMarcacao = new $this->modelClass;
+
+        $modelMarcacao->dataMarcacao = $dataMarcacao;
+        $modelMarcacao->descricaoMarcacao = $descricaoMarcacao;
+        $modelMarcacao->fk_idCarro = $fk_idCarro;
+        $modelMarcacao->tipoMarcacao = 'Venda';
+        $modelMarcacao->estadoMarcacao = 'Espera';
+        $modelMarcacao->fk_idPessoa = $pessoa->idPessoa;
+
+        $ret = $modelMarcacao->save();
+
+        return ['SaveError'=> $ret];
+    }
+
 
 }

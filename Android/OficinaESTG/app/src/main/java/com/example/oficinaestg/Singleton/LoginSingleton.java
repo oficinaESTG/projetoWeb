@@ -44,6 +44,7 @@ public class LoginSingleton extends AppCompatActivity {
     private final String mUrlAPIRegisto = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
     private final String mUrlAPICarroVenda = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
     private final String mUrlAPIMarcacaoGet = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
+    private final String mUrlAPIMarcacaoVendaGet = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
 
     public LoginSingleton(Context context) {
         userBD = new UserDBHelp(context);
@@ -200,7 +201,7 @@ public class LoginSingleton extends AppCompatActivity {
     public void getAllCarrosVendaAPI(final Context context, boolean isConnected){
 
         if (isConnected) {
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPICarroVenda + "?access-token=2zVOIyuuJG_7rU0d8kjwIkg1DyUwA5av", null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPICarroVenda + "?access-token="+user.getAuth_key(), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     carrosVenda = CarroJsonParser.parserJsonCarro(response);
@@ -234,7 +235,7 @@ public class LoginSingleton extends AppCompatActivity {
 
     public void getAllMarcacoesUserLoggadoAPI(final Context context, boolean isConnected){
         if (isConnected) {
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPIMarcacaoGet + "?access-token=s-pP6Nay6ZmGWhW89YbAIZAHO-R9iper", null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPIMarcacaoGet +"?access-token="+user.getAuth_key(), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     marcacoes = MarcacaoJsonParser.parserJsonMarcacoes(response);
@@ -263,5 +264,39 @@ public class LoginSingleton extends AppCompatActivity {
             }
 
         }
+    }
+
+    public void guardarVistoriaMarcacaoAPI(final String data, final String nota, final String idCarro , final Context context){
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest request = new StringRequest(Request.Method.POST, mUrlAPIMarcacaoVendaGet + "?access-token="+user.getAuth_key(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println("A-->"+response);
+                Toast.makeText(context, "Vistoria marcada", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("A-->"+error);
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap<>();
+                params.put("dataMarcacao",data);
+                params.put("descricaoMarcacao", nota);
+                params.put("fk_idCarro", idCarro);
+
+                return  params;
+            }
+        };
+
+        queue.add(request);
+
     }
 }
