@@ -37,9 +37,9 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
         idCarro =getIntent().getIntExtra(DETALHES_CARROPESSOAL, 0);
         carro = LoginSingleton.getInstance(getApplicationContext()).getCarro(idCarro);
 
-        etMarca = findViewById(R.id.et_data_tx);
-        etModelo = findViewById(R.id.et_descricao_tx);
-        etQuilometros = findViewById(R.id.et_carro_tx);
+        etMarca = findViewById(R.id.et_marca_tx);
+        etModelo = findViewById(R.id.et_modelo_tx);
+        etQuilometros = findViewById(R.id.et_quilometros_tx);
         etAno = findViewById(R.id.et_Ano_tx);
         etCombustivel = findViewById(R.id.et_Combustivel_tx);
         etMatricula = findViewById(R.id.et_Matricula_tx);
