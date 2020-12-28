@@ -1,9 +1,11 @@
 package com.example.oficinaestg.Vistas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -30,6 +32,8 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
     private SearchView searchView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
+
+
     public ListaMarcacoesFragment() {
         // Required empty public constructor
     }
@@ -51,6 +55,28 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
         LoginSingleton.getInstance(getContext()).setMarcacoesListener(this);
         LoginSingleton.getInstance(getContext()).getAllMarcacoesUserLoggadoAPI(getContext(), UserJsonParser.isConnectionInternet(getContext()));
 
+        fab = rootView.findViewById(R.id.fabaddMarcacao);
+
+
+        lvListaMarcacoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                Marcacao temMarcacao = (Marcacao) parent.getItemAtPosition(position);
+
+                Intent intent = new Intent(getContext(), DetalhesMarcacaoActivity.class);
+                intent.putExtra(DetalhesMarcacaoActivity.DETALHES_MARCACAO, temMarcacao.getIdMarcacoes());
+                startActivityForResult(intent, 0);
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), DetalhesMarcacaoActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+
         return rootView;
     }
 
@@ -58,6 +84,11 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
     @Override
     public void onRefresh() {
         LoginSingleton.getInstance(getContext()).getAllMarcacoesUserLoggadoAPI(getContext(), UserJsonParser.isConnectionInternet(getContext()));
+
+        boolean net = UserJsonParser.isConnectionInternet(getContext());
+        if (!net){
+            fab.setVisibility(View.INVISIBLE);
+        }
 
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -67,5 +98,10 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
         if(listamarcacoes != null){
             lvListaMarcacoes.setAdapter(new ListaMarcacaoAdaptador(getContext(), listamarcacoes));
         }
+    }
+
+    @Override
+    public void onActions() {
+
     }
 }

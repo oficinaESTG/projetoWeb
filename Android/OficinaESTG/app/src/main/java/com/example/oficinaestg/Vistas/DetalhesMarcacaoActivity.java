@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class DetalhesMarcacaoActivity extends AppCompatActivity {
 
-
+    public static final String DETALHES_MARCACAO = "marcacao";
     private Spinner spinner_carro;
     private TextView et_data, et_descricao;
     private UserDBHelp carrosPessoa;
