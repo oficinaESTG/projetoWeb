@@ -12,12 +12,15 @@ import com.example.oficinaestg.Modelos.Carro;
 import com.example.oficinaestg.Modelos.User;
 import com.example.oficinaestg.Modelos.UserDBHelp;
 import com.example.oficinaestg.R;
+import com.example.oficinaestg.Singleton.LoginSingleton;
 
 import java.util.ArrayList;
 
 public class DetalhesMarcacaoActivity extends AppCompatActivity {
 
     public static final String DETALHES_MARCACAO = "marcacao";
+    public static final String DETALHES_USER = "user";
+    private int idUser;
     private Spinner spinner_carro;
     private TextView et_data, et_descricao;
     private UserDBHelp carrosPessoa;
@@ -27,6 +30,9 @@ public class DetalhesMarcacaoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_marcacao);
+
+        idUser = getIntent().getIntExtra(DETALHES_USER, 0);
+        user = LoginSingleton.getInstance(getApplicationContext()).getUser(idUser);
 
         et_data = findViewById(R.id.et_data_tx);
         et_descricao = findViewById(R.id.et_descricao_tx);

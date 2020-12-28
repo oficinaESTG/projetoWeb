@@ -65,6 +65,8 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
 
                 Intent intent = new Intent(getContext(), DetalhesMarcacaoActivity.class);
                 intent.putExtra(DetalhesMarcacaoActivity.DETALHES_MARCACAO, temMarcacao.getIdMarcacoes());
+                intent.putExtra(DetalhesMarcacaoActivity.DETALHES_USER, temMarcacao.getFk_idPessoa());
+
                 startActivityForResult(intent, 0);
             }
         });
