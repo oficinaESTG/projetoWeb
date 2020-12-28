@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
@@ -26,11 +25,9 @@ import com.example.oficinaestg.Modelos.Marcacao;
 import com.example.oficinaestg.Modelos.Pessoa;
 import com.example.oficinaestg.Modelos.User;
 import com.example.oficinaestg.Modelos.UserDBHelp;
-import com.example.oficinaestg.R;
 import com.example.oficinaestg.Utils.CarroJsonParser;
 import com.example.oficinaestg.Utils.MarcacaoJsonParser;
 import com.example.oficinaestg.Utils.UserJsonParser;
-import com.example.oficinaestg.Vistas.ListaCarrosPessoalFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,6 +54,7 @@ public class LoginSingleton extends AppCompatActivity {
 
     private final String mUrlAPIMarcacaoGet = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
     private final String mUrlAPIMarcacaoVendaGet = "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
+    private final String mUrlAPIMarcacaoAdicionar= "http://192.168.1.71/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaocreate";
 
     public LoginSingleton(Context context) {
         userBD = new UserDBHelp(context);
@@ -325,7 +323,7 @@ public class LoginSingleton extends AppCompatActivity {
 
             if(marcacoesListener != null){
                 //fazer amanhã o getAllMarcacoes a receber o id da pessoa logada
-                //marcacoesListener.onRefreshListaMarcacao(userMarcacoesBDHelper.getAllMarcacoes());
+                marcacoesListener.onRefreshListaMarcacao(userMarcacoesBDHelper.getAllMarcacoes(user.getId()));
             }
 
         }
@@ -457,6 +455,41 @@ public class LoginSingleton extends AppCompatActivity {
             }
         });
         volleyQueue.add(request);
+    }
+
+    public void adicionarMarcacaoAPI(final Marcacao marcacao , final Context context){
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest request = new StringRequest(Request.Method.POST, mUrlAPIMarcacaoAdicionar + "?access-token="+user.getAuth_key(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println("A-->"+response);
+                Toast.makeText(context, "Marcação Criada", Toast.LENGTH_SHORT).show();
+                marcacoesListener.onActions();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("A-->"+error);
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap<>();
+                params.put("dataMarcacao", marcacao.getDataMarcacao());
+                params.put("descricaoMarcacao", marcacao.getDescricaoMarcacao());
+                params.put("fk_idCarro", ""+marcacao.getFk_idCarro());
+
+                return  params;
+            }
+        };
+
+        queue.add(request);
+
     }
 
 }

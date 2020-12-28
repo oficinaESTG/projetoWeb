@@ -1,17 +1,13 @@
 package com.example.oficinaestg.Vistas;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.oficinaestg.Modelos.Carro;
 import com.example.oficinaestg.R;
@@ -41,9 +37,9 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
         idCarro =getIntent().getIntExtra(DETALHES_CARROPESSOAL, 0);
         carro = LoginSingleton.getInstance(getApplicationContext()).getCarro(idCarro);
 
-        etMarca = findViewById(R.id.et_Marca_tx);
-        etModelo = findViewById(R.id.et_Modelo_tx);
-        etQuilometros = findViewById(R.id.et_Quilometros_tx);
+        etMarca = findViewById(R.id.et_data_tx);
+        etModelo = findViewById(R.id.et_descricao_tx);
+        etQuilometros = findViewById(R.id.et_carro_tx);
         etAno = findViewById(R.id.et_Ano_tx);
         etCombustivel = findViewById(R.id.et_Combustivel_tx);
         etMatricula = findViewById(R.id.et_Matricula_tx);

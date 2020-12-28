@@ -6,4 +6,5 @@ import java.util.ArrayList;
 
 public interface MarcacoesListener {
     void onRefreshListaMarcacao(ArrayList<Marcacao> listaMarcacao);
+    void onActions();
 }
