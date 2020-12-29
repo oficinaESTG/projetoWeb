@@ -105,5 +105,8 @@ public class Carro {
         return vendido;
     }
 
-
+    @Override
+    public String toString() {
+        return marcaCarro+" "+modeloCarro;
+    }
 }

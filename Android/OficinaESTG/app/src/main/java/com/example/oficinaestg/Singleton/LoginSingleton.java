@@ -42,19 +42,19 @@ public class LoginSingleton extends AppCompatActivity {
     private static LoginSingleton instance = null;
     private static RequestQueue volleyQueue;
 
-    private final String mUrlAPILogin = "http://192.168.1.89/projetoWeb/OficinaESTG/backend/web/api/reg/login";
-    private final String mUrlAPIRegisto = "http://192.168.1.89/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
+    private final String mUrlAPILogin = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/reg/login";
+    private final String mUrlAPIRegisto = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
 
-    private final String mUrlAPICarroVenda = "http://192.168.1.89/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
-    private final String mUrlAPICarroPessoal = "http://192.168.1.89/projetoWeb/OficinaESTG/backend/web/api/car/carroget";
-    private final String mUrlAPIAlterarCarroPessoal = "http://192.168.1.89/projetoWeb/OficinaESTG/backend/web/api/car/carroput";
-    private final String mUrlAPIAdicionarCarroPessoal = "http://192.168.1.89/projetoWeb/OficinaESTG/backend/web/api/car/carrocreate";
-    private final String mUrlAPIEliminarCarroPessoal = "http://192.168.1.89/projetoWeb/OficinaESTG/backend/web/api/car/carrodel";
+    private final String mUrlAPICarroVenda = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
+    private final String mUrlAPICarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carroget";
+    private final String mUrlAPIAlterarCarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carroput";
+    private final String mUrlAPIAdicionarCarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carrocreate";
+    private final String mUrlAPIEliminarCarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carrodel";
 
 
-    private final String mUrlAPIMarcacaoGet = "http://192.168.1.89/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
-    private final String mUrlAPIMarcacaoVendaGet = "http://192.168.1.89/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
-    private final String mUrlAPIMarcacaoAdicionar= "http://192.168.1.89/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaocreate";
+    private final String mUrlAPIMarcacaoGet = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
+    private final String mUrlAPIMarcacaoVendaGet = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
+    private final String mUrlAPIMarcacaoAdicionar= "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaocreate";
 
     public LoginSingleton(Context context) {
         userBD = new UserDBHelp(context);
@@ -76,6 +76,7 @@ public class LoginSingleton extends AppCompatActivity {
     private ArrayList<Carro> carroPessoal;
     private CarroPessoalListener carroPessoalListener;
     private CarroDBHelp carroPessoalDBHelp;
+    private String nomeCarro;
 
     //Marcacoes
     private ArrayList<Marcacao>  marcacoes;
@@ -117,16 +118,26 @@ public class LoginSingleton extends AppCompatActivity {
         return null;
     }
 
-    public User getUser(int idUser){
-        for (User user : userLogado){
-            if(user.getId() == idUser){
-                return user;
+    public Marcacao getMarcacao (int idMarcacao){
+        for (Marcacao marcacao : marcacoes){
+            if(marcacao.getIdMarcacoes() == idMarcacao){
+                return marcacao;
             }
         }
         return null;
     }
 
+    public ArrayList<Carro> getCarroPessoal(int idUser) {
+        carroPessoal = userBD.getAllCarrosPessoaBD(idUser);
 
+        return carroPessoal;
+
+    }
+
+    public String getNomeCarroPorID(int idCarro){
+        nomeCarro = userBD.getNomeCarro(idCarro);
+        return nomeCarro;
+    }
 
     public void adicionarMarcacaoBD(ArrayList<Marcacao> marcacoes){
         userBD.removerAllMarcacoesBD();
@@ -168,6 +179,7 @@ public class LoginSingleton extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     user = UserJsonParser.parserJsonUser(response, context, password);
+                    //userLogado = UserJsonParser.parserJsonUserArray(response, context, password);
                     //remover todos os que existem
                     userBD.removerAllUserBD();
                     //adicionar o user
@@ -188,6 +200,7 @@ public class LoginSingleton extends AppCompatActivity {
             Boolean verifica = false;
 
             user = userBD.getUserBDbyNome(email, password);
+
 
             if (user!= null){
                 verifica=true;
@@ -318,7 +331,8 @@ public class LoginSingleton extends AppCompatActivity {
                     adicionarMarcacaoBD(marcacoes);
 
                     if (marcacoesListener != null) {
-                        marcacoesListener.onRefreshListaMarcacao(marcacoes);
+                        marcacoesListener.onRefreshListaMarcacao(marcacoes, user);
+
                     }
 
                 }
@@ -334,8 +348,7 @@ public class LoginSingleton extends AppCompatActivity {
             Toast.makeText(context, "NAO TEM NET", Toast.LENGTH_SHORT).show();
 
             if(marcacoesListener != null){
-                //fazer amanhã o getAllMarcacoes a receber o id da pessoa logada
-                marcacoesListener.onRefreshListaMarcacao(userMarcacoesBDHelper.getAllMarcacoes(user.getId()));
+                marcacoesListener.onRefreshListaMarcacao(userMarcacoesBDHelper.getAllMarcacoes(user.getId()), user);
             }
 
         }

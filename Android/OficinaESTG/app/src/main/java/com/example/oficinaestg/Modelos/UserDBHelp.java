@@ -33,38 +33,36 @@ public class UserDBHelp extends SQLiteOpenHelper {
 
     private static final String TABLE_NAME_CARROVENDA = "CarroVenda";
 
-    private static final String idCarro_CARRO= "idCarro";
-    private static final String ano_CARRO= "ano";
-    private static final String quilometros_CARRO= "quilometros";
-    private static final String fk_idPessoa_CARRO= "fk_idPessoa";
-    private static final String precoCarro_CARRO= "precoCarro";
-    private static final String modeloCarro_CARRO= "modeloCarro";
-    private static final String marcaCarro_CARRO= "marcaCarro";
-    private static final String matricula_CARRO= "matricula";
-    private static final String tipoCarro_CARRO= "tipoCarro";
-    private static final String combustivel_CARRO= "combustivel";
-    private static final String vendido_CARRO= "vendido";
+    private static final String idCarro_CARRO = "idCarro";
+    private static final String ano_CARRO = "ano";
+    private static final String quilometros_CARRO = "quilometros";
+    private static final String fk_idPessoa_CARRO = "fk_idPessoa";
+    private static final String precoCarro_CARRO = "precoCarro";
+    private static final String modeloCarro_CARRO = "modeloCarro";
+    private static final String marcaCarro_CARRO = "marcaCarro";
+    private static final String matricula_CARRO = "matricula";
+    private static final String tipoCarro_CARRO = "tipoCarro";
+    private static final String combustivel_CARRO = "combustivel";
+    private static final String vendido_CARRO = "vendido";
 
     private static final String TABLE_NAME_MARCACAO = "Marcacao";
 
-    private static final String idMarcacoes_MARCACAO= "idMarcacoes";
-    private static final String fk_idPessoa_MARCACAO= "fk_idPessoa";
-    private static final String fk_idCarro_MARCACAO= "fk_idCarro";
-    private static final String fk_idResponsavel_MARCACAO= "fk_idResponsavel";
-    private static final String valorFinal_MARCACAO= "valorFinal";
-    private static final String horasTrabalho_MARCACAO= "horasTrabalho";
-    private static final String tipoMarcacao_MARCACAO= "tipoMarcacao";
-    private static final String dataMarcacao_MARCACAO= "dataMarcacao";
-    private static final String descricaoMarcacao_MARCACAO= "descricaoMarcacao";
-    private static final String estadoMarcacao_MARCACAO= "estadoMarcacao";
-    private static final String descricaoFinal_MARCACAO= "descricaoFinal";
-
-
+    private static final String idMarcacoes_MARCACAO = "idMarcacoes";
+    private static final String fk_idPessoa_MARCACAO = "fk_idPessoa";
+    private static final String fk_idCarro_MARCACAO = "fk_idCarro";
+    private static final String fk_idResponsavel_MARCACAO = "fk_idResponsavel";
+    private static final String valorFinal_MARCACAO = "valorFinal";
+    private static final String horasTrabalho_MARCACAO = "horasTrabalho";
+    private static final String tipoMarcacao_MARCACAO = "tipoMarcacao";
+    private static final String dataMarcacao_MARCACAO = "dataMarcacao";
+    private static final String descricaoMarcacao_MARCACAO = "descricaoMarcacao";
+    private static final String estadoMarcacao_MARCACAO = "estadoMarcacao";
+    private static final String descricaoFinal_MARCACAO = "descricaoFinal";
 
 
     private User user;
 
-    public UserDBHelp( Context context) {
+    public UserDBHelp(Context context) {
         super(context, BD_NAME, null, DB_VERSION);
         this.sqLiteDatabase = this.getReadableDatabase();
     }
@@ -129,7 +127,7 @@ public class UserDBHelp extends SQLiteOpenHelper {
 
     //MARCACAO
 
-    public void adicionarMarcacaoBD (Marcacao marcacao){
+    public void adicionarMarcacaoBD(Marcacao marcacao) {
         ContentValues values = new ContentValues();
 
         values.put(idMarcacoes_MARCACAO, marcacao.getIdMarcacoes());
@@ -147,31 +145,31 @@ public class UserDBHelp extends SQLiteOpenHelper {
         this.sqLiteDatabase.insert(TABLE_NAME_MARCACAO, null, values);
     }
 
-    public void removerAllMarcacoesBD(){
+    public void removerAllMarcacoesBD() {
         this.sqLiteDatabase.delete(TABLE_NAME_MARCACAO, null, null);
     }
 
-    public ArrayList<Marcacao> getAllMarcacoes(int id){
+    public ArrayList<Marcacao> getAllMarcacoes(int id) {
         //falta fazer a condição de filtração de marcações do user
         String queryStringMarcacao = "(" + fk_idPessoa_MARCACAO + " = '" + id + "')";
 
         ArrayList<Marcacao> marcacoes = new ArrayList<>();
         Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME_MARCACAO, new String[]{
                 idMarcacoes_MARCACAO, fk_idPessoa_MARCACAO, fk_idCarro_MARCACAO, fk_idResponsavel_MARCACAO, valorFinal_MARCACAO,
-                horasTrabalho_MARCACAO,tipoMarcacao_MARCACAO,dataMarcacao_MARCACAO,descricaoMarcacao_MARCACAO,estadoMarcacao_MARCACAO,descricaoFinal_MARCACAO}, queryStringMarcacao, null, null, null, null, null);
-        if (cursor.moveToFirst()){
+                horasTrabalho_MARCACAO, tipoMarcacao_MARCACAO, dataMarcacao_MARCACAO, descricaoMarcacao_MARCACAO, estadoMarcacao_MARCACAO, descricaoFinal_MARCACAO}, queryStringMarcacao, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
             do {
                 Marcacao auxMarcacao = new Marcacao(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5),
-                        cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10));
+                        cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10));
                 marcacoes.add(auxMarcacao);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         return marcacoes;
     }
 
 
     //USER
-    public void adicionarUserBD(User user){
+    public void adicionarUserBD(User user) {
         ContentValues values = new ContentValues();
 
         values.put(id_USER, user.getId());
@@ -189,16 +187,16 @@ public class UserDBHelp extends SQLiteOpenHelper {
         this.sqLiteDatabase.insert(TABLE_NAME, null, values);
     }
 
-    public void removerAllUserBD(){
+    public void removerAllUserBD() {
         this.sqLiteDatabase.delete(TABLE_NAME, null, null);
     }
 
-    public User getUserBDbyNome(String email, String password){
+    public User getUserBDbyNome(String email, String password) {
 
         String queryString = "(" + username_USER + " = '" + email + "') AND (" + password_USER + " = '" + password + "')";
 
         Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME, new String[]{
-                id_USER, status_USER, created_at_USER, updated_at_at_USER, username_USER, auth_key_USER,email_USER,password_hash_USER,password_reset_token_USER,verification_token_USER,password_USER},
+                        id_USER, status_USER, created_at_USER, updated_at_at_USER, username_USER, auth_key_USER, email_USER, password_hash_USER, password_reset_token_USER, verification_token_USER, password_USER},
                 queryString, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -216,14 +214,16 @@ public class UserDBHelp extends SQLiteOpenHelper {
                     cursor.getString(9),
                     cursor.getString(10));
             return auxUser;
-        }catch (Exception e){
+        } catch (Exception e) {
             //ver com professor
             return null;
         }
     }
 
+
+
     //CARRO
-    public void adicionarCarroVendaBD(Carro carro){
+    public void adicionarCarroVendaBD(Carro carro) {
         ContentValues values = new ContentValues();
 
         values.put(idCarro_CARRO, carro.getIdCarro());
@@ -241,47 +241,56 @@ public class UserDBHelp extends SQLiteOpenHelper {
         this.sqLiteDatabase.insert(TABLE_NAME_CARROVENDA, null, values);
     }
 
-    public void removerAllCarroVendaBD(){
+    public void removerAllCarroVendaBD() {
         String queryString = "(" + tipoCarro_CARRO + " = 'Venda')";
         this.sqLiteDatabase.delete(TABLE_NAME_CARROVENDA, queryString, null);
     }
 
-    public void removerAllCarroPessoalBD(){
+    public void removerAllCarroPessoalBD() {
         String queryString = "(" + tipoCarro_CARRO + " = 'Reparacao')";
         this.sqLiteDatabase.delete(TABLE_NAME_CARROVENDA, queryString, null);
     }
 
-    public ArrayList<Carro> getAllCarrosVendaBD(){
+    public ArrayList<Carro> getAllCarrosVendaBD() {
         String queryString = "(" + tipoCarro_CARRO + " = 'Venda')";
 
         ArrayList<Carro> carros = new ArrayList<>();
         Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME_CARROVENDA, new String[]{
-                idCarro_CARRO, ano_CARRO, quilometros_CARRO, fk_idPessoa_CARRO, precoCarro_CARRO, modeloCarro_CARRO,marcaCarro_CARRO,matricula_CARRO,tipoCarro_CARRO,combustivel_CARRO,vendido_CARRO},
+                        idCarro_CARRO, ano_CARRO, quilometros_CARRO, fk_idPessoa_CARRO, precoCarro_CARRO, modeloCarro_CARRO, marcaCarro_CARRO, matricula_CARRO, tipoCarro_CARRO, combustivel_CARRO, vendido_CARRO},
                 queryString, null, null, null, null);
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 Carro auxCarro = new Carro(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5),
-                        cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getInt(10));
+                        cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getInt(10));
                 carros.add(auxCarro);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         return carros;
     }
 
-    public ArrayList<Carro> getAllCarrosPessoaBD(int idUser){
-        String queryString = "(" + fk_idPessoa_CARRO + " = '"+ idUser +"')";
+    public ArrayList<Carro> getAllCarrosPessoaBD(int idUser) {
+        String queryString = "(" + fk_idPessoa_CARRO + " = '" + idUser + "')";
 
         ArrayList<Carro> carros = new ArrayList<>();
         Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME_CARROVENDA, new String[]{
-                        idCarro_CARRO, ano_CARRO, quilometros_CARRO, fk_idPessoa_CARRO, precoCarro_CARRO, modeloCarro_CARRO,marcaCarro_CARRO,matricula_CARRO,tipoCarro_CARRO,combustivel_CARRO,vendido_CARRO},
+                        idCarro_CARRO, ano_CARRO, quilometros_CARRO, fk_idPessoa_CARRO, precoCarro_CARRO, modeloCarro_CARRO, marcaCarro_CARRO, matricula_CARRO, tipoCarro_CARRO, combustivel_CARRO, vendido_CARRO},
                 queryString, null, null, null, null);
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 Carro auxCarro = new Carro(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5),
-                        cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getInt(10));
+                        cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getInt(10));
                 carros.add(auxCarro);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         return carros;
+    }
+
+    public String getNomeCarro(int idCarro) {
+        //String queryString = "(" + idCarro_CARRO + " = '" + idCarro + "')";
+
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT " + modeloCarro_CARRO + " FROM " + TABLE_NAME_CARROVENDA + " WHERE idCarro = '" + idCarro + "'", null);
+        cursor.moveToFirst();
+
+        return cursor.toString();
     }
 }

@@ -15,6 +15,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.oficinaestg.Adaptadores.ListaMarcacaoAdaptador;
 import com.example.oficinaestg.Listeners.MarcacoesListener;
 import com.example.oficinaestg.Modelos.Marcacao;
+import com.example.oficinaestg.Modelos.User;
+import com.example.oficinaestg.Modelos.UserDBHelp;
 import com.example.oficinaestg.R;
 import com.example.oficinaestg.Singleton.LoginSingleton;
 import com.example.oficinaestg.Utils.UserJsonParser;
@@ -26,6 +28,10 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
 
     private ListView lvListaMarcacoes;
     private ArrayList<Marcacao> listamarcacoes;
+    private UserDBHelp userlogado1;
+    private User userlogado;
+
+
 
     private FloatingActionButton fab;
 
@@ -58,6 +64,8 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
         fab = rootView.findViewById(R.id.fabaddMarcacao);
 
 
+
+
         lvListaMarcacoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
@@ -65,8 +73,6 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
 
                 Intent intent = new Intent(getContext(), DetalhesMarcacaoActivity.class);
                 intent.putExtra(DetalhesMarcacaoActivity.DETALHES_MARCACAO, temMarcacao.getIdMarcacoes());
-                intent.putExtra(DetalhesMarcacaoActivity.DETALHES_USER, temMarcacao.getFk_idPessoa());
-
                 startActivityForResult(intent, 0);
             }
         });
@@ -74,7 +80,10 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getContext(), DetalhesMarcacaoActivity.class);
+                intent.putExtra(DetalhesMarcacaoActivity.DETALHES_USER, userlogado.getId());
+                System.out.println("--> "+userlogado.getId());
                 startActivityForResult(intent, 0);
             }
         });
@@ -87,6 +96,7 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
     public void onRefresh() {
         LoginSingleton.getInstance(getContext()).getAllMarcacoesUserLoggadoAPI(getContext(), UserJsonParser.isConnectionInternet(getContext()));
 
+
         boolean net = UserJsonParser.isConnectionInternet(getContext());
         if (!net){
             fab.setVisibility(View.INVISIBLE);
@@ -96,9 +106,10 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
     }
 
     @Override
-    public void onRefreshListaMarcacao(ArrayList<Marcacao> listamarcacoes) {
+    public void onRefreshListaMarcacao(ArrayList<Marcacao> listamarcacoes, User user) {
         if(listamarcacoes != null){
             lvListaMarcacoes.setAdapter(new ListaMarcacaoAdaptador(getContext(), listamarcacoes));
+            userlogado = user;
         }
     }
 
