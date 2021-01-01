@@ -135,8 +135,11 @@ public class LoginSingleton extends AppCompatActivity {
     }
 
     public String getNomeCarroPorID(int idCarro){
-        nomeCarro = userBD.getNomeCarro(idCarro);
-        return nomeCarro;
+        return userBD.getNomeCarro(idCarro);
+    }
+
+    public int getIdCarroPorNome(String nomeCarro){
+        return userBD.getIdCarro(nomeCarro);
     }
 
     public void adicionarMarcacaoBD(ArrayList<Marcacao> marcacoes){

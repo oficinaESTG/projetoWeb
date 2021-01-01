@@ -290,7 +290,18 @@ public class UserDBHelp extends SQLiteOpenHelper {
 
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT " + modeloCarro_CARRO + " FROM " + TABLE_NAME_CARROVENDA + " WHERE idCarro = '" + idCarro + "'", null);
         cursor.moveToFirst();
+        int pos = cursor.getPosition();
 
-        return cursor.toString();
+        return cursor.getString(pos);
+    }
+
+    public int getIdCarro(String nomeCarro){
+        //String queryString = "(" + modeloCarro_CARRO + " = '" + nomeCarro + "')";
+
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT " + idCarro_CARRO + " FROM " + TABLE_NAME_CARROVENDA + " WHERE modeloCarro LIKE '" + nomeCarro + "'", null);
+        cursor.moveToFirst();
+
+
+        return Integer.parseInt(cursor.getString(0));
     }
 }

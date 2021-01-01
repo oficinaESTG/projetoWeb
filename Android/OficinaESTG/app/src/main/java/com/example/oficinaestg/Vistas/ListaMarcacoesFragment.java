@@ -63,9 +63,6 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
 
         fab = rootView.findViewById(R.id.fabaddMarcacao);
 
-
-
-
         lvListaMarcacoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
@@ -115,6 +112,8 @@ public class ListaMarcacoesFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void onActions() {
+        LoginSingleton.getInstance(getContext()).getAllMarcacoesUserLoggadoAPI(getContext(), UserJsonParser.isConnectionInternet(getContext()));
 
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

@@ -107,6 +107,8 @@ public class Carro {
 
     @Override
     public String toString() {
-        return marcaCarro+" "+modeloCarro;
+        return modeloCarro;
     }
+
+
 }
