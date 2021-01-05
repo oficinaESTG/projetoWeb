@@ -1,7 +1,11 @@
 suite_namespace: frontend\tests\acceptance
 actor: AcceptanceTester
 modules:
-    enabled:
-        - PhpBrowser:
-              url: http://frontoffice.test:8080/
-        - \Helper\Acceptance
+  enabled:
+    - WebDriver:
+        url: http://frontend.test
+        window_size: false
+        port: 9515
+        browser: chrome
+    - Yii2:
+        part: init
