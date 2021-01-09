@@ -47,19 +47,23 @@ class MarcacaoController extends Controller
             if ($pessoa->tipoPessoa === 'Secretaria') {
 
                 $dataProvider = new ActiveDataProvider([
-                    'query' => Marcacao::find(),
+                    'query' => Marcacao::findAll(),
                 ]);
-            } elseif ($pessoa->tipoPessoa === 'Mecanico') {
+            } else if ($pessoa->tipoPessoa === 'Mecanico') {
 
                 $dataProvider = new ActiveDataProvider([
                     'query' => Marcacao::find()->where(['fk_idResponsavel' => Yii::$app->user->identity->id]),
                 ]);
+            }else{
+                throw new ForbiddenHttpException('Não tem dados', 403);
             }
 
 
             return $this->render('index', [
                 'dataProvider' => $dataProvider,
             ]);
+
+
         }else{
             throw new ForbiddenHttpException('Não tem permissões', 403);
         }

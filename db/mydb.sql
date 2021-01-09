@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: 06-Dez-2020 às 16:11
--- Versão do servidor: 5.7.26
--- versão do PHP: 7.2.18
+-- Tempo de geração: 09-Jan-2021 às 16:58
+-- Versão do servidor: 5.7.31
+-- versão do PHP: 7.3.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `mydb`
+-- Banco de dados: `mydb`
 --
 
 -- --------------------------------------------------------
@@ -36,6 +35,18 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
   PRIMARY KEY (`item_name`,`user_id`),
   KEY `idx-auth_assignment-user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Extraindo dados da tabela `auth_assignment`
+--
+
+INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
+('Cliente', '5', 1610210267),
+('Cliente', '6', 1610210271),
+('Gestor', '2', 1610209927),
+('Mecanico', '3', 1610210256),
+('Mecanico', '4', 1610210262),
+('Secretaria', '1', 1610209728);
 
 -- --------------------------------------------------------
 
@@ -62,35 +73,39 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
-('Cliente', 1, NULL, NULL, NULL, 1607114008, 1607114008),
-('createCarro', 2, 'create Carro', NULL, NULL, 1607114008, 1607114008),
-('createMarcacao', 2, 'Create a post', NULL, NULL, 1607114008, 1607114008),
-('createMarcPecas', 2, 'create MarcPecas', NULL, NULL, 1607114008, 1607114008),
-('createPeca', 2, 'create Peca', NULL, NULL, 1607114008, 1607114008),
-('createPessoa', 2, 'create Pessoa', NULL, NULL, 1607114008, 1607114008),
-('createVenda', 2, 'create Venda', NULL, NULL, 1607114008, 1607114008),
-('deleteCarro', 2, 'delete Carro', NULL, NULL, 1607114008, 1607114008),
-('deleteMarcacao', 2, 'Update post', NULL, NULL, 1607114008, 1607114008),
-('deleteMarcPecas', 2, 'delete MarcPecas', NULL, NULL, 1607114008, 1607114008),
-('deletePeca', 2, 'delete Peca', NULL, NULL, 1607114008, 1607114008),
-('deletePessoa', 2, 'delete Pessoa', NULL, NULL, 1607114008, 1607114008),
-('deleteVenda', 2, 'delete Venda', NULL, NULL, 1607114008, 1607114008),
-('Gestor', 1, NULL, NULL, NULL, 1607114008, 1607114008),
-('loginBackend', 2, 'login Backend', NULL, NULL, 1607114008, 1607114008),
-('Mecanico', 1, NULL, NULL, NULL, 1607114008, 1607114008),
-('Secretaria', 1, NULL, NULL, NULL, 1607114008, 1607114008),
-('updateCarro', 2, 'update Carro', NULL, NULL, 1607114008, 1607114008),
-('updateMarcacao', 2, 'Update post', NULL, NULL, 1607114008, 1607114008),
-('updateMarcPecas', 2, 'update MarcPecas', NULL, NULL, 1607114008, 1607114008),
-('updatePeca', 2, 'update Peca', NULL, NULL, 1607114008, 1607114008),
-('updatePessoa', 2, 'update Pessoa', NULL, NULL, 1607114008, 1607114008),
-('updateVenda', 2, 'update Venda', NULL, NULL, 1607114008, 1607114008),
-('viewCarro', 2, 'View Carro', NULL, NULL, 1607114008, 1607114008),
-('viewMarcacao', 2, 'View post', NULL, NULL, 1607114008, 1607114008),
-('viewMarcPecas', 2, 'View MarcPecas', NULL, NULL, 1607114008, 1607114008),
-('viewPecas', 2, 'View Peca', NULL, NULL, 1607114008, 1607114008),
-('viewPessoa', 2, 'View Pessoa', NULL, NULL, 1607114008, 1607114008),
-('viewVenda', 2, 'View Venda', NULL, NULL, 1607114008, 1607114008);
+('Cliente', 1, NULL, NULL, NULL, 1607168146, 1607168146),
+('createCarro', 2, 'create Carro', NULL, NULL, 1607168146, 1607168146),
+('createMarcacao', 2, 'Create a post', NULL, NULL, 1607168146, 1607168146),
+('createMarcPecas', 2, 'create MarcPecas', NULL, NULL, 1607168146, 1607168146),
+('createPeca', 2, 'create Peca', NULL, NULL, 1607168146, 1607168146),
+('createPessoa_back', 2, 'create Pessoa', NULL, NULL, 1607168146, 1607168146),
+('createPessoa_front', 2, 'create Pessoa', NULL, NULL, 1607168146, 1607168146),
+('createVenda', 2, 'create Venda', NULL, NULL, 1607168146, 1607168146),
+('deleteCarro', 2, 'delete Carro', NULL, NULL, 1607168146, 1607168146),
+('deleteMarcacao', 2, 'Update post', NULL, NULL, 1607168146, 1607168146),
+('deleteMarcPecas', 2, 'delete MarcPecas', NULL, NULL, 1607168146, 1607168146),
+('deletePeca', 2, 'delete Peca', NULL, NULL, 1607168146, 1607168146),
+('deletePessoa_back', 2, 'delete Pessoa', NULL, NULL, 1607168146, 1607168146),
+('deletePessoa_front', 2, 'delete Pessoa', NULL, NULL, 1607168146, 1607168146),
+('deleteVenda', 2, 'delete Venda', NULL, NULL, 1607168146, 1607168146),
+('Gestor', 1, NULL, NULL, NULL, 1607168146, 1607168146),
+('loginBackend', 2, 'login Backend', NULL, NULL, 1607168146, 1607168146),
+('Mecanico', 1, NULL, NULL, NULL, 1607168146, 1607168146),
+('Secretaria', 1, NULL, NULL, NULL, 1607168146, 1607168146),
+('updateCarro', 2, 'update Carro', NULL, NULL, 1607168146, 1607168146),
+('updateMarcacao', 2, 'Update post', NULL, NULL, 1607168146, 1607168146),
+('updateMarcPecas', 2, 'update MarcPecas', NULL, NULL, 1607168146, 1607168146),
+('updatePeca', 2, 'update Peca', NULL, NULL, 1607168146, 1607168146),
+('updatePessoa_back', 2, 'update Pessoa', NULL, NULL, 1607168146, 1607168146),
+('updatePessoa_front', 2, 'update Pessoa', NULL, NULL, 1607168146, 1607168146),
+('updateVenda', 2, 'update Venda', NULL, NULL, 1607168146, 1607168146),
+('viewCarro', 2, 'View Carro', NULL, NULL, 1607168146, 1607168146),
+('viewMarcacao', 2, 'View post', NULL, NULL, 1607168146, 1607168146),
+('viewMarcPecas', 2, 'View MarcPecas', NULL, NULL, 1607168146, 1607168146),
+('viewPecas', 2, 'View Peca', NULL, NULL, 1607168146, 1607168146),
+('viewPessoa_back', 2, 'View Pessoa', NULL, NULL, 1607168146, 1607168146),
+('viewPessoa_front', 2, 'View Pessoa', NULL, NULL, 1607168146, 1607168146),
+('viewVenda', 2, 'View Venda', NULL, NULL, 1607168146, 1607168146);
 
 -- --------------------------------------------------------
 
@@ -123,6 +138,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Secretaria', 'deleteMarcacao'),
 ('Mecanico', 'deleteMarcPecas'),
 ('Gestor', 'deletePeca'),
+('Secretaria', 'deletePessoa_back'),
 ('Secretaria', 'deleteVenda'),
 ('Secretaria', 'Gestor'),
 ('Mecanico', 'loginBackend'),
@@ -133,13 +149,15 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Mecanico', 'updateMarcacao'),
 ('Mecanico', 'updateMarcPecas'),
 ('Gestor', 'updatePeca'),
-('Cliente', 'updatePessoa'),
+('Secretaria', 'updatePessoa_back'),
+('Cliente', 'updatePessoa_front'),
 ('Gestor', 'updateVenda'),
 ('Cliente', 'viewCarro'),
 ('Cliente', 'viewMarcacao'),
 ('Mecanico', 'viewMarcPecas'),
 ('Mecanico', 'viewPecas'),
-('Cliente', 'viewPessoa'),
+('Secretaria', 'viewPessoa_back'),
+('Cliente', 'viewPessoa_front'),
 ('Gestor', 'viewVenda');
 
 -- --------------------------------------------------------
@@ -178,7 +196,17 @@ CREATE TABLE IF NOT EXISTS `carro` (
   `vendido` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`idCarro`),
   KEY `fk_idPessoa` (`fk_idPessoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `carro`
+--
+
+INSERT INTO `carro` (`idCarro`, `modeloCarro`, `marcaCarro`, `ano`, `matricula`, `tipoCarro`, `quilometros`, `combustivel`, `fk_idPessoa`, `precoCarro`, `vendido`) VALUES
+(1, 'C220', 'Mercedes', 2013, '00-xx-00', 'Venda', 200000, 'Diesel', 1, 23000, 0),
+(2, '330', 'BMW', 2020, 'AA-00-AA', 'Venda', 10, 'Diesel', 1, 50000, 0),
+(3, 'A8', 'Audi', 2019, '23-ZX-70', 'Venda', 10000, 'Diesel', 1, 80000, 0),
+(4, 'Megane', 'Renault', 2009, '42-TX-12', 'Reparacao', 160000, 'Diesel', 6, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -203,7 +231,14 @@ CREATE TABLE IF NOT EXISTS `marcacao` (
   KEY `fk_idPessoa_marcacao` (`fk_idPessoa`),
   KEY `fk_idCarro_marcacao` (`fk_idCarro`),
   KEY `fk_idPessoa_responsavel_marcacao` (`fk_idResponsavel`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `marcacao`
+--
+
+INSERT INTO `marcacao` (`idMarcacoes`, `tipoMarcacao`, `dataMarcacao`, `descricaoMarcacao`, `estadoMarcacao`, `fk_idPessoa`, `fk_idCarro`, `fk_idResponsavel`, `valorFinal`, `descricaoFinal`, `horasTrabalho`) VALUES
+(1, 'Reparacao', '2021-01-11', 'O carro custa a pegar', 'Concluida', 6, 4, 3, 120, 'problema de velas', 2);
 
 -- --------------------------------------------------------
 
@@ -220,7 +255,14 @@ CREATE TABLE IF NOT EXISTS `marcacao_haspecas` (
   PRIMARY KEY (`idMarcacao_hasPecas`),
   KEY `fk_IdMarcacao` (`fk_idMarcacao`),
   KEY `fk_idPeca` (`fk_idPeca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `marcacao_haspecas`
+--
+
+INSERT INTO `marcacao_haspecas` (`idMarcacao_hasPecas`, `fk_idPeca`, `fk_idMarcacao`, `quantidadeParaMarcacao`) VALUES
+(1, 1, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -247,7 +289,7 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 ('m170907_052038_rbac_add_index_on_auth_assignment_user_id', 1604436777),
 ('m180523_151638_rbac_updates_indexes_without_prefix', 1604436778),
 ('m200409_110543_rbac_update_mssql_trigger', 1604436778),
-('m201006_201119_init_rbac', 1607114009);
+('m201006_201119_init_rbac', 1607168146);
 
 -- --------------------------------------------------------
 
@@ -263,7 +305,16 @@ CREATE TABLE IF NOT EXISTS `peca` (
   `precoPeca` int(11) NOT NULL,
   `referenciaPeca` varchar(255) NOT NULL,
   PRIMARY KEY (`idPeca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `peca`
+--
+
+INSERT INTO `peca` (`idPeca`, `nomePeca`, `quantidadePeca`, `precoPeca`, `referenciaPeca`) VALUES
+(1, 'Vela ', 196, 15, 'vela_diesel'),
+(2, 'Turbo', 10, 500, 'turbo_30mm'),
+(3, 'Correia', 15, 30, 'correia_483');
 
 -- --------------------------------------------------------
 
@@ -283,7 +334,19 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
   `fk_IdUser` int(11) NOT NULL,
   PRIMARY KEY (`idPessoa`),
   KEY `fk_IdUser` (`fk_IdUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `pessoa`
+--
+
+INSERT INTO `pessoa` (`idPessoa`, `nome`, `dataNascimento`, `morada`, `nif`, `tipoPessoa`, `email`, `fk_IdUser`) VALUES
+(1, 'secretaria', '2000-03-12', 'Lisboa', 1234567890, 'Secretaria', 'secretaria@secretaria.com', 1),
+(2, 'gestordepecas', '2001-01-13', 'Leiria', 1324567890, 'Gestor', 'gestordepecas@gestordepecas.com', 2),
+(3, 'mecanico', '2001-01-12', 'Fátima', 1234567890, 'Mecanico', 'mecanico@mecanico.com', 3),
+(4, 'mecanico1', '2003-12-21', 'Ourém', 1234567890, 'Mecanico', 'mecanico1@mecanico1.com', 4),
+(5, 'cliente', '1994-12-12', 'Tomar', 1234567890, 'Cliente', 'cliente@cliente.com', 5),
+(6, 'cliente1', '1973-12-12', 'Porto', 1234567890, 'Cliente', 'cliente1@cliente1.com', 6);
 
 -- --------------------------------------------------------
 
@@ -307,7 +370,19 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Extraindo dados da tabela `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`, `verification_token`) VALUES
+(1, 'secretaria', 'QzlUzc-OdIYDkUAaglrnYb6Vgu_0Stb8', '$2y$13$Y/GyVSNykesDwUSc3Dje3.NDmDx/jE9nx3Zcqf8NELqrQx/msbBke', NULL, 'secretaria@secretaria.com', 10, 1610209692, 1610209692, 'AElWbi5XseF8axy4n0YfU6HC3HyPS1Kk_1610209692'),
+(2, 'gestordepecas', 'HCAFPj7hlGhLCcVn_Jjeh74iALJskYRL', '$2y$13$A7cthMoLBxsjUrwGRjy3r.46HQxWS.Tk9T84uxofkgvHl/D/Lq7HW', NULL, 'gestordepecas@gestordepecas.com', 10, 1610209883, 1610209883, 'IPVg6VlUvSOLexeIyjh4bCNuyodtf7Jr_1610209883'),
+(3, 'mecanico', '37HqO6tF7r877Ru6_zlBeT180SOT8unu', '$2y$13$ujeuQJgNj/AxukWvJVtR8ujEMGMVJao4mYw59m0UpSh15zWCy6Ukq', NULL, 'mecanico@mecanico.com', 10, 1610210174, 1610210174, '8s8t2mjAwkwuyR1Jx2xF9lXPDm5nCneW_1610210174'),
+(4, 'mecanico1', 'gvU4fUr-KRe1O91eCMTtbUup-iunWL8G', '$2y$13$A3ZOQqv4UeKr4bGMpWxeSOZ6wdYIXylijyD5e3BeWKz.dtzjhB7he', NULL, 'mecanico1@mecanico1.com', 10, 1610210197, 1610210197, '86_pgZtzwxT41atQzlUEUnqLlh_JPfHm_1610210197'),
+(5, 'cliente', 'qzQLI7cR__qiiiLCEdHKl3jMkAlJkD6i', '$2y$13$Sp1AvWX3zD7f5Ux6AL1tkOeUFeblzsjU./KAZOKCNBHKuyPvGOM0y', NULL, 'cliente@cliente.com', 10, 1610210228, 1610210228, 'GXRpUVeSRqtukCxSNyp8afMH5nLde0ez_1610210228'),
+(6, 'cliente1', 'd6q4C7zGOI8QRYHUsdm8ZoamiXz8RsWH', '$2y$13$rJM006QvAjHE9vSWtiNLNeXLUc6K2OMrKbcoOJBMqILrPQZb4ICQ2', NULL, 'cliente1@cliente1.com', 10, 1610210247, 1610210247, '482tDommpeKIZToskTyu1GVFaG2kJ2Ex_1610210247');
 
 -- --------------------------------------------------------
 
@@ -327,7 +402,7 @@ CREATE TABLE IF NOT EXISTS `venda` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Constraints for dumped tables
+-- Restrições para despejos de tabelas
 --
 
 --

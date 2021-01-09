@@ -59,7 +59,7 @@ class PessoaController extends Controller
      */
     public function actionView($id)
     {
-        if (\Yii::$app->user->can('viewPessoa_back')) {
+       if (\Yii::$app->user->can('viewPessoa_back')) {
             $model = $this->findModel($id);
 
             $carro = Carro::find()->where(['fk_idPessoa' => $model->idPessoa])->all();
@@ -69,7 +69,7 @@ class PessoaController extends Controller
                 'carro' => $carro,
             ]);
         }else{
-            throw new ForbiddenHttpException('Não tem permissões', 403);
+           throw new ForbiddenHttpException('Não tem permissões', 403);
         }
     }
 
@@ -104,6 +104,7 @@ class PessoaController extends Controller
      */
     public function actionUpdate($id)
     {
+
         if (\Yii::$app->user->can('updatePessoa_back')) {
             $model = $this->findModel($id);
 
@@ -124,7 +125,7 @@ class PessoaController extends Controller
             return $this->render('update', [
                 'model' => $model,
             ]);
-        }else{
+       }else{
             throw new ForbiddenHttpException('Não tem permissões', 403);
         }
     }
