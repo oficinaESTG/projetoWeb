@@ -72,6 +72,7 @@ class VendaCest
         $I->fillField('DescricaoVenda', 'foi vendido');
         $I->click('Guardar', 'button');
 
+        $I->see('Ver Venda :');
         $I->see('Id Venda');
         $I->see('Quantia Venda');
         $I->see('Data Venda');

@@ -59,6 +59,17 @@ public class UserDBHelp extends SQLiteOpenHelper {
     private static final String estadoMarcacao_MARCACAO = "estadoMarcacao";
     private static final String descricaoFinal_MARCACAO = "descricaoFinal";
 
+    private static final String  TABLE_NAME_PESSOA = "Pessoa";
+
+    private static final String idPessoa_Pessoa = "idPessoa";
+    private static final String nome_Pessoa = "nome";
+    private static final String dataNascimento_Pessoa = "dataNascimento";
+    private static final String morada_Pessoa = "morada";
+    private static final String nif_Pessoa = "nif";
+    private static final String tipoPessoa_Pessoa = "tipoPessoa";
+    private static final String fk_IdUser_Pessoa = "fk_IdUser";
+
+
 
     private User user;
 
@@ -117,12 +128,87 @@ public class UserDBHelp extends SQLiteOpenHelper {
                         ");";
         db.execSQL(createMarcacaoTable);
 
+        String createPessoaTable =
+                "CREATE TABLE " + TABLE_NAME_PESSOA +
+                        "( " + idPessoa_Pessoa + " INTEGER NOT NULL, " +
+                        nif_Pessoa + " INTEGER NOT NULL, " +
+                        fk_IdUser_Pessoa + " INTEGER NOT NULL, " +
+                        nome_Pessoa + " TEXT NOT NULL, " +
+                        morada_Pessoa + " TEXT, " +
+                        tipoPessoa_Pessoa + " TEXT NOT NULL, " +
+                        dataNascimento_Pessoa + " TEXT NOT NULL " +
+                        ");";
+        db.execSQL(createPessoaTable);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         this.onCreate(sqLiteDatabase);
+    }
+    //Pessoa
+
+    public void adicionarPessoaBD(Pessoa pessoa){
+        ContentValues values = new ContentValues();
+
+        values.put(idPessoa_Pessoa, pessoa.getIdPessoa());
+        values.put(nome_Pessoa, pessoa.getNome());
+        values.put(dataNascimento_Pessoa, pessoa.getDataNascimento());
+        values.put(morada_Pessoa, pessoa.getMorada());
+        values.put(nif_Pessoa, pessoa.getNif());
+        values.put(tipoPessoa_Pessoa, pessoa.getTipoPessoa());
+        values.put(fk_IdUser_Pessoa, pessoa.getFk_IdUser());
+
+
+        this.sqLiteDatabase.insert(TABLE_NAME_PESSOA, null, values);
+    }
+
+    public ArrayList<Pessoa> getPessoaArray(int idUser) {
+        //falta fazer a condição de filtração de marcações do user
+        String queryStringPessoa = "(" + fk_IdUser_Pessoa + " = '" + idUser + "')";
+
+        ArrayList<Pessoa> pessoas = new ArrayList<>();
+        Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME, new String[]{
+                        idPessoa_Pessoa, nif_Pessoa, fk_IdUser_Pessoa, nome_Pessoa, morada_Pessoa, tipoPessoa_Pessoa, dataNascimento_Pessoa},
+                queryStringPessoa, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Pessoa auxPessoa = new Pessoa(cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getInt(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(6));
+                pessoas.add(auxPessoa);
+            } while (cursor.moveToNext());
+        }
+        return pessoas;
+    }
+
+    public Pessoa getPessoa(int idUser) {
+
+        String queryString = "(" + fk_IdUser_Pessoa + " = '" + idUser + "')";
+
+        Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME, new String[]{
+                        idPessoa_Pessoa, nif_Pessoa, fk_IdUser_Pessoa, nome_Pessoa, morada_Pessoa, tipoPessoa_Pessoa, dataNascimento_Pessoa},
+                queryString, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        try {
+            Pessoa auxPessoa = new Pessoa(cursor.getInt(0),
+                    cursor.getInt(1),
+                    cursor.getInt(2),
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getString(5),
+                    cursor.getString(6));
+            return auxPessoa;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     //MARCACAO

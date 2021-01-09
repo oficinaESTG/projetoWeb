@@ -56,11 +56,16 @@ public class LoginSingleton extends AppCompatActivity {
     private final String mUrlAPIMarcacaoVendaGet = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
     private final String mUrlAPIMarcacaoAdicionar= "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaocreate";
 
+    private final String mUrlAPIPessoaget = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/per/pessoaget";
+
     public LoginSingleton(Context context) {
         userBD = new UserDBHelp(context);
     }
 
     private FragmentManager fragmentManager;
+    //PESSOA
+    private Pessoa pessoa;
+    private ArrayList<Pessoa> pessoas;
 
     //USER
     private User user;
@@ -144,8 +149,8 @@ public class LoginSingleton extends AppCompatActivity {
 
     public void adicionarMarcacaoBD(ArrayList<Marcacao> marcacoes){
         userBD.removerAllMarcacoesBD();
-        for(Marcacao l : marcacoes){
-            userBD.adicionarMarcacaoBD(l);
+        for(Marcacao m : marcacoes){
+            userBD.adicionarMarcacaoBD(m);
         }
     }
 
@@ -216,6 +221,32 @@ public class LoginSingleton extends AppCompatActivity {
 
     }
 
+    public void getPessoaAPI(final Context context, boolean isConnected){
+        if(isConnected){
+            RequestQueue queue = Volley.newRequestQueue(context);
+
+            StringRequest request = new StringRequest(Request.Method.GET, mUrlAPIPessoaget + "?access-token="+user.getAuth_key(), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    System.out.println("A-->"+response);
+                    Toast.makeText(context, "Deu GET com sucesso", Toast.LENGTH_SHORT).show();
+                    userBD.adicionarPessoaBD(pessoa);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("A-->"+error);
+                    Toast.makeText(context, "Erro ao fazer o GET da Pessoa", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            queue.add(request);
+        }else{
+            userBD.getPessoa(user.getId());
+        }
+
+    }
+
     public void registarPessoaAPI(final Pessoa pessoa, final User user, final Context context, RegistoListener registoListener){
 
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -253,6 +284,8 @@ public class LoginSingleton extends AppCompatActivity {
         queue.add(request);
 
     }
+
+
 
     public void getAllCarrosVendaAPI(final Context context, boolean isConnected){
 
@@ -356,6 +389,8 @@ public class LoginSingleton extends AppCompatActivity {
 
         }
     }
+
+
 
     public void guardarVistoriaMarcacaoAPI(final String data, final String nota, final String idCarro , final Context context){
 

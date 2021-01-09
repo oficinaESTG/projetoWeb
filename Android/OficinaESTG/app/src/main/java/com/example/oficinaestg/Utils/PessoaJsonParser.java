@@ -4,8 +4,11 @@ import android.content.Context;
 
 import com.example.oficinaestg.Modelos.Pessoa;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class PessoaJsonParser {
 
@@ -28,5 +31,31 @@ public class PessoaJsonParser {
         }
 
         return pessoa;
+    }
+
+    public static ArrayList<Pessoa> parserJsonPessoaArray(JSONArray response){
+        ArrayList<Pessoa> listaPessoa = new ArrayList<>();
+        try{
+            for(int i = 0; i < response.length(); i++){
+
+                JSONObject pessoa = (JSONObject) response.get(i);
+
+                int idPessoa = pessoa.getInt("idPessoa");
+                int nif= pessoa.getInt("nif");
+                int fk_IdUser= pessoa.getInt("fk_IdUser");
+                String nome = pessoa.getString("nome");
+                String morada = pessoa.getString("morada");
+                String tipoPessoa = pessoa.getString("tipoPessoa");
+                String dataNascimento = pessoa.getString("dataNascimento");
+
+                Pessoa pessoaAux = new Pessoa(idPessoa, nif, fk_IdUser, nome, morada,tipoPessoa, dataNascimento);
+
+                listaPessoa.add(pessoaAux);
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return listaPessoa;
     }
 }
