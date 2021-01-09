@@ -1,7 +1,9 @@
 suite_namespace: frontend\tests\acceptance
 actor: AcceptanceTester
 modules:
-    enabled:
-      - PhpBrowser:
-          url: http://oficinaestg.frontend/
-            - \Helper\Acceptance
+  enabled:
+    - WebDriver:
+        url: http://frontend.test/
+        browser: chrome
+    - Yii2:
+        part: init
