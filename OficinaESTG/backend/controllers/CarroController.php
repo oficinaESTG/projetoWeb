@@ -80,7 +80,7 @@ class CarroController extends Controller
             if ($model->load(Yii::$app->request->post())) {
 
                 $model->tipoCarro = 'Venda';
-                $model->fk_idPessoa = 1;
+                $model->fk_idPessoa = Yii::$app->user->identity->getId();
                 $model->vendido = false;
 
                 if ($model->save()) {
