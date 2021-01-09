@@ -20,12 +20,12 @@ public class MarcacaoJsonParser {
             for(int i = 0; i < response.length(); i++){
                 JSONObject marcacao = (JSONObject) response.get(i);
 
-                int idMarcacoes = marcacao.getInt("idMarcacoes");
-                int fk_idPessoa = marcacao.getInt("fk_idPessoa");
-                int fk_idCarro= marcacao.getInt("fk_idCarro");
-                int fk_idResponsavel = marcacao.getInt("fk_idResponsavel");
-                int valorFinal = marcacao.getInt("valorFinal");
-                int horasTrabalho = marcacao.getInt("horasTrabalho");
+                int idMarcacoes =marcacao.optInt("idMarcacoes",0);
+                int fk_idPessoa = marcacao.optInt("fk_idPessoa",0);
+                int fk_idCarro= marcacao.optInt("fk_idCarro",0);
+                int fk_idResponsavel = marcacao.optInt("fk_idResponsavel",0);
+                int valorFinal = marcacao.optInt("valorFinal",0);
+                int horasTrabalho = marcacao.optInt("horasTrabalho",0);
                 String tipoMarcacao = marcacao.getString("tipoMarcacao");
                 String dataMarcacao = marcacao.getString("dataMarcacao");
                 String descricaoMarcacao = marcacao.getString("descricaoMarcacao");
