@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Marcacao;
 use common\models\User;
 use common\models\Carro;
 use Yii;
@@ -141,6 +142,18 @@ class PessoaController extends Controller
     {
         if (\Yii::$app->user->can('deletePessoa_back')) {
             $this->findModel($id)->delete();
+
+            if (Carro::find()->where(['fk_idPessoa' => $id]) != null){
+                Carro::deleteAll(['fk_idPessoa' => $id]);
+            }
+            if (Marcacao::find()->where(['fk_idPessoa' => $id]) != null){
+                Marcacao::deleteAll(['fk_idPessoa' => $id]);
+            }
+            if (Pessoa::find()->where(['fk_IdUser' => $id]) != null){
+                Pessoa::deleteAll(['fk_IdUser' => $id]);
+            }
+
+
             User::deleteAll(['id' => $id]);
 
             return $this->redirect(['index']);

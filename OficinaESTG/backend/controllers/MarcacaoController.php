@@ -47,7 +47,7 @@ class MarcacaoController extends Controller
             if ($pessoa->tipoPessoa === 'Secretaria') {
 
                 $dataProvider = new ActiveDataProvider([
-                    'query' => Marcacao::findAll(),
+                    'query' => Marcacao::find(),
                 ]);
             } else if ($pessoa->tipoPessoa === 'Mecanico') {
 
