@@ -8,7 +8,9 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import com.example.oficinaestg.Listeners.PessoaListener;
 import com.example.oficinaestg.Modelos.Pessoa;
 import com.example.oficinaestg.Modelos.User;
 import com.example.oficinaestg.R;
@@ -19,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class DetalhesPessoaActivity extends AppCompatActivity{
+public class DetalhesPessoaActivity extends AppCompatActivity implements PessoaListener {
 
     private TextView et_Nome, et_Email, et_dataNasc, et_Morada, et_Nif;
     private Button btn_Gravar;
@@ -30,7 +32,6 @@ public class DetalhesPessoaActivity extends AppCompatActivity{
     int nif;
 
     boolean net;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,26 +66,8 @@ public class DetalhesPessoaActivity extends AppCompatActivity{
 
         net = UserJsonParser.isConnectionInternet(getApplicationContext());
 
+        LoginSingleton.getInstance(getApplicationContext()).setPessoaListener(this);
         LoginSingleton.getInstance(getApplicationContext()).getPessoaAPI(getApplicationContext(), net);
-        user = LoginSingleton.getInstance(getApplicationContext()).getUserBD();
-        pessoa = LoginSingleton.getInstance(getApplicationContext()).getPessoaBD(user.getId());
-
-        if(pessoa != null) {
-            setTitle("Detalhes: " + pessoa.getNome());
-
-            et_Nome.setText(pessoa.getNome());
-            et_Email.setText(user.getEmail());
-            et_dataNasc.setText(pessoa.getDataNascimento());
-            et_Morada.setText(pessoa.getMorada());
-            et_Nif.setText(""+pessoa.getNif());
-            btn_Gravar.setText("Atualizar");
-
-            et_dataNasc.setFocusable(false);
-            et_Email.setClickable(false);
-            et_Email.setEnabled(false);
-
-
-        }
 
     }
 
@@ -99,7 +82,6 @@ public class DetalhesPessoaActivity extends AppCompatActivity{
 
         Pessoa pessoas = new Pessoa(0, nif, 0, nome, morada, null, dataNasc);
         LoginSingleton.getInstance(getApplicationContext()).atualizarPessoaPerfilAPI(pessoas, getApplicationContext());
-        finish();
 
     }
 
@@ -110,5 +92,23 @@ public class DetalhesPessoaActivity extends AppCompatActivity{
         et_dataNasc.setText(sdf.format(myCalendar.getTime()));
     }
 
+    @Override
+    public void onSuccess() {
+        user = LoginSingleton.getInstance(getApplicationContext()).getUserBD();
+        pessoa = LoginSingleton.getInstance(getApplicationContext()).getPessoaBD(user.getId());
+
+        if(pessoa != null) {
+            et_Nome.setText(pessoa.getNome());
+            et_Email.setText(user.getEmail());
+            et_dataNasc.setText(pessoa.getDataNascimento());
+            et_Morada.setText(pessoa.getMorada());
+            et_Nif.setText(""+pessoa.getNif());
+            btn_Gravar.setText("Atualizar");
+
+            et_dataNasc.setFocusable(false);
+            et_Email.setClickable(false);
+            et_Email.setEnabled(false);
+        }
+    }
 }
 

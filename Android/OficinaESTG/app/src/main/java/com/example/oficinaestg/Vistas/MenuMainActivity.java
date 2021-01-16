@@ -71,6 +71,7 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
     }
 
     private void carregarcabecalho() {
+
         email = getIntent().getStringExtra(EMAIL_GESS);
         nome = getIntent().getStringExtra(NOME_GESS);
 
@@ -145,7 +146,6 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
                 break;
             case R.id.nav_perfil:
                  activity = new DetalhesPessoaActivity();
-                setTitle(menuItem.getTitle());
                 break;
 
         }

@@ -7,8 +7,9 @@
 
 
     <LinearLayout
+        android:id="@+id/layoutMarc"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="88dp"
         android:orientation="horizontal">
 
         <Space
@@ -35,13 +36,21 @@
                     android:layout_height="match_parent"
                     android:fontFamily="sans-serif"
                     android:text="Tipo:"
+                    android:textAlignment="textEnd"
+                    android:textAllCaps="false"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView_tipoMarcacao"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -54,13 +63,15 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="Data:"
+                    android:textAlignment="textEnd"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView_dataMarcacao"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -73,13 +84,15 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="Estado:"
+                    android:textAlignment="textEnd"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView_estado"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

@@ -104,6 +104,10 @@ private final String mUrlAPIPessoaput = "http://192.168.1.97/projetoWeb/OficinaE
         this.marcacoesListener = marcacoesListener;
     }
 
+    public void setPessoaListener(PessoaListener pessoaListener){
+        this.pessoaListener = pessoaListener;
+    }
+
     public void adicionarCarroBD(ArrayList<Carro> carros){
         userBD.removerAllCarroVendaBD();
         for(Carro car : carros){
@@ -241,11 +245,9 @@ private final String mUrlAPIPessoaput = "http://192.168.1.97/projetoWeb/OficinaE
                 @Override
                 public void onResponse(JSONObject response) {
                     pessoa = PessoaJsonParser.parserJsonPessoa(response, context);
-                    System.out.println("A-->"+response);
-                    Toast.makeText(context, "Deu GET com sucesso", Toast.LENGTH_SHORT).show();
                     userBD.removerAllPessoasBD();
                     userBD.adicionarPessoaBD(pessoa);
-
+                    pessoaListener.onSuccess();
                 }
             }, new Response.ErrorListener() {
                 @Override
