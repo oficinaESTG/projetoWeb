@@ -1,19 +1,24 @@
 package com.example.oficinaestg.Vistas;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.DatePicker;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.oficinaestg.Modelos.Carro;
 import com.example.oficinaestg.R;
 import com.example.oficinaestg.Singleton.LoginSingleton;
 import com.example.oficinaestg.Utils.UserJsonParser;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class DetalhesCarroVendaActivity extends AppCompatActivity {
 
@@ -21,6 +26,7 @@ public class DetalhesCarroVendaActivity extends AppCompatActivity {
 
     private int idCarro;
     private Carro carro;
+    final Calendar myCalendar = Calendar.getInstance();
 
     private TextView etMarca, etModelo, etQuilometros, etAno, etCombustivel, etMatricula, etPreco, etData, etData_tx, etNota, etnota_tx, et_texto_guardar;
     private String Data, Nota, Carro;
@@ -50,6 +56,27 @@ public class DetalhesCarroVendaActivity extends AppCompatActivity {
         etData_tx= findViewById(R.id.tv_venda_data);
         etnota_tx= findViewById(R.id.tv_venda_notas);
         btnGuardar= findViewById(R.id.button_guardar);
+
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+        };
+
+        etData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(DetalhesCarroVendaActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        etData.setFocusable(false);
 
         boolean net = UserJsonParser.isConnectionInternet(getApplicationContext());
 
@@ -89,5 +116,12 @@ public class DetalhesCarroVendaActivity extends AppCompatActivity {
         if (Data != null && Nota != null){
             LoginSingleton.getInstance(getApplicationContext()).guardarVistoriaMarcacaoAPI(Data, Nota, Carro, getApplicationContext());
         }
+    }
+
+    private void updateLabel() {
+        String myFormat = "yyyy-MM-dd"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.UK);
+
+        etData.setText(sdf.format(myCalendar.getTime()));
     }
 }
