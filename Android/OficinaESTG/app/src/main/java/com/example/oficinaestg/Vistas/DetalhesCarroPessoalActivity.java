@@ -74,11 +74,12 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
             etAno.setText(""+carro.getAno());
 
             String combustivel = carro.getCombustivel();
-            int combustivel_idarray;
+            int combustivel_idarray = -1;
 
-            if(combustivel == "Diesel"){
+            if(combustivel.equals("Diesel")){
                 combustivel_idarray = 0;
-            }else{
+            }
+            else if (combustivel.equals("Gasolina")) {
                 combustivel_idarray = 1;
             }
 
