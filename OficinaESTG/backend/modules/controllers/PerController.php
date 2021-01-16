@@ -39,4 +39,42 @@ class PerController extends ActiveController
 
         return $pessoa;
     }
+
+    public function actionPessoaput($id){
+
+        $actoken = Yii::$app->request->get("access-token");
+        $user = User::findIdentityByAccessToken($actoken);
+        $pessoa = Pessoa::find()->where(['fk_IdUser' => $user->id])->one();
+        $request = Yii::$app->request;
+
+        $nomePessoa = $request->getBodyParam('nome');
+        //$emailPessoa = $request->getBodyParam('email');
+        $dataNascPessoa = $request->getBodyParam('dataNascimento');
+        $moradaPessoa = $request->getBodyParam('morada');
+        $nifPessoa = $request->getBodyParam('nif');
+
+
+
+        $modelPessoa = new $this->modelClass;
+
+        $rec = $modelPessoa::find()->where("idPessoa=".$id)->one();
+
+        if($rec != null){
+
+            $rec->nome = $nomePessoa;
+            $rec->dataNascimento = $dataNascPessoa;
+            $rec->morada = $moradaPessoa;
+            $rec->nif = $nifPessoa;
+
+
+            if( $rec->save()){
+                return ['Save'=> $rec];
+            }else{
+                return ['SaveError'=> $rec];
+            }
+        }
+
+        throw new \yii\web\NotFoundHttpException(" idPessoa not found!");
+
+    }
 }

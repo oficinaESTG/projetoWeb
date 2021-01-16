@@ -18,6 +18,7 @@ import com.example.oficinaestg.Listeners.CarroPessoalListener;
 import com.example.oficinaestg.Listeners.CarroVendaListener;
 import com.example.oficinaestg.Listeners.LoginListener;
 import com.example.oficinaestg.Listeners.MarcacoesListener;
+import com.example.oficinaestg.Listeners.PessoaListener;
 import com.example.oficinaestg.Listeners.RegistoListener;
 import com.example.oficinaestg.Modelos.Carro;
 import com.example.oficinaestg.Modelos.CarroDBHelp;
@@ -27,6 +28,7 @@ import com.example.oficinaestg.Modelos.User;
 import com.example.oficinaestg.Modelos.UserDBHelp;
 import com.example.oficinaestg.Utils.CarroJsonParser;
 import com.example.oficinaestg.Utils.MarcacaoJsonParser;
+import com.example.oficinaestg.Utils.PessoaJsonParser;
 import com.example.oficinaestg.Utils.UserJsonParser;
 
 import org.json.JSONArray;
@@ -42,21 +44,22 @@ public class LoginSingleton extends AppCompatActivity {
     private static LoginSingleton instance = null;
     private static RequestQueue volleyQueue;
 
-    private final String mUrlAPILogin = "http://192.168.1.69/projetoWeb/OficinaESTG/backend/web/api/reg/login";
-    private final String mUrlAPIRegisto = "http://192.168.1.69/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
+    private final String mUrlAPILogin = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/reg/login";
+    private final String mUrlAPIRegisto = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
 
-    private final String mUrlAPICarroVenda = "http://192.168.1.69/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
-    private final String mUrlAPICarroPessoal = "http://192.168.1.69/projetoWeb/OficinaESTG/backend/web/api/car/carroget";
-    private final String mUrlAPIAlterarCarroPessoal = "http://192.168.1.69/projetoWeb/OficinaESTG/backend/web/api/car/carroput";
-    private final String mUrlAPIAdicionarCarroPessoal = "http://192.168.1.69/projetoWeb/OficinaESTG/backend/web/api/car/carrocreate";
-    private final String mUrlAPIEliminarCarroPessoal = "http://192.168.1.69/projetoWeb/OficinaESTG/backend/web/api/car/carrodel";
+    private final String mUrlAPICarroVenda = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
+    private final String mUrlAPICarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carroget";
+    private final String mUrlAPIAlterarCarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carroput";
+    private final String mUrlAPIAdicionarCarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carrocreate";
+    private final String mUrlAPIEliminarCarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carrodel";
 
 
-    private final String mUrlAPIMarcacaoGet = "http://192.168.1.69/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
-    private final String mUrlAPIMarcacaoVendaGet = "http://192.168.1.69/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
-    private final String mUrlAPIMarcacaoAdicionar= "http://192.168.1.69/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaocreate";
+    private final String mUrlAPIMarcacaoGet = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
+    private final String mUrlAPIMarcacaoVendaGet = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
+    private final String mUrlAPIMarcacaoAdicionar= "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaocreate";
 
     private final String mUrlAPIPessoaget = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/per/pessoaget";
+private final String mUrlAPIPessoaput = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/per/pessoaput";
 
     public LoginSingleton(Context context) {
         userBD = new UserDBHelp(context);
@@ -66,6 +69,7 @@ public class LoginSingleton extends AppCompatActivity {
     //PESSOA
     private Pessoa pessoa;
     private ArrayList<Pessoa> pessoas;
+    private PessoaListener pessoaListener;
 
     //USER
     private User user;
@@ -137,6 +141,14 @@ public class LoginSingleton extends AppCompatActivity {
 
         return carroPessoal;
 
+    }
+
+    public Pessoa getPessoaBD(int idUser){
+        return userBD.getPessoa(idUser);
+    }
+
+    public User getUserBD(){
+        return userBD.getUser();
     }
 
     public String getNomeCarroPorID(int idCarro){
@@ -225,12 +237,15 @@ public class LoginSingleton extends AppCompatActivity {
         if(isConnected){
             RequestQueue queue = Volley.newRequestQueue(context);
 
-            StringRequest request = new StringRequest(Request.Method.GET, mUrlAPIPessoaget + "?access-token="+user.getAuth_key(), new Response.Listener<String>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, mUrlAPIPessoaget+"?access-token="+user.getAuth_key(), null, new Response.Listener<JSONObject>() {
                 @Override
-                public void onResponse(String response) {
+                public void onResponse(JSONObject response) {
+                    pessoa = PessoaJsonParser.parserJsonPessoa(response, context);
                     System.out.println("A-->"+response);
                     Toast.makeText(context, "Deu GET com sucesso", Toast.LENGTH_SHORT).show();
+                    userBD.removerAllPessoasBD();
                     userBD.adicionarPessoaBD(pessoa);
+
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -240,10 +255,48 @@ public class LoginSingleton extends AppCompatActivity {
                 }
             });
 
-            queue.add(request);
+            queue.add(jsonObjectRequest);
         }else{
             userBD.getPessoa(user.getId());
         }
+
+    }
+
+    public void atualizarPessoaPerfilAPI(final Pessoa pessoas , final Context context){
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest request = new StringRequest(Request.Method.PUT, mUrlAPIPessoaput +"/" + pessoa.getIdPessoa() + "?access-token="+user.getAuth_key(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println("A-->"+response);
+                Toast.makeText(context, "Pessoa alterada", Toast.LENGTH_SHORT).show();
+                //pessoaListener.onSuccess(true);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("A-->"+error);
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap<>();
+                params.put("nome", pessoas.getNome());
+                params.put("dataNascimento", pessoas.getDataNascimento());
+                params.put("morada", pessoas.getMorada());
+                params.put("nif", ""+pessoas.getNif());
+
+
+                return  params;
+            }
+        };
+
+        queue.add(request);
 
     }
 
@@ -325,7 +378,7 @@ public class LoginSingleton extends AppCompatActivity {
     public void getAllCarrosPessoalAPI(final Context context, boolean isConnected){
 
         if (isConnected) {
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPICarroPessoal + "?access-token="+user.getAuth_key(), null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPICarroPessoal +"?access-token="+user.getAuth_key(), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     carrosVenda = CarroJsonParser.parserJsonCarro(response);

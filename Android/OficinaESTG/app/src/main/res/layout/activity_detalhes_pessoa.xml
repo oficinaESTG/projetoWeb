@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".Vistas.DetalhesCarroPessoalActivity">
+    tools:context=".Vistas.DetalhesPessoaActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,20 +31,44 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_marca_view"
+                    android:id="@+id/tv_Pnome_view"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/marca"
+                    android:text="@string/nome"
                     android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/et_marca_tx"
+                    android:id="@+id/et_Pnome_tx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_Pemail_view"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email"
+                    android:textAlignment="textEnd"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_Pemail_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -54,46 +78,23 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_modelo_view"
+                    android:id="@+id/tv_PdataNascimento_view"
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/modelo"
+                    android:layout_height="match_parent"
+                    android:text="Data Nascimento:"
                     android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/et_modelo_tx"
+                    android:id="@+id/et_PdataNascimento_tx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"/>
+                    android:ems="10" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_quilometros_view"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/quilometros"
-                    android:textAlignment="textEnd"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/et_quilometros_tx"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -101,16 +102,16 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_ano_view"
+                    android:id="@+id/tv_Pmorada_view"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/ano"
+                    android:text="Morada:"
                     android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/et_Ano_tx"
+                    android:id="@+id/et_Pmorada_tx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -128,42 +129,16 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_combustivel_view"
+                    android:id="@+id/tv_Pnif_view"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/combutivel"
-                    android:textAlignment="textEnd"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:id="@+id/spinner_combustivel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_matricula_view"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/matricula"
+                    android:text="NIF:"
                     android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/et_Matricula_tx"
+                    android:id="@+id/et_Pnif_tx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -176,28 +151,15 @@
                 android:layout_height="10dp" />
 
             <Button
-                android:id="@+id/btnGravar"
+                android:id="@+id/btnGravarPessoa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="btnGuardar_onClick"
+                android:onClick="onClickButton"
                 android:text="Button" />
 
         </LinearLayout>
 
 
     </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabEliminarCarro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="10dp"
-        android:clickable="true"
-        android:contentDescription="TODO"
-        android:focusable="true"
-        android:src="@android:drawable/ic_menu_delete"
-        android:visibility="invisible"
-        app:backgroundTint="#F60303" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

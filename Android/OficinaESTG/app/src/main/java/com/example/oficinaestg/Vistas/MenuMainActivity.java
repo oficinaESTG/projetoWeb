@@ -1,6 +1,9 @@
 package com.example.oficinaestg.Vistas;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -37,6 +40,7 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private FragmentManager fragmentManager;
+    private ActivityManager activityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +128,7 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
     public boolean onNavigationItemSelected( MenuItem menuItem) {
 
         Fragment fragment = null;
+        Activity activity=null;
         switch (menuItem.getItemId()) {
             case R.id.nav_marcacoes:
                 System.out.println("-->Nav Marcacoes");
@@ -138,12 +143,22 @@ public class MenuMainActivity extends AppCompatActivity implements  NavigationVi
                 fragment = new ListaCarrosPessoalFragment();
                 setTitle(menuItem.getTitle());
                 break;
+            case R.id.nav_perfil:
+                 activity = new DetalhesPessoaActivity();
+                setTitle(menuItem.getTitle());
+                break;
 
         }
 
         if(fragment != null){
             fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
         }
+
+        if(activity!= null){
+            Intent intent = new Intent(getApplicationContext(), DetalhesPessoaActivity.class);
+            startActivityForResult(intent, 0);
+        }
+
         drawer.closeDrawer(GravityCompat.START);
         return true;
 

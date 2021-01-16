@@ -136,7 +136,7 @@ public class UserDBHelp extends SQLiteOpenHelper {
                         nome_Pessoa + " TEXT NOT NULL, " +
                         morada_Pessoa + " TEXT, " +
                         tipoPessoa_Pessoa + " TEXT NOT NULL, " +
-                        dataNascimento_Pessoa + " TEXT NOT NULL " +
+                        dataNascimento_Pessoa + " TEXT NOT NULL" +
                         ");";
         db.execSQL(createPessoaTable);
 
@@ -191,7 +191,7 @@ public class UserDBHelp extends SQLiteOpenHelper {
 
         String queryString = "(" + fk_IdUser_Pessoa + " = '" + idUser + "')";
 
-        Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME, new String[]{
+        Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME_PESSOA, new String[]{
                         idPessoa_Pessoa, nif_Pessoa, fk_IdUser_Pessoa, nome_Pessoa, morada_Pessoa, tipoPessoa_Pessoa, dataNascimento_Pessoa},
                 queryString, null, null, null, null);
         if (cursor != null)
@@ -209,6 +209,10 @@ public class UserDBHelp extends SQLiteOpenHelper {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public void removerAllPessoasBD() {
+        this.sqLiteDatabase.delete(TABLE_NAME_PESSOA, null, null);
     }
 
     //MARCACAO
@@ -275,6 +279,33 @@ public class UserDBHelp extends SQLiteOpenHelper {
 
     public void removerAllUserBD() {
         this.sqLiteDatabase.delete(TABLE_NAME, null, null);
+    }
+
+    public User getUser() {
+
+        Cursor cursor = this.sqLiteDatabase.query(TABLE_NAME, new String[]{
+                        id_USER, status_USER, created_at_USER, updated_at_at_USER, username_USER, auth_key_USER, email_USER, password_hash_USER, password_reset_token_USER, verification_token_USER, password_USER},
+                null, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        try {
+            User auxUser = new User(cursor.getInt(0),
+                    cursor.getInt(1),
+                    cursor.getString(4),
+                    cursor.getString(5),
+                    cursor.getString(6),
+                    cursor.getInt(2),
+                    cursor.getInt(3),
+                    cursor.getString(7),
+                    cursor.getString(8),
+                    cursor.getString(9),
+                    cursor.getString(10));
+            return auxUser;
+        } catch (Exception e) {
+            //ver com professor
+            return null;
+        }
     }
 
     public User getUserBDbyNome(String email, String password) {

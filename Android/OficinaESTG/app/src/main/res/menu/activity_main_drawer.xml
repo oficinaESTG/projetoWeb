@@ -16,5 +16,8 @@
             android:id="@+id/nav_garagem"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Garagem" />
+        <item
+            android:id="@+id/nav_perfil"
+            android:title="Perfil" />
     </group>
 </menu>

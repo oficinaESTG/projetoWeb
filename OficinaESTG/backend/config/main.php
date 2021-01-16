@@ -72,6 +72,7 @@ return [
                         'GET marcacaoget' => 'marcacaoget',
                         //Métodos do PerController
                         'GET pessoaget' => 'pessoaget',
+                        'PUT pessoaput/{id}'  => 'pessoaput',
                         //Métodos do RegController
                         'POST registar' => 'registar',
                         'POST login' => 'login',

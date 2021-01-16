@@ -3,7 +3,9 @@ package com.example.oficinaestg.Vistas;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,6 +17,8 @@ import com.example.oficinaestg.Singleton.LoginSingleton;
 import com.example.oficinaestg.Utils.UserJsonParser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class DetalhesCarroPessoalActivity extends AppCompatActivity {
 
     public static final String DETALHES_CARROPESSOAL = "carro";
@@ -22,7 +26,8 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
     private int idCarro;
     private Carro carro;
 
-    private TextView etMarca, etModelo, etQuilometros, etAno, etCombustivel, etMatricula;
+    private TextView etMarca, etModelo, etQuilometros, etAno, etMatricula;
+    private Spinner etCombustivel;
     private Button botao;
     private FloatingActionButton botaodelete;
 
@@ -41,12 +46,22 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
         etModelo = findViewById(R.id.et_modelo_tx);
         etQuilometros = findViewById(R.id.et_quilometros_tx);
         etAno = findViewById(R.id.et_Ano_tx);
-        etCombustivel = findViewById(R.id.et_Combustivel_tx);
+        etCombustivel = findViewById(R.id.spinner_combustivel);
         etMatricula = findViewById(R.id.et_Matricula_tx);
         botao = findViewById(R.id.btnGravar);
         botaodelete = findViewById(R.id.fabEliminarCarro);
 
         boolean net = UserJsonParser.isConnectionInternet(getApplicationContext());
+
+        ArrayList<String> carros = new ArrayList<>();
+        carros.add("Diesel");
+        carros.add("Gasolina");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, carros);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        etCombustivel.setAdapter(adapter);
+
+
 
 
         if(carro != null){
@@ -57,7 +72,19 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
             etModelo.setText(carro.getModeloCarro());
             etQuilometros.setText(""+carro.getQuilometros());
             etAno.setText(""+carro.getAno());
-            etCombustivel.setText(carro.getCombustivel());
+
+            String combustivel = carro.getCombustivel();
+            int combustivel_idarray;
+
+            if(combustivel == "Diesel"){
+                combustivel_idarray = 0;
+            }else{
+                combustivel_idarray = 1;
+            }
+
+            etCombustivel.setSelection(combustivel_idarray);
+
+
             etMatricula.setText(carro.getMatricula());
             botao.setText("Alterar");
             botaodelete.setVisibility(View.VISIBLE);
@@ -87,7 +114,7 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
             modelo = etModelo.getText().toString();
             quilometros = Integer.parseInt(etQuilometros.getText().toString());
             ano = Integer.parseInt(etAno.getText().toString());
-            combustivel = etCombustivel.getText().toString();
+            combustivel = etCombustivel.getSelectedItem().toString();
             matricula = etMatricula.getText().toString();
 
             Carro carros = new Carro(carro.getIdCarro() ,ano, quilometros, 0, 0, modelo, marca, matricula, null, combustivel,0 );
@@ -99,7 +126,7 @@ public class DetalhesCarroPessoalActivity extends AppCompatActivity {
             modelo = etModelo.getText().toString();
             quilometros = Integer.parseInt(etQuilometros.getText().toString());
             ano = Integer.parseInt(etAno.getText().toString());
-            combustivel = etCombustivel.getText().toString();
+            combustivel = etCombustivel.getSelectedItem().toString();
             matricula = etMatricula.getText().toString();
 
             Carro carros = new Carro(0,ano, quilometros, 0, 0, modelo, marca, matricula, null, combustivel,0 );
