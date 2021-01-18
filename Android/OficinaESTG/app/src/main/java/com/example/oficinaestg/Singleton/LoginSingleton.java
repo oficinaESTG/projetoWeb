@@ -40,11 +40,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginSingleton extends AppCompatActivity {
-    
+
     private static LoginSingleton instance = null;
     private static RequestQueue volleyQueue;
 
-    private final String endereco = "http://192.168.1.71";
+    //Endereços ------------------------------------------------------------------------------------
+
+    private final String endereco = "http://192.168.1.71"; //(ver ipconfig)
 
     private final String mUrlAPILogin = endereco + "/projetoWeb/OficinaESTG/backend/web/api/reg/login";
     private final String mUrlAPIRegisto = endereco + "/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
@@ -59,11 +61,8 @@ public class LoginSingleton extends AppCompatActivity {
     private final String mUrlAPIPessoaget = endereco + "/projetoWeb/OficinaESTG/backend/web/api/per/pessoaget";
     private final String mUrlAPIPessoaput = endereco + "/projetoWeb/OficinaESTG/backend/web/api/per/pessoaput";
 
-    public LoginSingleton(Context context) {
-        userBD = new UserDBHelp(context);
-    }
-
     private FragmentManager fragmentManager;
+
     //PESSOA
     private Pessoa pessoa;
     private ArrayList<Pessoa> pessoas;
@@ -73,22 +72,40 @@ public class LoginSingleton extends AppCompatActivity {
     private User user;
     private UserDBHelp userBD;
 
-    //CarroVenda
+    //CARROVENDA
     private ArrayList<Carro> carrosVenda;
     private ArrayList<User> userLogado;
     private CarroVendaListener carroListener;
     private CarroDBHelp carroDBHelp;
 
-    //CarroPessoal
+    //CARROPESSOAL
     private ArrayList<Carro> carroPessoal;
     private CarroPessoalListener carroPessoalListener;
     private CarroDBHelp carroPessoalDBHelp;
     private String nomeCarro;
 
-    //Marcacoes
+    //MARCACOES
     private ArrayList<Marcacao>  marcacoes;
     private MarcacoesListener marcacoesListener;
     private UserDBHelp userMarcacoesBDHelper;
+
+    //Singleton ------------------------------------------------------------------------------------
+
+    public LoginSingleton(Context context) {
+        userBD = new UserDBHelp(context);
+    }
+
+    public static synchronized LoginSingleton getInstance(Context context) {
+
+        if (instance == null) {
+            instance = new LoginSingleton(context);
+
+            volleyQueue = Volley.newRequestQueue(context);
+        }
+        return instance;
+    }
+
+    // Listener's  ---------------------------------------------------------------------------------
 
     public void setCarrosVendaListener(CarroVendaListener carroListener){
         this.carroListener = carroListener;
@@ -105,6 +122,8 @@ public class LoginSingleton extends AppCompatActivity {
     public void setPessoaListener(PessoaListener pessoaListener){
         this.pessoaListener = pessoaListener;
     }
+
+    //Métodos SQLite  ------------------------------------------------------------------------------
 
     public void adicionarCarroBD(ArrayList<Carro> carros){
         userBD.removerAllCarroVendaBD();
@@ -168,15 +187,8 @@ public class LoginSingleton extends AppCompatActivity {
         }
     }
 
-    public static synchronized LoginSingleton getInstance(Context context) {
 
-        if (instance == null) {
-            instance = new LoginSingleton(context);
-
-            volleyQueue = Volley.newRequestQueue(context);
-        }
-        return instance;
-    }
+    // Métodos API  --------------------------------------------------------------------------------
 
     public void loginAPI(final String email, final String password, final Context context, boolean isConnected, LoginListener loginListener) {
         if (isConnected){
@@ -338,8 +350,6 @@ public class LoginSingleton extends AppCompatActivity {
 
     }
 
-
-
     public void getAllCarrosVendaAPI(final Context context, boolean isConnected){
 
         if (isConnected) {
@@ -442,8 +452,6 @@ public class LoginSingleton extends AppCompatActivity {
 
         }
     }
-
-
 
     public void guardarVistoriaMarcacaoAPI(final String data, final String nota, final String idCarro , final Context context){
 
