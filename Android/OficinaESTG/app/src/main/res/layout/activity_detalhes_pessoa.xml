@@ -20,7 +20,7 @@
                 android:id="@+id/img"
                 android:layout_width="match_parent"
                 android:layout_height="197dp"
-                app:srcCompat="@drawable/logo"
+                app:srcCompat="@drawable/ic_perfil"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="0dp" />
 

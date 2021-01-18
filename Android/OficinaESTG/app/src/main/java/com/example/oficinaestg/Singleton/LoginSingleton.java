@@ -44,22 +44,20 @@ public class LoginSingleton extends AppCompatActivity {
     private static LoginSingleton instance = null;
     private static RequestQueue volleyQueue;
 
-    private final String mUrlAPILogin = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/reg/login";
-    private final String mUrlAPIRegisto = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
+    private final String endereco = "http://192.168.1.71";
 
-    private final String mUrlAPICarroVenda = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
-    private final String mUrlAPICarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carroget";
-    private final String mUrlAPIAlterarCarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carroput";
-    private final String mUrlAPIAdicionarCarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carrocreate";
-    private final String mUrlAPIEliminarCarroPessoal = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/car/carrodel";
-
-
-    private final String mUrlAPIMarcacaoGet = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
-    private final String mUrlAPIMarcacaoVendaGet = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
-    private final String mUrlAPIMarcacaoAdicionar= "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaocreate";
-
-    private final String mUrlAPIPessoaget = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/per/pessoaget";
-private final String mUrlAPIPessoaput = "http://192.168.1.97/projetoWeb/OficinaESTG/backend/web/api/per/pessoaput";
+    private final String mUrlAPILogin = endereco + "/projetoWeb/OficinaESTG/backend/web/api/reg/login";
+    private final String mUrlAPIRegisto = endereco + "/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
+    private final String mUrlAPICarroVenda = endereco + "/projetoWeb/OficinaESTG/backend/web/api/car/carrovendaget";
+    private final String mUrlAPICarroPessoal = endereco + "/projetoWeb/OficinaESTG/backend/web/api/car/carroget";
+    private final String mUrlAPIAlterarCarroPessoal = endereco + "/projetoWeb/OficinaESTG/backend/web/api/car/carroput";
+    private final String mUrlAPIAdicionarCarroPessoal = endereco + "/projetoWeb/OficinaESTG/backend/web/api/car/carrocreate";
+    private final String mUrlAPIEliminarCarroPessoal = endereco + "/projetoWeb/OficinaESTG/backend/web/api/car/carrodel";
+    private final String mUrlAPIMarcacaoGet = endereco + "/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaoget";
+    private final String mUrlAPIMarcacaoVendaGet = endereco + "/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaovendacreate";
+    private final String mUrlAPIMarcacaoAdicionar= endereco + "/projetoWeb/OficinaESTG/backend/web/api/mar/marcacaocreate";
+    private final String mUrlAPIPessoaget = endereco + "/projetoWeb/OficinaESTG/backend/web/api/per/pessoaget";
+    private final String mUrlAPIPessoaput = endereco + "/projetoWeb/OficinaESTG/backend/web/api/per/pessoaput";
 
     public LoginSingleton(Context context) {
         userBD = new UserDBHelp(context);
@@ -569,7 +567,8 @@ private final String mUrlAPIPessoaput = "http://192.168.1.97/projetoWeb/OficinaE
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Não é possível eliminar o carro, verificar marcações", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         volleyQueue.add(request);
