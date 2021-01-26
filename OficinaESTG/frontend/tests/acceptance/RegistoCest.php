@@ -14,17 +14,17 @@ class RegistoCest
     public function RegistarTest(AcceptanceTester $I)
     {
         $I->submitForm($this->formId, [
-            'SignupForm[username]' => 'rodrigoteste2',
-            'SignupForm[email]' => 'rodrigoteste2@gmail.com',
+            'SignupForm[username]' => 'rodrigoteste21asd212',
+            'SignupForm[email]' => 'rodrigoteste212asd12@gmail.com',
             'SignupForm[password]' => '1234567890',
-            'SignupForm[nome]' => 'rodrigo',
+            'SignupForm[nome]' => 'rodrigoteste21212asd12',
             'SignupForm[dataNascimento]' => '2000-11-17',
             'SignupForm[morada]' => 'terra',
             'SignupForm[nif]' => '123456789',
         ]);
 
-        $I->see('Veiculos');
-        $I->see('Perfil');
+        $I->see('Login');
+        $I->see('Registar');
     }
 
 }

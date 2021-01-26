@@ -11,18 +11,18 @@ class CarroCest
         $I->amOnRoute('site/login');
     }
 
-    //dados para login
     public function _fixtures()
     {
         return [
             'user' => [
                 'class' => UserFixture::className(),
                 'dataFile' => codecept_data_dir() . 'login_data.php',
+
             ],
         ];
     }
 
-    protected function formParamsLogin($login, $password)
+    protected function formParams($login, $password)
     {
         return [
             'LoginForm[username]' => $login,
@@ -35,7 +35,7 @@ class CarroCest
     public function CarroTest(FunctionalTester $I)
     {
         //Fazer login
-        $I->submitForm('#login-form', $this->formParamsLogin('rodrigo', 'password_0'));
+        $I->submitForm('#login-form', $this->formParams('rodrigo', 'password_0'));
         $I->see('Logout (rodrigo)', 'form button[type=submit]');
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Registar');

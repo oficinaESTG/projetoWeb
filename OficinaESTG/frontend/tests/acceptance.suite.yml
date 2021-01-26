@@ -3,7 +3,7 @@ actor: AcceptanceTester
 modules:
   enabled:
     - WebDriver:
-        url: http://frontend.test/
+        url: http://frontend.test:8081/
         browser: chrome
     - Yii2:
         part: init

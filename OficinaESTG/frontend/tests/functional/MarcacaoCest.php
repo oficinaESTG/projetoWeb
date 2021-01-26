@@ -77,6 +77,5 @@ class MarcacaoCest
         $I->see('2020-12-12');
         $I->see('descricao');
         $I->see('Espera');
-
     }
 }

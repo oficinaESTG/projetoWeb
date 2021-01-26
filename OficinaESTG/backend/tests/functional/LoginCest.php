@@ -1,5 +1,6 @@
 <?php namespace backend\tests\functional;
 use backend\tests\FunctionalTester;
+use common\fixtures\UserFixture;
 
 class LoginCest
 {
@@ -7,6 +8,17 @@ class LoginCest
     {
         $I->amOnRoute('site/login');
 
+    }
+
+    public function _fixtures()
+    {
+        return [
+            'user' => [
+                'class' => UserFixture::className(),
+                'dataFile' => codecept_data_dir() . 'login_data.php',
+
+            ],
+        ];
     }
 
     protected function formParams($login, $password)
@@ -21,8 +33,8 @@ class LoginCest
     public function checkValidLogin(FunctionalTester $I)
     {
         //user com permissões (gestor)
-        $I->submitForm('#login-form', $this->formParams('gestordepecas', '1234567890'));
-        $I->see('Logout (gestordepecas)', 'form button[type=submit]');
+        $I->submitForm('#login-form', $this->formParams('rodrigo', 'password_0'));
+        $I->see('Logout (rodrigo)', 'form button[type=submit]');
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Registar');
     }

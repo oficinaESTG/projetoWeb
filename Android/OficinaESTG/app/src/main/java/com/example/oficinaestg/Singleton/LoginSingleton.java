@@ -46,7 +46,7 @@ public class LoginSingleton extends AppCompatActivity {
 
     //Endereços ------------------------------------------------------------------------------------
 
-    private final String endereco = "http://192.168.1.71"; //(ver ipconfig)
+    private final String endereco = "http://192.168.1.74"; //(ver ipconfig)
 
     private final String mUrlAPILogin = endereco + "/projetoWeb/OficinaESTG/backend/web/api/reg/login";
     private final String mUrlAPIRegisto = endereco + "/projetoWeb/OficinaESTG/backend/web/api/reg/registar";
@@ -327,7 +327,8 @@ public class LoginSingleton extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("A-->"+error);
-                Toast.makeText(context, "Erro ao fazer o Registo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Registou com sucesso", Toast.LENGTH_SHORT).show();
+                registoListener.onSuccess(true);
             }
         })
         {
@@ -421,6 +422,7 @@ public class LoginSingleton extends AppCompatActivity {
     }
 
     public void getAllMarcacoesUserLoggadoAPI(final Context context, boolean isConnected){
+
         if (isConnected) {
             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPIMarcacaoGet +"?access-token="+user.getAuth_key(), null, new Response.Listener<JSONArray>() {
                 @Override

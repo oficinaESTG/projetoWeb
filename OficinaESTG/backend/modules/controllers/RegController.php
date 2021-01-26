@@ -63,10 +63,10 @@ class RegController extends ActiveController
                 return ['SaveError'=> true];
             }
 
-            return ['SaveError'=> $modelPessoa];
+            return ['SaveError'=> true];
         }
 
-        return ['SaveError'=> $model];
+        return ['SaveError'=> false];
     }
 
     public function actionLogin()
